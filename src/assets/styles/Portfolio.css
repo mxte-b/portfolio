@@ -1,0 +1,29 @@
+.loader-entry {
+    position: fixed;
+    width: 100%;
+    height: 100dvh;
+    background-color: var(--color-background);
+    z-index: 100;
+}
+
+.loader-entry .hello {
+    backface-visibility: hidden;   
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 10cqw;
+    text-transform: uppercase;
+    z-index: 101;
+}
+
+.loader-entry .boot-text {
+    z-index: 100;
+    padding: 1rem;
+    position: absolute;
+    width: 100%;
+    height: 100dvh;
+    font-size: max(0.6rem, 1cqw);
+    display: flex;
+    flex-direction: column;
+}

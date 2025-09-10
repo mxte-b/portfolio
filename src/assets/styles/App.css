@@ -1,3 +1,11 @@
+@font-face {
+    font-family: 'JetBrains Mono';
+    src: url('../../../public/fonts/JetBrainsMono-VariableFont_wght.woff2') format('woff2-variations');
+    font-weight: 100 800;
+    font-optical-sizing: auto;
+    font-style: normal;
+}
+
 :root {
     /* Colors */
     --color-background: #0c0c0c;
@@ -22,7 +30,7 @@
     margin: 0;
     box-sizing: border-box;
     color: var(--color-primary);
-    font-family: "Nunito", serif;
+    font-family: "JetBrains Mono", Arial, Helvetica, sans-serif;
 }
 
 body {
