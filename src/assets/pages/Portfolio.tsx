@@ -4,7 +4,7 @@ import LoaderEntry from "../components/LoaderEntry";
 import '../styles/Portfolio.css';
 
 const Portfolio = () => {
-    const [isLoaded, setIsLoaded] = useState<boolean>(false);
+    const [_, setIsLoaded] = useState<boolean>(false);
 
     return (
         <>
@@ -13,12 +13,13 @@ const Portfolio = () => {
                 onAnimationFinished={() => setIsLoaded(true)}
             />
 
-            <>
-                <h1>Portfolio</h1>
-                <p>Hi, I'm mxte_b!</p>
-                <p>A generalist developer</p>
-                <span>With more than 5 years of programming experience</span>
-            </>
+            <div className="hero">
+                <h1>Hi, I'm mxte_b!</h1>
+                <p className="subtext">Software Engineer & Digital Artist</p>
+                <p>With more than 5 years of programming experience</p>
+
+                <button type="button" className="enter">Start Experience</button>
+            </div>
         </>
     );
 };

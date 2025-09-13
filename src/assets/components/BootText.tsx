@@ -10,7 +10,7 @@ interface BootLine {
 
 const BootText = () => {
     const [lines, setLines] = useState<string[]>([]);
-    const [bootSequence, setBootSequence] = useState<BootLine[]>(bootSequenceSource);
+    const [bootSequence, _] = useState<BootLine[]>(bootSequenceSource);
 
     const getLineColor = (index: number) => {
         const start = 255;

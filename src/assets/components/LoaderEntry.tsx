@@ -24,8 +24,8 @@ const LoaderEntry = ({ animationLength, onAnimationFinished }: { animationLength
                     className="loader-entry"
                     initial={{ opacity: 1 }}
                     animate={{ opacity: 1 }}
-                    exit={{ opacity: 0 }}
-                        transition={{ duration: 0.3, ease: "easeOut" }}
+                    exit={{ y: "-100%" }}
+                        transition={{ duration: 1, ease: [0.455, 0.03, 0.515, 0.955] }}
                     >
                     <div className="hello">{hello}</div>
                     <BootText />
