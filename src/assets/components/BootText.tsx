@@ -1,6 +1,6 @@
 
 import { useEffect, useState } from "react";
-import bootSequenceSource from "../../../public/data/bootSequence.json";
+import bootSequenceSource from "../../data/bootSequence.json";
 import { motion, AnimatePresence } from "framer-motion";
 
 interface BootLine {

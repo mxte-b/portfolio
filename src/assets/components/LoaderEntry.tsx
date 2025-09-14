@@ -12,7 +12,7 @@ const LoaderEntry = ({ animationLength, onAnimationFinished }: { animationLength
         const animationTimer = setTimeout(() => {
             onAnimationFinished();
             setIsAnimationFinished(true);
-        }, animationLength * 1000);
+        }, (animationLength) * 1000);
 
         return () => clearTimeout(animationTimer);
     }, []);

@@ -1,10 +1,17 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import LoaderEntry from "../components/LoaderEntry";
 
 import '../styles/Portfolio.css';
+import usePointerType from "../hooks/usePointerType";
+import Cursor from "../components/Cursor";
 
 const Portfolio = () => {
     const [_, setIsLoaded] = useState<boolean>(false);
+    const pointerType = usePointerType();
+
+    useEffect(() => {
+        document.body.classList[pointerType == "fine" ? "remove" : "add"]("touch");
+    }, [pointerType]);
 
     return (
         <>
@@ -18,8 +25,12 @@ const Portfolio = () => {
                 <p className="subtext">Software Engineer & Digital Artist</p>
                 <p>With more than 5 years of programming experience</p>
 
-                <button type="button" className="enter">Start Experience</button>
+                <button type="button" className="enter cursor-pointer">Start Experience</button>
             </div>
+
+            {
+                pointerType == "fine" && <Cursor />
+            }
         </>
     );
 };
