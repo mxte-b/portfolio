@@ -10,7 +10,7 @@
     /* Colors */
     --color-background: #0c0c0c;
     --color-background-transparent: #0808087c;
-    --color-background-darker: #131313;
+    --color-background-darker: #1b1b1b;
     --color-background-01: #222222;
     --color-background-02: #2b2b2b;
     --color-background-03: #363636;
@@ -31,6 +31,8 @@
     box-sizing: border-box;
     color: var(--color-primary);
     font-family: "JetBrains Mono", Arial, Helvetica, sans-serif;
+    
+    -webkit-tap-highlight-color: transparent;
 }
 
 body {

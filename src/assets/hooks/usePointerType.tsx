@@ -1,20 +1,34 @@
 import { useState, useEffect } from "react";
 
-const usePointerType : () => "coarse" | "fine" = () => {
+const usePointerType = (): "coarse" | "fine" => {
     const [pointerType, setPointerType] = useState<"coarse" | "fine">("fine");
 
+    const getPointerType = () => window.matchMedia("(pointer: coarse)").matches ? "coarse" : "fine";
+
+    const handlePointerEvent = (e: PointerEvent) => {
+        if (e.pointerType === "touch") setPointerType("coarse");
+        else setPointerType("fine");
+    };
+
+    const handleResize = () => setPointerType(getPointerType());
+    
     useEffect(() => {
-        const updatePointer = () => {
-            setPointerType(window.matchMedia("(pointer: coarse)").matches ? "coarse" : "fine");
+
+        setPointerType(getPointerType());
+
+
+        window.addEventListener("resize", handleResize);
+        window.addEventListener("pointerdown", handlePointerEvent);
+        window.addEventListener("pointermove", handlePointerEvent);
+
+        return () => {
+            window.removeEventListener("resize", handleResize);
+            window.removeEventListener("pointerdown", handlePointerEvent);
+            window.removeEventListener("pointermove", handlePointerEvent);
         };
-
-        updatePointer();
-        window.addEventListener("resize", updatePointer);
-
-        return () => window.removeEventListener("resize", updatePointer);
     }, []);
 
     return pointerType;
-}
+};
 
 export default usePointerType;

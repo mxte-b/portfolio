@@ -137,8 +137,8 @@
     justify-content: center;
     padding: 4rem;
     background-image: 
-        radial-gradient(circle at 0% -50%, #7db7e64d, transparent 40%),
-        radial-gradient(circle at 100% 150%, #168ef01f, transparent 60%);
+        radial-gradient(circle at 0% -50%, #7db7e6a0, transparent 40%),
+        radial-gradient(circle at 100% 150%, #168ef09b, transparent 60%);
 }
 
 .hero::before {
