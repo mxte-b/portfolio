@@ -4,6 +4,7 @@ import LoaderEntry from "../components/LoaderEntry";
 import '../styles/Portfolio.css';
 import usePointerType from "../hooks/usePointerType";
 import Cursor from "../components/Cursor";
+import Hero from "../components/Hero";
 
 const Portfolio = () => {
     const [_, setIsLoaded] = useState<boolean>(false);
@@ -20,13 +21,8 @@ const Portfolio = () => {
                 onAnimationFinished={() => setIsLoaded(true)}
             />
 
-            <div className="hero">
-                <h1>Hi, I'm mxte_b!</h1>
-                <p className="subtext">Software Engineer & Digital Artist</p>
-                <p>With more than 5 years of programming experience</p>
+            <Hero />
 
-                <button type="button" className="enter cursor-pointer">Start Experience</button>
-            </div>
 
             {
                 pointerType == "fine" && <Cursor />
