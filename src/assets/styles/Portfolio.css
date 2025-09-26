@@ -137,8 +137,8 @@
     justify-content: center;
     padding: 4rem;
     background-image: 
-        radial-gradient(circle at 0% -50%, #7db7e6a0, transparent 40%),
-        radial-gradient(circle at 100% 150%, #168ef09b, transparent 60%);
+        radial-gradient(circle at 0% -50%, #7db7e6a0, transparent 50%),
+        radial-gradient(circle at 100% 150%, #168ef07a, transparent 50%);
 }
 
 .hero::before {
@@ -152,12 +152,18 @@
         repeating-linear-gradient(0deg, var(--color-background-darker) 0px, var(--color-background-darker) 2px, transparent 2px, transparent 160px),
         repeating-linear-gradient(90deg, var(--color-background-darker) 0px, var(--color-background-darker) 2px, transparent 2px, transparent 160px);
     
-    -webkit-mask-image: radial-gradient(circle, var(--color-background) 60%, rgba(0,0,0,0) 100%);
+    /* -webkit-mask-image: radial-gradient(circle, var(--color-background) 60%, rgba(0,0,0,0) 100%); */
     -webkit-mask-repeat: no-repeat;
     -webkit-mask-position: center;
     -webkit-mask-size: cover;
 
-    mask-image: radial-gradient(circle, var(--color-background) 60%, rgba(0,0,0,0) 100%);
+    -webkit-mask-image: 
+        radial-gradient(circle, var(--color-background) 10%, transparent 100%),
+        linear-gradient(to bottom, transparent 0%, var(--color-background) 20%, var(--color-background) 80%, transparent 100%);
+
+    -webkit-mask-composite: intersect; /* safari/chrome */
+    mask-composite: intersect;         /* firefox */
+
     mask-repeat: no-repeat;
     mask-position: center;
     mask-size: cover;
@@ -165,9 +171,13 @@
     z-index: -1;
 }
 
+.hero > * {
+    z-index: 10;
+}
+
 .hero h1 {
     text-transform: uppercase;
-    font-size: max(6cqw, 32px);
+    font-size: max(6cqw, 48pt);
     line-height: 1;
 
     background: -webkit-linear-gradient(#f4f5f7, #5c5c5c);
@@ -176,12 +186,12 @@
 }
 
 .hero p {
-    font-size: 1cqw;
+    font-size: max(1cqw, 15pt);
     color: var(--color-secondary);
 }
 
 .hero .subtext {
-    font-size: 1.5cqw;
+    font-size: max(1.5cqw, 20pt);
     font-weight: bold;
     
     background: -webkit-linear-gradient(#347bbd, #84c2fc);
@@ -225,6 +235,7 @@
     position: absolute;
     user-select: none;
     pointer-events: none;
+    z-index: 9;
 }
 
 .circle {

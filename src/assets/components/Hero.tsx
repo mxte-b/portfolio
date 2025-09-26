@@ -4,7 +4,7 @@ const Hero = () => {
 
   return (
     <div className="hero">
-        <HeroBackground />
+        <HeroBackground fillColor="#86bef3ff"/>
 
         <h1>Hi, I'm mxte_b!</h1>
         <p className="subtext">Software Engineer & Digital Artist</p>

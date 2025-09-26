@@ -5,6 +5,11 @@ import '../styles/Portfolio.css';
 import usePointerType from "../hooks/usePointerType";
 import Cursor from "../components/Cursor";
 import Hero from "../components/Hero";
+import AboutMe from "../components/AboutMe";
+import Projects from "../components/Projects";
+import Footer from "../components/Footer";
+import Lenis from "lenis";
+import NavBar from "../components/NavBar";
 
 const Portfolio = () => {
     const [_, setIsLoaded] = useState<boolean>(false);
@@ -14,6 +19,12 @@ const Portfolio = () => {
         document.body.classList[pointerType == "fine" ? "remove" : "add"]("touch");
     }, [pointerType]);
 
+    useEffect(() => {
+        const lenis = new Lenis({
+            autoRaf: true,
+        });
+    }, []);
+
     return (
         <>
             <LoaderEntry 
@@ -21,8 +32,12 @@ const Portfolio = () => {
                 onAnimationFinished={() => setIsLoaded(true)}
             />
 
+            <NavBar />
+            
             <Hero />
-
+            <AboutMe />
+            <Projects />
+            <Footer />
 
             {
                 pointerType == "fine" && <Cursor />
