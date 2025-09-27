@@ -13,7 +13,8 @@ import NavBar from "../components/NavBar";
 import ScrollProgress from "../components/ScrollBar";
 
 const Portfolio = () => {
-    const [_, setIsLoaded] = useState<boolean>(false);
+    const [isLoaded, setIsLoaded] = useState<boolean>(false);
+    const [isNavbarHidden, setIsNavbarHidden] = useState<boolean>(true);
     const pointerType = usePointerType();
 
     useEffect(() => {
@@ -26,6 +27,12 @@ const Portfolio = () => {
         });
     }, []);
 
+    useEffect(() => {
+        if (!isLoaded) return;
+
+        setIsNavbarHidden(false);
+    }, [isLoaded]);
+
     return (
         <>
             <LoaderEntry 
@@ -33,7 +40,7 @@ const Portfolio = () => {
                 onAnimationFinished={() => setIsLoaded(true)}
             />
 
-            <NavBar />
+            <NavBar hidden={isNavbarHidden}/>
             
             <Hero />
             <AboutMe />

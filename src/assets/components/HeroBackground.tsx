@@ -6,6 +6,7 @@ type Circle = {
     r: number;
     alpha: number;
 };
+
 const HeroBackground = ({ fillColor = "#7db7e6" }: { fillColor?: string }) => {
 
     const canvasRefCallback = useCallback((c: HTMLCanvasElement | null) => {
@@ -20,9 +21,9 @@ const HeroBackground = ({ fillColor = "#7db7e6" }: { fillColor?: string }) => {
 
     const circles: Circle[] = [
         { x: "15%", y: "15%", r: 200, alpha: 0.15 },
-        { x: "45%", y: "20%", r: 100, alpha: 0.1 },
-        { x: "65%", y: "30%", r: 60, alpha: 0.08 },
-        { x: "75%", y: "25%", r: 30, alpha: 0.05 },
+        { x: "50%", y: "20%", r: 100, alpha: 0.1 },
+        { x: "75%", y: "30%", r: 60, alpha: 0.08 },
+        { x: "95%", y: "25%", r: 30, alpha: 0.05 },
     ];
 
     const resizeCanvas = () => {
@@ -73,7 +74,7 @@ const HeroBackground = ({ fillColor = "#7db7e6" }: { fillColor?: string }) => {
 
             // Connecting line
             if (i == 0) return;
-            ctx.lineCap = "round"
+            ctx.lineCap = "round";
 
             const start = circles[i - 1];
             const startX = getCoordinateFromPercentage(start.x, rect, "X");
