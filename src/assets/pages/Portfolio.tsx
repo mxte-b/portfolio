@@ -10,6 +10,7 @@ import Projects from "../components/Projects";
 import Footer from "../components/Footer";
 import Lenis from "lenis";
 import NavBar from "../components/NavBar";
+import ScrollProgress from "../components/ScrollBar";
 
 const Portfolio = () => {
     const [_, setIsLoaded] = useState<boolean>(false);
@@ -42,6 +43,8 @@ const Portfolio = () => {
             {
                 pointerType == "fine" && <Cursor />
             }
+
+            <ScrollProgress />
         </>
     );
 };

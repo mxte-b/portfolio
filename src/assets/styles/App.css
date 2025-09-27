@@ -23,6 +23,8 @@
     --color-secondary: #a0a0a0;
     --color-text-dark: #2b2b2b;
     --color-accent: #4978c4;
+    --color-accent-01: #6f9ce4;
+    --color-accent-02: #9bc1ff;
 }
 
 * {
@@ -35,14 +37,47 @@
     -webkit-tap-highlight-color: transparent;
 }
 
+html {
+    scrollbar-width: none;
+}
+
 body {
     background-color: var(--color-background);
     min-height: 100vh;
     overflow-x: hidden;
     /* overflow-y: hidden; */
     cursor: none;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+
+body::-webkit-scrollbar {
+  display: none;
 }
 
 body.touch {
     cursor: pointer;
+}
+
+.scrollbar {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    background-color: var(--color-background-01);
+    height: 3px;
+    transform-origin: left center;
+}
+
+.scroll-progress {
+    will-change: width;
+    /* transition: width 0.15s ease-out; */
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: 100%;
+    background-color: var(--color-accent);
+    transform-origin: left center;
+    will-change: transform;
+    transition: transform 0.1s ease-out;
 }
