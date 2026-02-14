@@ -1,0 +1,11 @@
+@use "mixins" as *;
+
+.footer {
+    @include flex(column);
+
+    padding-block: 6rem;
+
+    &__rights {
+        color: var(--color-secondary);
+    }
+}

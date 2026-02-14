@@ -11,7 +11,7 @@ const LoaderEntry = ({ animationLength, onAnimationFinished }: { animationLength
     useEffect(() => {
         const animationTimer = setTimeout(() => {
             setIsAnimationFinished(true);
-            onAnimationFinished();
+            setTimeout(() => onAnimationFinished(), 1500);
         }, (animationLength) * 1000);
 
         return () => clearTimeout(animationTimer);

@@ -1,9 +1,15 @@
 @font-face {
-    font-family: 'JetBrains Mono';
-    src: url('/fonts/JetBrainsMono-VariableFont_wght.woff2') format('woff2-variations');
+    font-family: "JetBrains Mono";
+    src: url("/fonts/JetBrainsMono/JetBrainsMono-VariableFont.ttf") format("truetype");
     font-weight: 100 800;
-    font-optical-sizing: auto;
-    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: "Instrument Sans";
+    src: url("/fonts/InstrumentSans/InstrumentSans-VariableFont.ttf") format("truetype");
+    font-weight: 100 800;
+    font-display: swap;
 }
 
 :root {
@@ -22,7 +28,7 @@
     --color-border-accent: #253042;
     --color-primary: #f3f3f3;
     --color-secondary: #a0a0a0;
-    --color-text-dark: #2b2b2b;
+    --color-text-dark: #1b1b1b;
     --color-accent: #4978c4;
     --color-accent-01: #6f9ce4;
     --color-accent-02: #9bc1ff;
@@ -33,9 +39,23 @@
     margin: 0;
     box-sizing: border-box;
     color: var(--color-primary);
-    font-family: "JetBrains Mono", Arial, Helvetica, sans-serif;
     
     -webkit-tap-highlight-color: transparent;
+}
+
+*::selection {
+    background: var(--color-accent);
+    color: var(--color-text-dark);
+}
+
+*::-moz-selection {
+    background: var(--color-accent);
+    color: var(--color-text-dark);
+}
+
+*::-webkit-selection {
+    background: var(--color-accent);
+    color: var(--color-text-dark);
 }
 
 html {
@@ -46,7 +66,7 @@ body {
     background-color: var(--color-background);
     min-height: 100vh;
     overflow-x: hidden;
-    /* overflow-y: hidden; */
+    font-family: "Instrument Sans", sans-serif;
     cursor: none;
     scrollbar-width: none;
     -ms-overflow-style: none;
@@ -60,25 +80,7 @@ body.touch {
     cursor: pointer;
 }
 
-.scrollbar {
-    position: fixed;
-    bottom: 0;
-    width: 100%;
-    background-color: var(--color-background-01);
-    height: 3px;
-    transform-origin: left center;
+button {
+    cursor: none;
 }
 
-.scroll-progress {
-    will-change: width;
-    /* transition: width 0.15s ease-out; */
-    position: absolute;
-    left: 0;
-    top: 0;
-    height: 100%;
-    width: 100%;
-    background-color: var(--color-accent);
-    transform-origin: left center;
-    will-change: transform;
-    transition: transform 0.1s ease-out;
-}

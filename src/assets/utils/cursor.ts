@@ -21,8 +21,9 @@ export const getCursorState : (hoveredEl: Element | null) => CursorState = (hove
     const isSelectable = isTextSelectable(hoveredEl);
     const hasPointer = hoveredEl.classList.contains("cursor-pointer");
     const isLink = hoveredEl.nodeName == "A";
+    const isButton = hoveredEl.nodeName == "BUTTON";
 
-    if (hasPointer || isLink) {
+    if (hasPointer || isLink || isButton) {
         return "pointer";
     }
     else if (hasText && isSelectable) {

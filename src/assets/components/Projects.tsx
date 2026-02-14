@@ -1,7 +1,10 @@
 const Projects = () => {
     return (
-        <div className="projects">
-            <header>Projects</header>
+        <section className="projects" id="projects">
+            <header>
+                <div className="idx">3.</div>
+                <div className="title">Projects</div>
+            </header>
             <div className="project-list">
                 <div className="project-name"></div>
                 <div className="project-slider">
@@ -13,7 +16,7 @@ const Projects = () => {
                     <div className="project">Florens Botanica e-Commerence</div>
                 </div>
             </div>
-        </div>
+        </section>
     );
 }
 
