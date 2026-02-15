@@ -261,6 +261,7 @@ section {
         @include flex($justify: flex-start, $align: flex-end);
 
         position: relative;
+        border-bottom: 1px solid var(--color-border);
         margin-bottom: 1rem;
 
         .idx {
@@ -278,6 +279,95 @@ section {
         .title {
             text-shadow: 0 2px 5px black;
             font-size: 48px;
+        }
+    }
+
+    .content {
+        @include flex(column, flex-start, stretch);
+
+        gap: 2.5rem;
+
+        .intro {
+            @include flex(column, flex-start, stretch);
+
+            gap: 0.5rem;
+            color: var(--color-secondary);
+        }
+
+        h3 {
+            font-weight: 500;
+            color: var(--color-primary);
+        }
+
+        .events {
+            @include flex(column, flex-start, stretch);
+
+            gap: 1rem;
+            
+            &__header {
+                @include flex($justify: flex-start);
+                gap: 0.75rem;
+                width: fit-content;
+                position: relative;
+            }
+            
+            &__icon {
+                position: absolute;
+                width: 40px;
+                height: 40px;
+                top: -0.5rem;
+                right: -1rem;
+                color: #ffffff18;
+                flex-shrink: 0;
+            }
+            
+            &__title {
+                font-size: 24px; // slightly smaller, less overwhelming
+                font-weight: 600;
+            }
+
+            &__items {
+                @include flex(column, flex-start, stretch);
+                gap: 1rem;
+            }
+        }
+
+        .event-item {
+            @include flex($justify: space-between, $align: center);
+
+            @media (max-width: 768px) {
+                @include flex(column, flex-start, center);
+            }
+
+            background-color: #ffffff09;
+            gap: 1rem;
+            padding: 0.5rem;
+            border-radius: 0.5rem;
+
+            &__body {
+                @media (max-width: 768px) {
+                    text-align: center;
+                }
+            }
+            
+            &__title {
+                font-weight: 500;
+                font-size: 16px;
+            }
+            
+            &__timespan {
+                font-size: 12px;
+                white-space: nowrap;
+                background-color: #a27de6a0;
+                width: fit-content;
+                padding: 0.1rem 0.5rem;
+                border-radius: 0.5rem;
+            }
+            
+            &__description {
+                color: var(--color-secondary);
+                font-size: 14px;
+            }
         }
     }
 }

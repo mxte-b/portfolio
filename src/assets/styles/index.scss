@@ -17,7 +17,7 @@
     --color-background: #0c0c0c;
     --color-background-transparent: #0808087c;
     --color-background-darker: #1b1b1b;
-    --color-background-01: #222222;
+    --color-background-01: #1a1a1a;
     --color-background-02: #2b2b2b;
     --color-background-03: #363636;
     --color-border: #2e2e2e;
@@ -38,7 +38,6 @@
     padding: 0;
     margin: 0;
     box-sizing: border-box;
-    color: var(--color-primary);
     
     -webkit-tap-highlight-color: transparent;
 }
@@ -70,6 +69,7 @@ body {
     cursor: none;
     scrollbar-width: none;
     -ms-overflow-style: none;
+    color: var(--color-primary);
 }
 
 body::-webkit-scrollbar {
