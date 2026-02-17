@@ -16,7 +16,7 @@
     /* Colors */
     --color-background: #0c0c0c;
     --color-background-transparent: #0808087c;
-    --color-background-darker: #1b1b1b;
+    --color-background-darker: #050505;
     --color-background-01: #1a1a1a;
     --color-background-02: #2b2b2b;
     --color-background-03: #363636;
@@ -35,10 +35,9 @@
 }
 
 * {
-    padding: 0;
     margin: 0;
+    padding: 0;
     box-sizing: border-box;
-    
     -webkit-tap-highlight-color: transparent;
 }
 
@@ -47,7 +46,7 @@
     color: var(--color-text-dark);
 }
 
-*::-moz-selection {
+*::selection {
     background: var(--color-accent);
     color: var(--color-text-dark);
 }
@@ -62,14 +61,14 @@ html {
 }
 
 body {
-    background-color: var(--color-background);
     min-height: 100vh;
-    overflow-x: hidden;
+    background-color: var(--color-background);
+    color: var(--color-primary);
     font-family: "Instrument Sans", sans-serif;
+    overflow-x: hidden;
     cursor: none;
     scrollbar-width: none;
     -ms-overflow-style: none;
-    color: var(--color-primary);
 }
 
 body::-webkit-scrollbar {

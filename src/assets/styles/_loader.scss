@@ -1,35 +1,35 @@
 .loader-entry {
     position: fixed;
-    font-family: "JetBrains Mono", monospace;
+    z-index: 1000;
     width: 100%;
     height: 100dvh;
     background-color: var(--color-background);
-    z-index: 1000;
+    font-family: "JetBrains Mono", monospace;
 }
 
 .loader-entry .hello {
-    backface-visibility: hidden;   
-    font-family: "JetBrains Mono", monospace;
     position: fixed;
     top: 50%;
     left: 50%;
-    transform: translate(-50%, -50%);
+    z-index: 101;   
+    font-family: "JetBrains Mono", monospace;
     font-size: max(10cqw, 3.5rem);
+    backface-visibility: hidden;
+    transform: translate(-50%, -50%);
     white-space: nowrap;
     text-transform: uppercase;
-    z-index: 101;
 }
 
 .loader-entry .boot-text {
-    font-family: "JetBrains Mono", monospace;
-    z-index: 100;
-    padding: 1rem;
+    display: flex;
     position: absolute;
+    z-index: 100;
+    flex-direction: column;
     width: 100%;
     height: 100dvh;
+    padding: 1rem;
+    font-family: "JetBrains Mono", monospace;
     font-size: max(0.8rem, 1cqw);
-    display: flex;
-    flex-direction: column;
     user-select: none;
     pointer-events: none;
 }

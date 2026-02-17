@@ -2,11 +2,11 @@
     position: fixed;
     top: 0;
     left: 0;
-    pointer-events: none;
-    user-select: none;
     z-index: 9999;
     transition: opacity 0.3s ease;
     will-change: transform;
+    pointer-events: none;
+    user-select: none;
     mix-blend-mode: difference;
 }
 
@@ -15,19 +15,19 @@
 }
 
 .cursor .cursor-caret {
-    pointer-events: none;
-    user-select: none;
     display: block;
-    border: 2px solid white;
-    background-color: #c4c4c44b;
     width: 12px;
     height: 12px;
+    border: 2px solid white;
     border-radius: 50%;
+    background-color: #c4c4c44b;
     transition: transform 0.15s ease, width 0.2s ease, height 0.2s ease, border-radius 0.2s ease;
+    pointer-events: none;
+    user-select: none;
 }
 
 .cursor.text .cursor-caret {
-    width: 0px;
+    width: 0;
     height: 20px;
     border-radius: 3px;
 }
@@ -43,9 +43,9 @@
     left: 50%;
     width: 36px;
     height: 36px;
+    transition: width 0.2s ease, height 0.2s ease;
     transform: translate(-50%, -50%);
     animation: spin 5s linear infinite;
-    transition: width 0.2s ease, height 0.2s ease;
 
     --border-color: white;
     --border-length-x: 6px;
@@ -54,10 +54,10 @@
 
 .cursor .cursor-caret-border::before,
 .cursor .cursor-caret-border::after {
-    content: "";
     position: absolute;
     width: 100%;
     height: 100%;
+    content: "";
     pointer-events: none;
 }
 
@@ -86,6 +86,7 @@
     0% {
         transform: translate(-50%, -50%) rotate(0deg);
     }
+
     100% {
         transform: translate(-50%, -50%) rotate(360deg);
     }

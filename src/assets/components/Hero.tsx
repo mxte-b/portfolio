@@ -1,10 +1,15 @@
 import type { CSSProperties } from "react"
 import Icons from "./Icons"
+import { motion, useScroll, useTransform } from "motion/react";
 
 const Hero = () => {
 
+    const { scrollY } = useScroll();    
+    const heroParallax = useTransform(scrollY, [0, 800], [0, -100]);
+    const heroScale = useTransform(scrollY, [0, 800], [1, 0.2]);
+
     return (
-        <div className="hero">
+        <motion.div style={{ y: heroParallax, opacity: heroScale }} className="hero">
 
             <div className="hero__background">
                 <div className="hero__lights"></div>
@@ -33,7 +38,7 @@ const Hero = () => {
                 <div className="indicator-arrow"><Icons.ChevronDown/></div>
                 <div className="indicator-arrow"><Icons.ChevronDown style={{"--idx": 1} as CSSProperties} /></div>
             </div>
-      </div>
+      </motion.div>
     )
 }
 

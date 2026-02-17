@@ -5,13 +5,13 @@ const AboutMe = () => {
         <section className="about-me" id="about-me">
             <header>
                 <div className="idx">1.</div>
-                <div className="title">About Me</div>
+                <h2 className="title">About Me</h2>
             </header>
             <div className="content">
                 <div className="intro">
                     <h3>My name is <i>Norman M. Blank</i>, known online as <i>mxte_b</i>.</h3>
                     <p>I am 20 years old, and I enjoy learning and expanding my knowledge in every way I can.</p>
-                    <p>I am especially interested in Fractal Rendering, Cryptography and Web Development, and have made numerous projects related to these areas.</p>
+                    <p>I am especially interested in Web Development, Fractal Rendering and Cryptography, and have made numerous projects related to these areas.</p>
                     <p>Alongside my projects, I have consistently achieved outstanding academic performance for over 14 years.</p>
                 </div>
                 

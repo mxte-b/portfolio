@@ -47,6 +47,7 @@ const NavBar = ({ hidden = false }: { hidden?: boolean }) => {
                                 {navItems.map((item) => (
                                     <div
                                         key={item.anchor}
+                                        tabIndex={1}
                                         className={`navbar__item cursor-pointer ${item.prominent ? "prominent" : ""}`}
                                         onClick={() => scrollToSection(item.anchor)}
                                     >

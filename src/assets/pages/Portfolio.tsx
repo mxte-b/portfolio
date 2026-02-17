@@ -50,9 +50,11 @@ const Portfolio = () => {
             <NavBar hidden={isNavbarHidden}/>
             
             <Hero />
-            <AboutMe />
-            <Skills />
-            <Projects />
+            <div className="content-wrapper">
+                <AboutMe />
+                <Skills />
+                <Projects />
+            </div>
             <Footer />
 
             {
