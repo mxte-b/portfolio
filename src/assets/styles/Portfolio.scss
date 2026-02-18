@@ -360,9 +360,14 @@ section {
             }
 
             gap: 1rem;
-            padding: 0.5rem;
+            padding: 1rem;
+            border: 1px solid #a27de61a;
             border-radius: 0.5rem;
-            background-color: #ffffff09;
+            background-color: var(--color-background-01);
+            background-image: 
+                radial-gradient(circle farthest-corner at left center, #a27de61a, transparent 20%),
+                radial-gradient(circle farthest-corner at right center, #a27de61a, transparent 20%),
+            ;
 
             &__body {
                 @media (width <= 768px) {
@@ -387,6 +392,113 @@ section {
             &__description {
                 color: var(--color-secondary);
                 font-size: 14px;
+            }
+        }
+    }
+}
+
+.skills {
+    &__content {
+        display: grid;
+        gap: 1rem;
+        grid-template-columns: 1fr;
+
+        @media (width >= 768px) {
+            grid-template-columns: 1fr 1fr;
+        }
+
+        @media (width >= 1200px) {
+            grid-template-columns: 1fr 1fr 1fr 1fr;
+        }
+    }
+
+    .skill-group {
+        padding: 1.5rem;
+        border: 1px solid #ffffff14;
+        border-radius: 0.75rem;
+        background: var(--color-background-01);
+        transition: border-color 0.3s ease, background 0.3s ease;
+
+        &__title {
+            color: var(--color-primary);
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            margin-bottom: 1.25rem;
+        }
+
+        &__sections {
+            display: grid;
+            gap: 1rem;
+            grid-template-columns: 1fr 1fr;
+        }
+
+        &__list,
+        &__item {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+
+        &__item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.4rem 0;
+            color: var(--color-primary);
+            font-family: "JetBrains Mono", monospace;
+            font-size: 0.8rem;
+            border-bottom: 1px solid #ffffff0a;
+
+            &:last-child {
+                border-bottom: none;
+            }
+
+            i {
+                width: 1.25rem;
+                font-size: 1.1rem;
+                text-align: center;
+                flex-shrink: 0;
+            }
+        }
+    }
+
+    .skill-section {
+        &__title {
+            color: var(--color-secondary);
+            font-size: 0.7rem;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 0.75rem;
+        }
+
+        &__list {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+
+        &__item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.4rem 0;
+            color: var(--color-primary);
+            font-family: "JetBrains Mono", monospace;
+            font-size: 0.8rem;
+            border-bottom: 1px solid #ffffff0a;
+
+            &:last-child {
+                border-bottom: none;
+            }
+
+            i {
+                width: 1.25rem;
+                font-size: 1.1rem;
+                text-align: center;
+                flex-shrink: 0;
             }
         }
     }

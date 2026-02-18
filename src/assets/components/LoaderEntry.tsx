@@ -22,6 +22,7 @@ const LoaderEntry = ({ animationLength, onAnimationFinished }: { animationLength
             {!isAnimationFinished && (
                 <motion.div
                     className="loader-entry"
+                    aria-hidden
                     initial={{ opacity: 1 }}
                     animate={{ opacity: 1 }}
                     exit={{ y: "-100%" }}

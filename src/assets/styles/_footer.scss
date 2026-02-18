@@ -40,7 +40,15 @@
         }
     }
 
-    &__rights {
+    &__connect {
+        @include flex(column, flex-start, stretch);
+
+        gap: 1rem;
+    }
+
+    &__bottom {
+        @include flex(column);
+
         position: absolute;
         bottom: 2rem;
         left: 0;
@@ -51,7 +59,7 @@
 
     &__heading {
         width: calc(100% + 0.1em);
-        background: linear-gradient(to bottom, var(--color-secondary), transparent 80%);
+        background: linear-gradient(to bottom, var(--color-secondary), transparent 90%);
         color: transparent;
         font-family: "JetBrains Mono", monospace;
         font-size: 13.1cqw;
@@ -59,8 +67,14 @@
         font-weight: bold;
         text-transform: uppercase;
         margin-left: -0.1em;
-        background-clip: text;
         white-space: nowrap;
+        background-clip: text;
+
+        @media screen and (width >= 768px) {
+            background: linear-gradient(to bottom, var(--color-secondary), transparent 80%);
+            color: transparent;
+            background-clip: text;
+        }
     }
 
     &__links {
@@ -76,7 +90,15 @@
         cursor: none;
 
         svg { 
-            width: 25px; height: 25px; fill: var(--color-primary); pointer-events: none; 
+            width: 25px; 
+            height: 25px; 
+            transition: fill 0.3s ease;
+            fill: var(--color-primary); 
+            pointer-events: none;
         } 
+
+        &:hover svg {
+            fill: var(--color-secondary);
+        }
     }
 }

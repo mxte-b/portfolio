@@ -6,10 +6,6 @@ const Skills = () => {
                 <h2 className="title">Skills</h2>
             </header>
 
-            <div className="skills__overview">
-                
-            </div>
-            
             <div className="skills__content">
                 <div className="skill-group">
                     <h3 className="skill-group__title">Web Development</h3>
@@ -17,51 +13,111 @@ const Skills = () => {
                         <div className="skill-section">
                             <h4 className="skill-section__title">Frontend</h4>
                             <ul className="skill-section__list">
-                                <li className="skill-section__item">React</li>
-                                <li className="skill-section__item">TypeScript</li>
-                                <li className="skill-section__item">JavaScript</li>
-                                <li className="skill-section__item">SCSS</li>
-                                <li className="skill-section__item">Framer Motion / GSAP</li>
+                                <li className="skill-section__item">
+                                    <i className="devicon-react-original colored" />
+                                    React
+                                </li>
+                                <li className="skill-section__item">
+                                    <i className="devicon-typescript-plain colored" />
+                                    TypeScript
+                                </li>
+                                <li className="skill-section__item">
+                                    <i className="devicon-javascript-plain colored" />
+                                    JavaScript
+                                </li>
+                                <li className="skill-section__item">
+                                    <i className="devicon-sass-original colored" />
+                                    SCSS
+                                </li>
+                                <li className="skill-section__item">
+                                    <i className="devicon-framermotion-original colored" />
+                                    Framer Motion
+                                </li>
                             </ul>
                         </div>
                         <div className="skill-section">
                             <h4 className="skill-section__title">Backend</h4>
                             <ul className="skill-section__list">
-                                <li className="skill-section__item">PHP</li>
-                                <li className="skill-section__item">MySQL</li>
-                                <li className="skill-section__item">Laravel</li>
-                                <li className="skill-section__item">Express.js</li>
+                                <li className="skill-section__item">
+                                    <i className="devicon-php-plain colored" />
+                                    PHP
+                                </li>
+                                <li className="skill-section__item">
+                                    <i className="devicon-mysql-original colored" />
+                                    MySQL
+                                </li>
+                                <li className="skill-section__item">
+                                    <i className="devicon-laravel-original colored" />
+                                    Laravel
+                                </li>
+                                <li className="skill-section__item">
+                                    <i className="devicon-express-original" />
+                                    Express.js
+                                </li>
+                                <li className="skill-section__item">
+                                    <i className="devicon-nodejs-plain colored" />
+                                    Node.js
+                                </li>
                             </ul>
                         </div>
                     </div>
                 </div>
-                
+
                 <div className="skill-group">
                     <h3 className="skill-group__title">Desktop Applications</h3>
                     <ul className="skill-group__list">
-                        <li className="skill-group__item">C</li>
-                        <li className="skill-group__item">C#</li>
-                        <li className="skill-group__item">Tauri</li>
-                        <li className="skill-group__item">Python</li>
+                        <li className="skill-group__item">
+                            <i className="devicon-c-plain colored" />
+                            C
+                        </li>
+                        <li className="skill-group__item">
+                            <i className="devicon-csharp-plain colored" />
+                            C#
+                        </li>
+                        <li className="skill-group__item">
+                            <i className="devicon-tauri-plain colored" />
+                            Tauri
+                        </li>
+                        <li className="skill-group__item">
+                            <i className="devicon-python-plain colored" />
+                            Python
+                        </li>
                     </ul>
                 </div>
 
                 <div className="skill-group">
                     <h3 className="skill-group__title">Other</h3>
                     <ul className="skill-group__list">
-                        <li className="skill-group__item">Git</li>
-                        <li className="skill-group__item">GitHub</li>
-                        <li className="skill-group__item">Figma</li>
+                        <li className="skill-group__item">
+                            <i className="devicon-git-plain colored" />
+                            Git
+                        </li>
+                        <li className="skill-group__item">
+                            <i className="devicon-github-original" />
+                            GitHub
+                        </li>
+                        <li className="skill-group__item">
+                            <i className="devicon-figma-plain colored" />
+                            Figma
+                        </li>
                     </ul>
                 </div>
-                
-                <div className="skill-group">
+
+                <div className="skill-group skill-group--learning">
                     <h3 className="skill-group__title">Currently learning</h3>
                     <ul className="skill-group__list">
-                        <li className="skill-group__item">C++</li>
-                        <li className="skill-group__item">Go</li>
-                        <li className="skill-group__item">Rust</li>
-                        <li className="skill-group__item">HLSL</li>
+                        <li className="skill-group__item">
+                            <i className="devicon-cplusplus-plain colored" />
+                            C++
+                        </li>
+                        <li className="skill-group__item">
+                            <i className="devicon-go-original-wordmark colored" />
+                            Go
+                        </li>
+                        <li className="skill-group__item">
+                            <i className="devicon-rust-original colored" />
+                            Rust
+                        </li>
                     </ul>
                 </div>
             </div>
