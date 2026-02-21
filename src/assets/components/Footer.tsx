@@ -19,8 +19,8 @@ const Footer = () => {
                 </div>
 
                 <div className="footer__bottom">
-                    {/* <span className="footer__credit">Made with 💖 by mxte_b</span> */}
                     <span className="footer__rights">© 2026 mxte_b. All rights reserved.</span>
+                    <span className="footer__credit"><i>This image was created with my fractal renderer.</i></span>
                 </div>
 
             </div>

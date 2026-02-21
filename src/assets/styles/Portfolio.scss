@@ -114,10 +114,10 @@
         inset: 0;
         overflow: hidden;
         background-image: 
-            repeating-linear-gradient(0deg, var(--color-background-01) 0, var(--color-background-01) 1px, transparent 1px, transparent 40px),
-            repeating-linear-gradient(90deg, var(--color-background-01) 0, var(--color-background-01) 1px, transparent 1px, transparent 40px),
-            repeating-linear-gradient(0deg, var(--color-background-01) 0, var(--color-background-01) 2px, transparent 2px, transparent 160px),
-            repeating-linear-gradient(90deg, var(--color-background-01) 0, var(--color-background-01) 2px, transparent 2px, transparent 160px);
+            repeating-linear-gradient(0deg, var(--color-background-02) 0, var(--color-background-02) 1px, transparent 1px, transparent 40px),
+            repeating-linear-gradient(90deg, var(--color-background-02) 0, var(--color-background-02) 1px, transparent 1px, transparent 40px),
+            repeating-linear-gradient(0deg, var(--color-background-02) 0, var(--color-background-02) 2px, transparent 2px, transparent 160px),
+            repeating-linear-gradient(90deg, var(--color-background-02) 0, var(--color-background-02) 2px, transparent 2px, transparent 160px);
         mask-image: 
             radial-gradient(circle, var(--color-background) 10%, transparent 100%),
             linear-gradient(to bottom, transparent 0%, var(--color-background) 20%, var(--color-background) 80%, transparent 100%); /* safari/chrome */

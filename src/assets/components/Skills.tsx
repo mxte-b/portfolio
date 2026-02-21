@@ -6,6 +6,7 @@ const Skills = () => {
                 <h2 className="title">Skills</h2>
             </header>
 
+            <p>Below is a categorized list of technologies I am familiar with currently, or actively learning.</p>
             <div className="skills__content">
                 <div className="skill-group">
                     <h3 className="skill-group__title">Web Development</h3>

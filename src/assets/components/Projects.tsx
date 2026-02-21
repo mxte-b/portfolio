@@ -8,6 +8,7 @@ const Projects = () => {
             
             <ul className="projects__list">
                 <li className="project">
+                    <img src="/media/nebula_manager.png" alt="Image of the user interface of Nebula Manager" />
                     <h3 className="project__title">Nebula Manager</h3>
                     <ul className="project__tags">
                         <li className="project__tag">Tauri</li>
