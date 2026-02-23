@@ -11,8 +11,6 @@
         @include flex(column, flex-start, stretch);
 
         gap: 0.5rem;
-
-        // height: 500px;
         max-height: 500px;
         border: 1px solid var(--color-border);
         border-radius: 0.75rem;
@@ -20,6 +18,8 @@
         list-style-type: none;
 
         img {
+            flex: 1;
+            min-width: 0;
             max-height: 300px;
             object-fit: cover;
             object-position: center left;
@@ -28,8 +28,14 @@
         &__body {
             @include flex(column, flex-start, stretch);
 
-            gap: 0.5rem;
+            gap: 1rem;
             padding: 1rem;
+        }
+
+        &__header {
+            @include flex(column, flex-start, stretch);
+
+            gap: 0.5rem;
         }
 
         &__title {
@@ -50,6 +56,26 @@
             font-family: "JetBrains Mono", monospace;
             font-size: 11px;
             text-transform: uppercase;
+        }
+
+        @media screen and (width >= 768px) {
+            @include flex($align: flex-start);
+
+            img { 
+                flex-basis: 0; flex-grow: 1; 
+            }
+
+            &__body { 
+                flex-basis: 0; flex-grow: 1;
+            }
+
+            &__header {
+                @include flex($justify: space-between, $align: flex-end);
+            }
+
+            &__tags {
+                margin-bottom: 4px;
+            }
         }
     }
 }
