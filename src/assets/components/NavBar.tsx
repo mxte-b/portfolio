@@ -78,6 +78,7 @@ const NavBar = ({ hidden = false }: { hidden?: boolean }) => {
                                         navItems.map((item, i) => (
                                             <div
                                                 key={item.anchor}
+                                                tabIndex={1}
                                                 className={`navbar__mobile-item cursor-pointer ${item.prominent ? "prominent" : ""}`}
                                                 onClick={() => scrollToSection(item.anchor)}
                                                 style={{ animationDelay: `${i * 0.1}s` }}

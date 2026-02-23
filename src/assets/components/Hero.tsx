@@ -24,10 +24,10 @@ const Hero = () => {
                         <div className="profession">Digital Artist</div>
                     </div>
                 </div>
-                <button className="contact cursor-pointer">
+                <a  href="mailto:hello@mxteb.dev" className="contact cursor-pointer">
                     Contact Me
                     <Icons.ArrowUpRight />
-                </button>
+                </a>
             </div>
 
             <div className="hero__metadata">

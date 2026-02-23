@@ -1,0 +1,55 @@
+@use "mixins" as *;
+
+.projects {
+    &__list {
+        @include flex(column, flex-start, stretch);
+
+        gap: 2rem;
+    }
+
+    .project {
+        @include flex(column, flex-start, stretch);
+
+        gap: 0.5rem;
+
+        // height: 500px;
+        max-height: 500px;
+        border: 1px solid var(--color-border);
+        border-radius: 0.75rem;
+        overflow: hidden;
+        list-style-type: none;
+
+        img {
+            max-height: 300px;
+            object-fit: cover;
+            object-position: center left;
+        }
+
+        &__body {
+            @include flex(column, flex-start, stretch);
+
+            gap: 0.5rem;
+            padding: 1rem;
+        }
+
+        &__title {
+            font-size: 24px;
+        }
+
+        &__tags {
+            @include flex($justify: flex-start);
+
+            gap: 0.5rem;
+            list-style-type: none;
+        }
+
+        &__tag {
+            padding: 0.15rem 0.5rem;
+            border-radius: 1rem;
+            background-color: var(--color-background-02);
+            font-family: "JetBrains Mono", monospace;
+            font-size: 11px;
+            text-transform: uppercase;
+        }
+    }
+}

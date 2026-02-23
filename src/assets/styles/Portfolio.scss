@@ -1,4 +1,5 @@
 @use "mixins" as *;
+@use "projects";
 
 .hero {
     @include flex(column, center, center);
@@ -241,6 +242,8 @@
         font-size: 0.9375rem;
         transition: background-color 0.3s ease, transform 0.3s ease;
         will-change: scale;
+        text-shadow: none;
+        text-decoration: none;
         margin-top: 1rem;
         white-space: nowrap;
         cursor: none;
