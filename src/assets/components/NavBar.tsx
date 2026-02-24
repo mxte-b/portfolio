@@ -1,6 +1,7 @@
 import { useState } from "react";
 import Icons from "./Icons";
 import { AnimatePresence, motion } from "motion/react";
+import { useLenis } from "lenis/react";
 
 type NavItem = {
     title: string,
@@ -10,6 +11,8 @@ type NavItem = {
 
 const NavBar = ({ hidden = false }: { hidden?: boolean }) => {
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
+    const lenis = useLenis();
 
     const navItems: NavItem[] = [
         {title: "About Me", anchor: "about me"}, 
@@ -22,7 +25,7 @@ const NavBar = ({ hidden = false }: { hidden?: boolean }) => {
         const sectionId = item.toLowerCase().replace(" ", "-");
         const element = document.getElementById(sectionId);
         if (element) {
-            window.lenis?.scrollTo(element);
+            lenis?.scrollTo(element);
         }
         setMobileMenuOpen(false);
     };
@@ -78,7 +81,7 @@ const NavBar = ({ hidden = false }: { hidden?: boolean }) => {
                                         navItems.map((item, i) => (
                                             <div
                                                 key={item.anchor}
-                                                tabIndex={1}
+                                                tabIndex={2}
                                                 className={`navbar__mobile-item cursor-pointer ${item.prominent ? "prominent" : ""}`}
                                                 onClick={() => scrollToSection(item.anchor)}
                                                 style={{ animationDelay: `${i * 0.1}s` }}

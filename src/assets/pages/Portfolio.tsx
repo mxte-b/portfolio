@@ -8,16 +8,9 @@ import Hero from "../components/Hero";
 import AboutMe from "../components/AboutMe";
 import Projects from "../components/Projects";
 import Footer from "../components/Footer";
-import Lenis from "lenis";
 import NavBar from "../components/NavBar";
 import ScrollProgress from "../components/ScrollBar";
 import Skills from "../components/Skills";
-
-declare global {
-    interface Window {
-        lenis: Lenis;
-    }
-}
 
 const Portfolio = () => {
     const [isLoaded, setIsLoaded] = useState<boolean>(false);
@@ -27,12 +20,6 @@ const Portfolio = () => {
     useEffect(() => {
         document.body.classList[pointerType == "fine" ? "remove" : "add"]("touch");
     }, [pointerType]);
-
-    useEffect(() => {
-        window.lenis = new Lenis({
-            autoRaf: true,
-        });
-    }, []);
 
     useEffect(() => {
         if (!isLoaded) return;
@@ -50,11 +37,13 @@ const Portfolio = () => {
             <NavBar hidden={isNavbarHidden}/>
             
             <Hero />
+            
             <div className="content-wrapper">
                 <AboutMe />
                 <Skills />
                 <Projects />
             </div>
+
             <Footer />
 
             {

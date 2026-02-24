@@ -1,9 +1,12 @@
 import './assets/styles/App.scss'
 import Portfolio from './assets/pages/Portfolio'
+import ReactLenis from 'lenis/react'
 
 function App() {
   return (
-    <Portfolio />
+    <ReactLenis root>
+      <Portfolio />
+    </ReactLenis>
   )
 }
 

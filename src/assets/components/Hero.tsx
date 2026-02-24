@@ -4,12 +4,13 @@ import { motion, useScroll, useTransform } from "motion/react";
 
 const Hero = () => {
 
-    const { scrollY } = useScroll();    
-    const heroParallax = useTransform(scrollY, [0, 800], [0, -100]);
-    const heroScale = useTransform(scrollY, [0, 800], [1, 0.2]);
+    const { scrollYProgress } = useScroll();    
+
+    const heroParallax = useTransform(scrollYProgress, [0, 0.2], [0, -100]);
+    const heroScale = useTransform(scrollYProgress, [0, 0.2], [1, 0.2]);
 
     return (
-        <motion.div style={{ y: heroParallax, opacity: heroScale }} className="hero">
+        <motion.div style={{ y: heroParallax, opacity: heroScale, transition: "transform 0.05s ease-out" }} className="hero">
 
             <div className="hero__background">
                 <div className="hero__lights"></div>
