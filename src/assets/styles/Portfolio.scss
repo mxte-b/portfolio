@@ -12,6 +12,13 @@
     height: 100vh;
     min-height: 700px;
     padding: 1rem;
+    will-change: transform, opacity;
+
+    &.no-parallax {
+        position: relative;
+        opacity: 1 !important;
+        transform: none !important;
+    }
 
     &__content {
         @include flex(column, flex-start, center);

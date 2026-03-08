@@ -4,13 +4,14 @@ import { motion, useScroll, useTransform } from "motion/react";
 
 const Hero = () => {
 
-    const { scrollYProgress } = useScroll();    
+    const { scrollY } = useScroll();    
 
-    const heroParallax = useTransform(scrollYProgress, [0, 0.2], [0, -100]);
-    const heroScale = useTransform(scrollYProgress, [0, 0.2], [1, 0.2]);
+    const heroParallax = useTransform(scrollY, [0, 600], [0, -100]);
+    const heroScale = useTransform(scrollY, [0, 600], [1, 0.2]);
+    const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
 
     return (
-        <motion.div style={{ y: heroParallax, opacity: heroScale, transition: "transform 0.05s ease-out" }} className="hero">
+        <motion.div layout style={{ y: heroParallax, opacity: heroScale }} className={`hero ${isSafari ? "no-parallax" : ""}`}>
 
             <div className="hero__background">
                 <div className="hero__lights"></div>

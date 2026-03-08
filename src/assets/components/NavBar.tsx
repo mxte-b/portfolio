@@ -1,7 +1,6 @@
 import { useState } from "react";
 import Icons from "./Icons";
 import { AnimatePresence, motion } from "motion/react";
-import { useLenis } from "lenis/react";
 
 type NavItem = {
     title: string,
@@ -11,8 +10,6 @@ type NavItem = {
 
 const NavBar = ({ hidden = false }: { hidden?: boolean }) => {
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-
-    const lenis = useLenis();
 
     const navItems: NavItem[] = [
         {title: "About Me", anchor: "about me"}, 
@@ -25,7 +22,7 @@ const NavBar = ({ hidden = false }: { hidden?: boolean }) => {
         const sectionId = item.toLowerCase().replace(" ", "-");
         const element = document.getElementById(sectionId);
         if (element) {
-            lenis?.scrollTo(element);
+            window.lenis?.scrollTo(element);
         }
         setMobileMenuOpen(false);
     };

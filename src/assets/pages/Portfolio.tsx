@@ -11,6 +11,13 @@ import Footer from "../components/Footer";
 import NavBar from "../components/NavBar";
 import ScrollProgress from "../components/ScrollBar";
 import Skills from "../components/Skills";
+import Lenis from "lenis";
+
+declare global {
+    interface Window {
+        lenis: Lenis;
+    }
+}
 
 const Portfolio = () => {
     const [isLoaded, setIsLoaded] = useState<boolean>(false);
@@ -26,6 +33,15 @@ const Portfolio = () => {
 
         setIsNavbarHidden(false);
     }, [isLoaded]);
+
+    useEffect(() => {
+        const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
+
+        window.lenis = new Lenis({
+            autoRaf: true,
+            smoothWheel: !isSafari
+        });
+    }, []);
 
     return (
         <>
