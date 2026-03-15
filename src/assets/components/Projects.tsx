@@ -38,7 +38,7 @@ const FEATURED: Project[] = [
         description: "A real-time fractal explorer with realistic lighting, camera effects, and freecam controls.",
         details: [
             "3D fractals are one of the most beautiful and interesting mathematical shapes, which is why I made a program that lets users explore these fractals.",
-            "It uses a rendering technique called raymarching, and implements several image enhancing features, such as temportal AA, Depth-of-Field and soft shadows."
+            "It uses a rendering technique called raymarching, and implements several image enhancing features, such as temporal AA, Depth-of-Field and soft shadows."
         ],
         links: [
             { label: "Source", href: "https://github.com/mxte-b/fractal-sfml" },

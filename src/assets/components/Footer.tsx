@@ -13,7 +13,7 @@ const Footer = () => {
                     <h2 className="footer__heading">Let's connect</h2>
                     <nav className="footer__links">
                         <a href="https://github.com/mxte-b" className="footer__link" target="_blank" rel="noreferrer" title="https://github.com/mxte-b"><Icons.GitHub /></a>
-                        <a href="https://linkedin.com/in/mxte-b" className="footer__link" target="_blank" rel="noreferrer" title="https://linkedin.com/in/mxte-b"><Icons.LinkedIn /></a>
+                        <a href="https://linkedin.com/in/mxteb" className="footer__link" target="_blank" rel="noreferrer" title="https://linkedin.com/in/mxteb"><Icons.LinkedIn /></a>
                         <a href="mailto:hello@mxteb.dev" className="footer__link" title="mailto:hello@mxteb.dev"><Icons.EnveopeFill /></a>
                     </nav>
                 </div>

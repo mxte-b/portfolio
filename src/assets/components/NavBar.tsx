@@ -39,7 +39,7 @@ const NavBar = ({ hidden = false }: { hidden?: boolean }) => {
                 >
                     <div className="navbar">
                         <div className="navbar__body">
-                            <div className="navbar__brand">
+                            <div onClick={() => window.lenis?.scrollTo("top")} className="navbar__brand cursor-pointer">
                                 <Icons.PortfolioIcon />
                             </div>
                     
