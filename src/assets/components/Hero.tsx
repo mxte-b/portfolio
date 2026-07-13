@@ -1,46 +1,19 @@
-import type { CSSProperties } from "react"
-import Icons from "./Icons"
-import { motion, useScroll, useTransform } from "motion/react";
+import * as THREE from 'three';
+import MandelbrotView from './MandelbrotView';
+import { Canvas } from '@react-three/fiber';
+import { Stats } from '@react-three/drei';
 
 const Hero = () => {
-
-    const { scrollY } = useScroll();    
-
-    const heroParallax = useTransform(scrollY, [0, 600], [0, -100]);
-    const heroScale = useTransform(scrollY, [0, 600], [1, 0.2]);
-    const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
-
     return (
-        <motion.div layout style={{ y: heroParallax, opacity: heroScale }} className={`hero ${isSafari ? "no-parallax" : ""}`}>
-
-            <div className="hero__background">
-                <div className="hero__lights"></div>
-            </div>
-
+        <div className="hero">
+            <Canvas className="hero__background" dpr={1}>
+                <MandelbrotView />
+                <Stats />
+            </Canvas>
             <div className="hero__content">
-                <h1>{<Icons.PortfolioIconLarge />}</h1>
-                <div className="subtext">
-                    <div className="hero__professions">
-                        <div className="profession">Software Engineer</div>
-                        <div className="separator">&</div>
-                        <div className="profession">Digital Artist</div>
-                    </div>
-                </div>
-                <a  href="mailto:hello@mxteb.dev" className="contact cursor-pointer">
-                    Contact Me
-                    <Icons.ArrowUpRight />
-                </a>
+                <div className="hero__title">mate blank</div>
             </div>
-
-            <div className="hero__metadata">
-                <div><Icons.GeoAltFill /> Based in Hungary</div>
-                <div>5+ years of programming experience</div>
-            </div>
-            <div className="hero__scroll-indicator">
-                <div className="indicator-arrow"><Icons.ChevronDown/></div>
-                <div className="indicator-arrow"><Icons.ChevronDown style={{"--idx": 1} as CSSProperties} /></div>
-            </div>
-      </motion.div>
+        </div>
     )
 }
 

@@ -1,13 +1,27 @@
 @font-face {
     font-family: "JetBrains Mono";
-    src: url("/fonts/JetBrainsMono/JetBrainsMono-VariableFont.ttf") format("truetype");
+    src: url("/fonts/JetBrainsMono/regular.woff2") format("woff");
     font-weight: 100 800;
     font-display: swap;
 }
 
 @font-face {
     font-family: "Instrument Sans";
-    src: url("/fonts/InstrumentSans/InstrumentSans-VariableFont.ttf") format("truetype");
+    src: url("/fonts/InstrumentSans/regular.woff2") format("woff2");
+    font-weight: 100 800;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: Palanquin;
+    src: url("/fonts/Palanquin/regular.woff2") format("woff2");
+    font-weight: 100 800;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: "Palanquin Dark";
+    src: url("/fonts/PalanquinDark/regular.woff2") format("woff2");
     font-weight: 100 800;
     font-display: swap;
 }
@@ -29,7 +43,7 @@
     --color-primary: #f3f3f3;
     --color-secondary: #a0a0a0;
     --color-text-dark: #1b1b1b;
-    --color-accent: #4978c4;
+    --color-accent: #e6582d;
     --color-accent-01: #6f9ce4;
     --color-accent-02: #9bc1ff;
 }
@@ -57,16 +71,16 @@
 }
 
 html {
+    min-height: 100vh;
     scrollbar-width: none;
 }
 
 body {
-    // min-height: 100vh;
+    min-height: 100vh;
     background-color: var(--color-background);
     color: var(--color-primary);
     font-family: "Instrument Sans", sans-serif;
     overflow-x: hidden;
-    cursor: none;
     scrollbar-width: none;
     -ms-overflow-style: none;
 }
@@ -75,11 +89,6 @@ body::-webkit-scrollbar {
   display: none;
 }
 
-body.touch {
-    cursor: pointer;
+#root {
+    min-height: 100vh;
 }
-
-button {
-    cursor: none;
-}
-

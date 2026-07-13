@@ -1,34 +1,32 @@
-import { useState, useEffect } from "react";
+import { createContext, useContext, useEffect, useState, type ReactNode } from "react";
+import type { PointerTypeContextValue } from "../types/general";
 
-const usePointerType = (): "coarse" | "fine" => {
-    const [pointerType, setPointerType] = useState<"coarse" | "fine">("fine");
+const PointerTypeContext = createContext<PointerTypeContextValue | undefined>(undefined);
 
-    const getPointerType = () => window.matchMedia("(pointer: coarse)").matches ? "coarse" : "fine";
 
-    const handlePointerEvent = (e: PointerEvent) => {
-        if (e.pointerType === "touch") setPointerType("coarse");
-        else setPointerType("fine");
-    };
 
-    const handleResize = () => setPointerType(getPointerType());
-    
+export const PointerTypeProvider = ({ children }: { children: ReactNode }) => {
+    const [isTouch, setIsTouch] = useState<boolean>(window.matchMedia('(pointer: coarse)').matches);
+
     useEffect(() => {
+        const query = window.matchMedia('(pointer: coarse)');
 
-        setPointerType(getPointerType());
+        const handleChange = (result: MediaQueryListEvent) => setIsTouch(result.matches);
 
+        query.addEventListener("change", handleChange);
 
-        window.addEventListener("resize", handleResize);
-        window.addEventListener("pointerdown", handlePointerEvent);
-        window.addEventListener("pointermove", handlePointerEvent);
-
-        return () => {
-            window.removeEventListener("resize", handleResize);
-            window.removeEventListener("pointerdown", handlePointerEvent);
-            window.removeEventListener("pointermove", handlePointerEvent);
-        };
+        return () => query.removeEventListener("change", handleChange);
     }, []);
 
-    return pointerType;
-};
+    return <PointerTypeContext.Provider value={{ isTouch: isTouch }}>
+        {children}
+    </PointerTypeContext.Provider>;
+}
+
+const usePointerType = () => {
+    const context = useContext(PointerTypeContext);
+    if (!context) throw new Error("usePointerType should only be used inside a PointerTypeProvider.");
+    return context;
+}
 
 export default usePointerType;

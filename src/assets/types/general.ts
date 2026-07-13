@@ -7,3 +7,5 @@ export type Project = {
     details?: string[];
     links?: { label: string; href?: string }[];
 }
+
+export type PointerTypeContextValue = { isTouch: boolean };

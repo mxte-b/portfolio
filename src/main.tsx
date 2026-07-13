@@ -1,9 +1,13 @@
 import { createRoot } from 'react-dom/client'
 import './assets/styles/index.scss'
-import App from './App.tsx'
+import './assets/styles/App.scss'
+import { PointerTypeProvider } from './assets/hooks/usePointerType.tsx';
+import Portfolio from './assets/pages/Portfolio.tsx';
 
 createRoot(document.getElementById('root')!).render(
   // <StrictMode>
-    <App />
+  <PointerTypeProvider>
+    <Portfolio />
+  </PointerTypeProvider>
   // </StrictMode>,
 )
