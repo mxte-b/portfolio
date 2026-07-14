@@ -10,6 +10,8 @@ varying vec2    vUv;
 #define PALETTE_TIME_INFLUENCE  0.1
 #define BAND_FREQUENCY          200.0
 #define BAND_TIME_INFLUENCE     0.2
+#define LIGHT_HEIGHT            2.0
+#define LIGHT_DIRECTION         vec2(1, -1)
 
 // Uniforms
 uniform vec2    center;
@@ -39,11 +41,34 @@ bool isInterior(in vec2 c) {
     return false;
 }
 
+// Performs complex multiplication
+vec2 cmul(vec2 a, vec2 b) {
+    return vec2(
+        a.x * b.x - a.y * b.y,
+        a.x * b.y + a.y * b.x
+    );
+}
+
+// Performs complex division
+vec2 cdiv(vec2 a, vec2 b)
+{
+    float d = dot(b, b);
+
+    return vec2(
+        (a.x*b.x + a.y*b.y) / d,
+        (a.y*b.x - a.x*b.y) / d
+    );
+}
+
 // Performs mandelbrot iterations
-float mandelbrot(in vec2 c) {
+vec2 mandelbrot(in vec2 c) {
     vec2 z = vec2(0);
-    bool bailout = false;
     vec2 zOld = vec2(0);
+
+    vec2 dc = vec2(1, 0);
+    vec2 der = dc;
+    
+    bool bailout = false;
     int period = 0;
 
     int i = 0;
@@ -51,6 +76,8 @@ float mandelbrot(in vec2 c) {
         float zrzi = z.x * z.y;
         float zr2 = z.x * z.x;
         float zi2 = z.y * z.y;
+
+        der = 2.0 * cmul(z, der) + vec2(1.0, 0.0);
 
         z.x = zr2 - zi2 + c.x;
         z.y = zrzi + zrzi + c.y;
@@ -60,7 +87,7 @@ float mandelbrot(in vec2 c) {
             break;
         }
 
-        // // Interior detection
+        // Interior detection
         vec2 d = z - zOld;
         if (dot(d, d) < EPSILON) {
             i = iterations;
@@ -74,7 +101,19 @@ float mandelbrot(in vec2 c) {
         }
     }
 
-    return bailout ? float(i) + 1.0 - log2(log2(dot(z,z))) : float(iterations);
+    if (bailout) {
+        vec2 u = cdiv(z, der);
+        u /= max(length(u), 1e-12);
+
+        float t = dot(u, LIGHT_DIRECTION) + LIGHT_HEIGHT;
+        t /= LIGHT_HEIGHT + 1.0;
+
+        return vec2(
+            float(i) + 1.0 - log2(log2(dot(z, z))),
+            max(t, 0.0)
+        );  
+    }
+    else return vec2(float(iterations), 0.0);
 }
 
 void main() {
@@ -87,16 +126,18 @@ void main() {
 
     // Mandelbrot iteration and normalization
     float iterationsFloat = float(iterations);
-    float iters = isInterior(c) ? 1.0 : float(mandelbrot(c)) / iterationsFloat;
+    vec2 result = mandelbrot(c);
+
+    float iters = isInterior(c) ? 1.0 : float(result.x) / iterationsFloat;
 
     // Color palette sampling
     vec3 color = iters == 1.0 
         ? vec3(0) 
         : palette(
             iters * PALETTE_FREQUENCY, 
-            vec3(0.5), vec3(0.5), vec3(1.0, 1.0, 0.5), 
-            vec3(1.0, 1.1, 0.5) - vec3(uTime * PALETTE_TIME_INFLUENCE)
-        );
+            vec3(0.5), vec3(0.5), vec3(1.0, 1.0, 1.0), 
+            vec3(0.0, 0.1, 0.2) - vec3(uTime * PALETTE_TIME_INFLUENCE)
+        ) * (clamp(result.y * 2.0, 0.2, 1.0));
 
     // Banding
     float bandFactor = fract(iters * BAND_FREQUENCY - uTime * BAND_TIME_INFLUENCE);

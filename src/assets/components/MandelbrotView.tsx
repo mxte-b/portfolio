@@ -177,7 +177,7 @@ const MandelbrotView = (
     // Change friction coefficient depending on pointer type
     useEffect(() => { frictionCoefficientRef.current = isTouch ? 0.97 : 0.95 }, [isTouch]);
 
-    useEffect(invalidate, [animationsEnabled]);
+    useEffect(invalidate, [animationsEnabled, viewport.aspect, viewState]);
 
     return (
         <ScreenQuad>
