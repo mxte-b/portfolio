@@ -23,29 +23,40 @@ const constructUniforms = (viewState: MandelbrotViewState): ShaderUniforms => {
         center: { value: viewState.center },
         zoom: { value: viewState.zoom },
         iterations: { value: viewState.iterations },
-        uTime: { value: 0 }
+        uTime: { value: 0 },
+        timeInfluence: { value: 0 }
     };
 }
 
-const MandelbrotView = () => {  
+const MandelbrotView = (
+    { 
+        movementEnabled = true,
+        animationsEnabled = true
+    }: 
+    { 
+        movementEnabled?: boolean,
+        animationsEnabled?: boolean
+    }) => {  
 
-    const { isTouch } = usePointerType(); 
-    const { viewport, gl, size } = useThree();
-    const { viewState, moveBy, setZoom } = useMandelbrot();
+    const { viewport, gl, size, invalidate }    = useThree();
+    const { isTouch }                           = usePointerType(); 
+    const { viewState, moveBy, setZoom }        = useMandelbrot();
 
-    const rendererDomRect = useMemo(() => gl.domElement.getBoundingClientRect(), [gl, viewport.aspect]);
-    const uniforms = useMemo<ShaderUniforms>(() => ({
+    const rendererDomRect   = useMemo(() => gl.domElement.getBoundingClientRect(), [gl, viewport.aspect]);
+    const uniforms          = useMemo<ShaderUniforms>(() => ({
         ...constructUniforms(viewState),
         aspectRatio: { value: viewport.aspect },
         gradient: { value: gradient },
         gradientWeights: { value: [0.08, 0.56, 0.85, 1] },
     }), []);
     
-    const zoomVelocityRef = useRef<number>(0);
-    const frictionCoefficientRef = useRef<number>(0.95);
-    const panVelocityRef = useRef<[number, number]>([0, 0]);
-    const materialRef = useRef<THREE.ShaderMaterial>(null!);
-    const lastMousePositionRef = useRef<[number, number]>([0, 0]);
+    const timeInfluenceRef          = useRef<number>(0);
+    const uTimeRef                  = useRef<number>(0);
+    const zoomVelocityRef           = useRef<number>(0);
+    const frictionCoefficientRef    = useRef<number>(0.95);
+    const panVelocityRef            = useRef<[number, number]>([0, 0]);
+    const lastMousePositionRef      = useRef<[number, number]>([0, 0]);
+    const materialRef               = useRef<THREE.ShaderMaterial>(null!);
 
     const screenToWorld = (pixel: [number, number], zoom: number, center: [number, number]) => {
         const nx = (pixel[0] - rendererDomRect.left) / rendererDomRect.width - 0.5;
@@ -72,22 +83,27 @@ const MandelbrotView = () => {
     // Gesture handling for view transforms
     useGesture({
         onDrag: ({ delta, pinching, first, last, velocity, direction }) => {
-            if (pinching) return;
+            if (pinching || !movementEnabled) return;
             if (first) panVelocityRef.current = [0, 0];
             if (last) panVelocityRef.current = [velocity[0] * direction[0] * 2, velocity[1] * direction[1] * 2];
 
             moveByScreenDelta(delta);
+            invalidate();
         },
         onWheel: ({ delta, event }) => {
+            if (!movementEnabled) return;
             const pointerPosition: [number, number] = [event.clientX, event.clientY];
 
             zoomVelocityRef.current += -delta[1] * 0.05;
             lastMousePositionRef.current = pointerPosition;
+            invalidate();
         },
         onPinch: ({ origin, movement: [relativeScale], first, memo }) => {
+            if (!movementEnabled) return;
             if (first) memo = viewState.zoom;
 
             zoomToAnchored(origin, viewState.zoom, memo * relativeScale);
+            invalidate();
             return memo;
         },
 
@@ -100,44 +116,68 @@ const MandelbrotView = () => {
     });
 
     // Per-frame logic
-    useFrame(({ clock }, delta) => {
-        let vPan = panVelocityRef.current;
-        let vZoom = zoomVelocityRef.current;
-
+    useFrame((_, delta) => {
+        let shouldRenderNextFrame = animationsEnabled || timeInfluenceRef.current != 0;
+        
+        const vPan = panVelocityRef.current;
         const vAbsX = Math.abs(vPan[0]);
         const vAbsY = Math.abs(vPan[1]);
-        const vAbsZ = Math.abs(vZoom);
-
+        const vAbsZ = Math.abs(zoomVelocityRef.current);
+        
         const currentZoom = viewState.zoom;
         const friction = Math.pow(frictionCoefficientRef.current, delta * 144);
+        const acceleration = delta;
 
         // Apply friction to the pan and zoom velocities and transform the view accordingly
         if (vAbsX > 0 || vAbsY > 0) {
+            shouldRenderNextFrame = true;
             if (vAbsX < EPSILON) vPan[0] = 0;
             if (vAbsY < EPSILON) vPan[1] = 0;
-
+            
             vPan[0] *= friction;
             vPan[1] *= friction;
             moveByScreenDelta(vPan);
         }
 
         if (vAbsZ > 0) {
-            if (vAbsZ < EPSILON) vZoom = 0;
+            shouldRenderNextFrame = true;
+            if (vAbsZ < EPSILON) zoomVelocityRef.current = 0;
             
             zoomVelocityRef.current *= friction;
-            zoomToAnchored(lastMousePositionRef.current, currentZoom, currentZoom + vZoom * 0.001 * viewState.zoom)
+            zoomToAnchored(lastMousePositionRef.current, currentZoom, currentZoom + zoomVelocityRef.current * 0.001 * viewState.zoom)
         }
 
+        // Apply friction/acceleration to the time influence based on animationsEnabled
+        const target = animationsEnabled ? 1 : 0;
+
+        if (timeInfluenceRef.current < target) {
+            timeInfluenceRef.current += (target - timeInfluenceRef.current) * acceleration;
+
+            if (target - timeInfluenceRef.current < EPSILON) timeInfluenceRef.current = target;
+        }
+        else if (timeInfluenceRef.current > target){
+            let newInfluence = Math.max(1 - delta * 2, target);
+            timeInfluenceRef.current *= newInfluence;
+            
+            if (timeInfluenceRef.current - target < EPSILON) timeInfluenceRef.current = target;
+        }
+
+        if (timeInfluenceRef.current > 0) uTimeRef.current += delta * timeInfluenceRef.current;
+
         // Update fragment shader uniforms
-        materialRef.current.uniforms.uTime.value = clock.getElapsedTime();
-        materialRef.current.uniforms.center.value = viewState.center;
         materialRef.current.uniforms.zoom.value = viewState.zoom;
-        materialRef.current.uniforms.iterations.value = viewState.iterations;
+        materialRef.current.uniforms.center.value = viewState.center;
         materialRef.current.uniforms.aspectRatio.value = viewport.aspect;
+        materialRef.current.uniforms.uTime.value = uTimeRef.current;
+        materialRef.current.uniforms.iterations.value = viewState.iterations;
+
+        if (shouldRenderNextFrame) invalidate();
     });
 
     // Change friction coefficient depending on pointer type
     useEffect(() => { frictionCoefficientRef.current = isTouch ? 0.97 : 0.95 }, [isTouch]);
+
+    useEffect(invalidate, [animationsEnabled]);
 
     return (
         <ScreenQuad>
