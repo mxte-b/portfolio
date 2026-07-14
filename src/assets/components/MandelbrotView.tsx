@@ -54,6 +54,7 @@ const MandelbrotView = (
     const uTimeRef                  = useRef<number>(0);
     const zoomVelocityRef           = useRef<number>(0);
     const frictionCoefficientRef    = useRef<number>(0.95);
+    const animationsEnabledRef      = useRef<boolean>(true);
     const panVelocityRef            = useRef<[number, number]>([0, 0]);
     const lastMousePositionRef      = useRef<[number, number]>([0, 0]);
     const materialRef               = useRef<THREE.ShaderMaterial>(null!);
@@ -117,7 +118,7 @@ const MandelbrotView = (
 
     // Per-frame logic
     useFrame((_, delta) => {
-        let shouldRenderNextFrame = animationsEnabled || timeInfluenceRef.current != 0;
+        let shouldRenderNextFrame = animationsEnabledRef.current || timeInfluenceRef.current != 0;
         
         const vPan = panVelocityRef.current;
         const vAbsX = Math.abs(vPan[0]);
@@ -148,8 +149,7 @@ const MandelbrotView = (
         }
 
         // Apply friction/acceleration to the time influence based on animationsEnabled
-        const target = animationsEnabled ? 1 : 0;
-
+        const target = animationsEnabledRef.current ? 1 : 0;
         if (timeInfluenceRef.current < target) {
             timeInfluenceRef.current += (target - timeInfluenceRef.current) * acceleration;
 
@@ -176,6 +176,15 @@ const MandelbrotView = (
 
     // Change friction coefficient depending on pointer type
     useEffect(() => { frictionCoefficientRef.current = isTouch ? 0.97 : 0.95 }, [isTouch]);
+
+    useEffect(() => {
+        // In Safari, the animationsEnabled state is updated instantly which makes the animations jump.
+        // By delaying the update of the variable, we can ensure that the first frame's delta is not
+        // considered.
+        const id = requestAnimationFrame(() => animationsEnabledRef.current = animationsEnabled);
+
+        return () => cancelAnimationFrame(id);
+    }, [animationsEnabled])
 
     useEffect(invalidate, [animationsEnabled, viewport.aspect, viewState]);
 
