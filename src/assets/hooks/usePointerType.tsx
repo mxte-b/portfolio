@@ -1,9 +1,7 @@
 import { createContext, useContext, useEffect, useState, type ReactNode } from "react";
-import type { PointerTypeContextValue } from "../types/general";
+import type { PointerContextType } from "../types/general";
 
-const PointerTypeContext = createContext<PointerTypeContextValue | undefined>(undefined);
-
-
+const PointerTypeContext = createContext<PointerContextType | undefined>(undefined);
 
 export const PointerTypeProvider = ({ children }: { children: ReactNode }) => {
     const [isTouch, setIsTouch] = useState<boolean>(window.matchMedia('(pointer: coarse)').matches);

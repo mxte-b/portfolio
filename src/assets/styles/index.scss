@@ -80,7 +80,7 @@ body {
     background-color: var(--color-background);
     color: var(--color-primary);
     font-family: "Instrument Sans", sans-serif;
-    overflow-x: hidden;
+    overflow: hidden;
     scrollbar-width: none;
     -ms-overflow-style: none;
 }

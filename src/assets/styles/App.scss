@@ -1,1 +1,19 @@
 @use "hero";
+
+main {
+    width: 100%;
+    height: 100%;
+}
+
+.viewer {
+    position: fixed !important;
+    width: 100%;
+    height: 100vh;
+    inset: 0;
+}
+
+canvas {
+    width: 100vw;
+    height: 100vh;
+    touch-action: none;
+}

@@ -2,7 +2,7 @@ import vertex from '../shaders/vertex.glsl';
 import fragment from '../shaders/fragment.glsl';
 
 import * as THREE from 'three';
-import { ScreenQuad } from "@react-three/drei";
+// import { ScreenQuad } from "@react-three/drei";
 import { useFrame, useThree } from '@react-three/fiber';
 import { convertColors, type ShaderUniforms } from '../utils/graphics';
 import useMandelbrot from '../hooks/useMandelbrot';
@@ -38,9 +38,9 @@ const MandelbrotView = (
         animationsEnabled?: boolean
     }) => {  
 
-    const { viewport, gl, size, invalidate }    = useThree();
-    const { isTouch }                           = usePointerType(); 
-    const { viewState, moveBy, setZoom }        = useMandelbrot();
+    const { isTouch }                                   = usePointerType(); 
+    const { viewport, gl, size, invalidate }            = useThree();
+    const { viewState, controls: { moveBy, setZoom } }  = useMandelbrot();
 
     const rendererDomRect   = useMemo(() => gl.domElement.getBoundingClientRect(), [gl, viewport.aspect]);
     const uniforms          = useMemo<ShaderUniforms>(() => ({
@@ -189,14 +189,15 @@ const MandelbrotView = (
     useEffect(invalidate, [animationsEnabled, viewport.aspect, viewState]);
 
     return (
-        <ScreenQuad>
-            <shaderMaterial 
+        <mesh>
+            <planeGeometry args={[2, 2]} />
+            <shaderMaterial
                 ref={materialRef}
                 uniforms={uniforms}
-                vertexShader={vertex} 
-                fragmentShader={fragment} 
+                vertexShader={vertex}
+                fragmentShader={fragment}
             />
-        </ScreenQuad>
+        </mesh>
     );
 };
 

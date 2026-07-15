@@ -1,5 +1,7 @@
-import { useReducer } from "react";
-import type { MandelbrotViewAction, MandelbrotViewState } from "../types/mandelbrot";
+import { createContext, useContext, useReducer, type ReactNode } from "react";
+import type { MandelbrotContextType, MandelbrotViewAction, MandelbrotViewState } from "../types/mandelbrot";
+
+const MandelbrotContext = createContext<MandelbrotContextType | undefined>(undefined);
 
 const reducer = (state: MandelbrotViewState, action: MandelbrotViewAction): MandelbrotViewState => {
     switch (action.type) {
@@ -29,7 +31,7 @@ const reducer = (state: MandelbrotViewState, action: MandelbrotViewAction): Mand
     }
 }
 
-const useMandelbrot = () => {
+export const MandelbrotProvider = ({ children }: { children: ReactNode }) => {
     const initialState: MandelbrotViewState = { center: [-0.5, 0], zoom: 0.4, iterations: 200 };
 
     const [state, dispatch] = useReducer(reducer, initialState);
@@ -63,14 +65,24 @@ const useMandelbrot = () => {
 
     const setZoom = (zoom: number) => dispatch({ type: "setZoom", zoom: zoom });
 
-    return {
+    return <MandelbrotContext.Provider value={{
         viewState: state,
-        moveTo: moveTo,
-        moveBy: moveBy,
-        zoomBy: zoomBy,
-        setZoom: setZoom,
-        returnToHome: returnToHome,
-    }
+        controls: {
+            moveTo: moveTo,
+            moveBy: moveBy,
+            zoomBy: zoomBy,
+            setZoom: setZoom,
+            returnToHome: returnToHome,
+        }
+    }}>
+        {children}
+    </MandelbrotContext.Provider>
+}
+ 
+const useMandelbrot = () => {
+    const context = useContext(MandelbrotContext);
+    if (!context) throw new Error("useMandelbrot should only be used inside of a MandelbrotProvider.")
+    return context;
 }
 
 export default useMandelbrot;
