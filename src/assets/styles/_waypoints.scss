@@ -1,0 +1,55 @@
+.waypoint-marker {
+    position: relative;
+
+    $width: 50px;
+    $circle-size: 15px;
+
+    width: $width;
+    pointer-events: none;
+
+    &__body {
+        width: $circle-size;
+        height: $circle-size;
+        transform: translate(-50%, -50%);
+    }
+
+    &__circle {
+        position: relative;
+        width: $circle-size;
+        height: $circle-size;
+        border: 2px solid white;
+        border-radius: 50%;
+        background-color: rgb(19 192 255);
+        cursor: pointer;
+
+        &::after {
+            display: block;
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            z-index: -1;
+            width: $circle-size;
+            height: $circle-size;
+            border-radius: 50%;
+            background-color: white;
+            content: '';
+            animation: pulse 1.5s ease-in-out infinite;
+            
+            @keyframes pulse {
+                0% {
+                    opacity: 0;
+                    scale: 1;
+                }
+
+                50% {
+                    opacity: 0.5;
+                }
+
+                100% {
+                    opacity: 0;
+                    scale: 2;
+                }
+            }
+        }
+    }
+}

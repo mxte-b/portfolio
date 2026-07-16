@@ -25,7 +25,7 @@ const Portfolio = () => {
                     {/* <Stats /> */}
                 </Suspense>
             </Canvas>
-            <WaypointOverlay waypoints={[{ id: "asd", label: "teszt", description: "asd", location: [-0.75, 0], zoom: 100}]} canvasRef={canvasRef}/>
+            <WaypointOverlay waypoints={[{ id: "asd", label: "teszt", description: "asd", location: [-2, 0], zoom: 100}]} canvasRef={canvasRef}/>
             <div className="hero">
                 <div className="hero__title">mate blank</div>
                 <button onClick={() => setMovementEnabled(p => !p)}>Toggle movement</button>

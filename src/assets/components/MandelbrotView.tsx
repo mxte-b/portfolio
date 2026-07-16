@@ -180,8 +180,11 @@ const MandelbrotView = (
     useEffect(() => {
         // In Safari, the animationsEnabled state is updated instantly which makes the animations jump.
         // By delaying the update of the variable, we can ensure that the first frame's delta is not
-        // considered.
-        const id = requestAnimationFrame(() => animationsEnabledRef.current = animationsEnabled);
+        // considered. Invalidating the canvas is also needed because of this timing issue.
+        const id = requestAnimationFrame(() => {
+            animationsEnabledRef.current = animationsEnabled;
+            invalidate();
+        });
 
         return () => cancelAnimationFrame(id);
     }, [animationsEnabled])
