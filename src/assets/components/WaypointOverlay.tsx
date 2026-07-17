@@ -11,7 +11,9 @@ const WaypointOverlay = (
     }
 ) => {
     const { viewState } = useMandelbrot();
+
     const [rect, setRect] = useState<DOMRect | null>(null);
+    const [selectedMarkerId, setSelectedMarkerId] = useState<string | null>(null);
 
     useEffect(() => {
         const canvas = canvasRef.current;
@@ -37,7 +39,9 @@ const WaypointOverlay = (
         const aspect = rect.width / rect.height;
 
         const nx = (coordinate[0] - center[0]) * (zoom / aspect) + 0.5;
-        const ny = (coordinate[1] - center[1]) * zoom + 0.5;
+
+        // Sign flip because [0, 0] is at the top left for my renderer.
+        const ny = (-coordinate[1] + center[1]) * zoom + 0.5;
 
         return [nx * rect.width + rect.left, ny * rect.height + rect.top];
     };
@@ -50,6 +54,10 @@ const WaypointOverlay = (
                         key={w.id}
                         waypoint={w}
                         screenPosition={getWaypointPosition(w.location, viewState.zoom, viewState.center)}
+                        selected={selectedMarkerId == w.id}
+                        onClick={() => setSelectedMarkerId(w.id)}
+                        onCancel={() => setSelectedMarkerId(null)}
+                        onGo={() => {}}
                     />)) 
             }
         </div>

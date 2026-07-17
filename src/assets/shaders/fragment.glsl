@@ -11,7 +11,7 @@ varying vec2    vUv;
 #define BAND_FREQUENCY          200.0
 #define BAND_TIME_INFLUENCE     0.2
 #define LIGHT_HEIGHT            2.0
-#define LIGHT_DIRECTION         vec2(1, -1)
+#define LIGHT_DIRECTION         vec2(1, 1)
 
 // Uniforms
 uniform vec2    center;
@@ -119,7 +119,7 @@ vec2 mandelbrot(in vec2 c) {
 void main() {
     vec2 rawUv = vUv;
     vec2 uv = rawUv - 0.5;
-    uv *= vec2(aspectRatio, -1);
+    uv.x *= aspectRatio;
 
     // Compute pixel coordinate
     vec2 c = center + uv / zoom;

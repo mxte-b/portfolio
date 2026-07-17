@@ -6,7 +6,7 @@ import * as THREE from 'three';
 import { useFrame, useThree } from '@react-three/fiber';
 import { convertColors, type ShaderUniforms } from '../utils/graphics';
 import useMandelbrot from '../hooks/useMandelbrot';
-import { useEffect, useMemo, useRef } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import type { MandelbrotViewState } from '../types/mandelbrot';
 import { useGesture } from '@use-gesture/react';
 import usePointerType from '../hooks/usePointerType';
@@ -42,13 +42,15 @@ const MandelbrotView = (
     const { viewport, gl, size, invalidate }            = useThree();
     const { viewState, controls: { moveBy, setZoom } }  = useMandelbrot();
 
-    const rendererDomRect   = useMemo(() => gl.domElement.getBoundingClientRect(), [gl, viewport.aspect]);
+    // const rendererDomRect   = useMemo(() => gl.domElement.getBoundingClientRect(), [gl, viewport.aspect]);
     const uniforms          = useMemo<ShaderUniforms>(() => ({
         ...constructUniforms(viewState),
         aspectRatio: { value: viewport.aspect },
         gradient: { value: gradient },
         gradientWeights: { value: [0.08, 0.56, 0.85, 1] },
     }), []);
+
+    const [rect, setRect] = useState<DOMRect | null>(null);
     
     const timeInfluenceRef          = useRef<number>(0);
     const uTimeRef                  = useRef<number>(0);
@@ -60,9 +62,12 @@ const MandelbrotView = (
     const materialRef               = useRef<THREE.ShaderMaterial>(null!);
 
     const screenToWorld = (pixel: [number, number], zoom: number, center: [number, number]) => {
-        const nx = (pixel[0] - rendererDomRect.left) / rendererDomRect.width - 0.5;
-        const ny = (pixel[1] - rendererDomRect.top) / rendererDomRect.height - 0.5;
+        if (!rect) return [0, 0];
 
+        const nx = (pixel[0] - rect.left) / rect.width - 0.5;
+        const ny = (pixel[1] + rect.top) / rect.height - 0.5;
+        
+        // console.log("s2w: ", pixel, zoom, center, center[0] + (nx * viewport.aspect) / zoom, center[1] + ny / zoom)
         return [center[0] + (nx * viewport.aspect) / zoom, center[1] + ny / zoom];
     }
 
@@ -92,6 +97,8 @@ const MandelbrotView = (
             invalidate();
         },
         onWheel: ({ delta, event }) => {
+            event.preventDefault();
+            event.stopPropagation();
             if (!movementEnabled) return;
             const pointerPosition: [number, number] = [event.clientX, event.clientY];
 
@@ -113,7 +120,6 @@ const MandelbrotView = (
         target: gl.domElement, 
         eventOptions: { passive: false }, 
         drag: { filterTaps: true },
-        pinch: { scaleBounds: { min: 0.1 }}
     });
 
     // Per-frame logic
@@ -144,6 +150,7 @@ const MandelbrotView = (
             shouldRenderNextFrame = true;
             if (vAbsZ < EPSILON) zoomVelocityRef.current = 0;
             
+            if (delta > 0.01) console.log("now", delta);
             zoomVelocityRef.current *= friction;
             zoomToAnchored(lastMousePositionRef.current, currentZoom, currentZoom + zoomVelocityRef.current * 0.001 * viewState.zoom)
         }
@@ -174,6 +181,21 @@ const MandelbrotView = (
         if (shouldRenderNextFrame) invalidate();
     });
 
+    // Update renderer rect
+    useEffect(() => {
+        const canvas = gl.domElement;
+        if (!canvas) return;
+
+        setRect(canvas.getBoundingClientRect());
+
+        const observer = new ResizeObserver(() => {
+            setRect(canvas.getBoundingClientRect());
+        });
+        observer.observe(canvas);
+
+        return () => observer.disconnect();
+    }, [gl.domElement]);
+
     // Change friction coefficient depending on pointer type
     useEffect(() => { frictionCoefficientRef.current = isTouch ? 0.97 : 0.95 }, [isTouch]);
 
@@ -187,7 +209,7 @@ const MandelbrotView = (
         });
 
         return () => cancelAnimationFrame(id);
-    }, [animationsEnabled])
+    }, [animationsEnabled]);
 
     useEffect(invalidate, [animationsEnabled, viewport.aspect, viewState]);
 

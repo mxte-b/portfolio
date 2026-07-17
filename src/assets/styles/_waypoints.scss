@@ -1,39 +1,36 @@
+@use "mixins" as *;
+
 .waypoint-marker {
-    position: relative;
-
     $width: 50px;
-    $circle-size: 15px;
+    $marker-size: 15px;
+    $marker-active-scale: 1.2;
+    $marker-pulse-time: 1.5s;
+    $marker-border: white;
+    $marker-bg: #f3f3f3;
+    $marker-active-bg: #13c0ff;
+    $marker-body-bg: #0c0c0ce0;
+    $marker-body-border: #272727;
 
+    position: absolute;
     width: $width;
     pointer-events: none;
-
-    &__body {
-        width: $circle-size;
-        height: $circle-size;
-        transform: translate(-50%, -50%);
-    }
-
+    
     &__circle {
         position: relative;
-        width: $circle-size;
-        height: $circle-size;
-        border: 2px solid white;
-        border-radius: 50%;
-        background-color: rgb(19 192 255);
-        cursor: pointer;
+        width: $marker-size;
+        height: $marker-size;
+        transform: translate(-50%, -50%);
 
         &::after {
             display: block;
             position: absolute;
-            top: -2px;
-            left: -2px;
             z-index: -1;
-            width: $circle-size;
-            height: $circle-size;
+            width: $marker-size;
+            height: $marker-size;
             border-radius: 50%;
             background-color: white;
             content: '';
-            animation: pulse 1.5s ease-in-out infinite;
+            animation: pulse $marker-pulse-time ease-in-out infinite;
             
             @keyframes pulse {
                 0% {
@@ -51,5 +48,86 @@
                 }
             }
         }
+
+        &::before {
+            display: block;
+            position: absolute;
+            z-index: 10;
+            width: $marker-size - 4px;
+            height: $marker-size - 4px;
+            border: 2px solid $marker-border;
+            border-radius: 50%;
+            background-color: $marker-bg;
+            transition: scale 0.2s ease, background-color 0.2s ease;
+            will-change: transform;
+            filter: drop-shadow(0 0 5px black);
+            content: '';
+            cursor: pointer;
+            pointer-events: all;
+        }
+
+        &:active::before {
+            scale: 0.95;
+        }
+
+        &.selected::before {
+            background-color: $marker-active-bg;
+            scale: $marker-active-scale;
+        }
+    }
+
+    &__body {
+        gap: 0.4rem;
+        width: 300px;
+        height: 130px;
+        padding: 0.8rem;
+        border: 1px solid $marker-body-border;
+        border-radius: 1rem;
+        background-color: $marker-body-bg;
+        box-shadow: 0 0 5px #00000073;
+        backdrop-filter: blur(5px);
+        transform: translate(-50%);
+
+        @include flex(column, left, left);
+    }
+
+    &:has(.waypoint-marker__circle.selected) > &__body {
+        // opacity: 1;
+        pointer-events: all;
+    }
+
+    &__label {
+        font-weight: 600;
+    }
+
+    &__description {
+        color: rgb(194 194 194);
+        font-size: 80%;
+    }
+
+    &__cta {
+        @include flex($align: flex-end);
+
+        gap: 0.8rem;
+        flex-grow: 1;
+    }
+
+    &__cta > button {
+        height: 35px;
+        border: 1px solid #3f3f3f;
+        border-radius: 10px;
+        background-color: #272727;
+        color: rgb(221 221 221);
+        box-shadow: 0 2px 5px #00000073;
+        font-family: "Instrument Sans", sans-serif;
+        font-size: 14px;
+        flex-grow: 1;
+        flex-basis: 0;
+        cursor: pointer;
+    }
+
+    &__cta > button.prominent {
+        background-color: rgb(16 123 194);
+        border-color: rgb(19 192 255);
     }
 }

@@ -10,7 +10,7 @@ const reducer = (state: MandelbrotViewState, action: MandelbrotViewAction): Mand
                 ...state, 
                 center: [
                     state.center[0] + action.delta[0],
-                    state.center[1] + action.delta[1],
+                    state.center[1] - action.delta[1],
                 ]
             }
         case "zoomBy":
