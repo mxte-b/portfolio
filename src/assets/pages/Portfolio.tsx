@@ -1,11 +1,12 @@
-// import * as THREE from 'three';
 import Lenis from "lenis";
-import MandelbrotView from '../components/MandelbrotView';
 import { Canvas } from '@react-three/fiber';
-import { Suspense, useRef, useState } from 'react';
-import WaypointOverlay from "../components/WaypointOverlay";
+import { useEffect, useRef, useState } from 'react';
+
 import type { Waypoint } from "../types/general";
-import { Stats } from "@react-three/drei";
+import MandelbrotView from '../components/MandelbrotView';
+import WaypointMarker from "../components/WaypointMarker";
+import WaypointUpdater from "../components/WaypointUpdater";
+import useDevicePreferences from "../hooks/useDevicePreferences";
 
 declare global {
     interface Window {
@@ -45,17 +46,63 @@ const waypoints: Waypoint[] = [
 ]
 
 const Portfolio = () => {
+    const { prefersReducedMotion } = useDevicePreferences();
+
     const [movementEnabled, setMovementEnabled] = useState<boolean>(true);
     const [animationsEnabled, setAnimationsEnabled] = useState<boolean>(true);
+    const [selectedMarkerId, setSelectedMarkerId] = useState<string | null>(null);
 
+    const canvasRectRef = useRef<DOMRect | null>(null);
     const canvasRef = useRef<HTMLCanvasElement | null>(null);
+    const markerRefs = useRef<Map<string, HTMLDivElement>>(new Map());
+
+    // Cache the canvas DOMRect using a ref
+    useEffect(() => {
+        console.log(prefersReducedMotion)
+        const canvas = canvasRef.current;
+        if (!canvas) return;
+
+        canvasRectRef.current = canvas.getBoundingClientRect();
+
+        const observer = new ResizeObserver(() => canvasRectRef.current = canvas.getBoundingClientRect());
+        observer.observe(canvas);
+
+        return () => observer.disconnect();
+    }, [canvasRef]);
 
     return (
         <div className="main">
             <Canvas ref={canvasRef} className="viewer" frameloop="demand" dpr={1}>
-                <MandelbrotView movementEnabled={movementEnabled} animationsEnabled={animationsEnabled} />
+                <MandelbrotView 
+                    movementEnabled={movementEnabled} 
+                    animationsEnabled={animationsEnabled} 
+                    rectRef={canvasRectRef} 
+                />
+                <WaypointUpdater 
+                    waypoints={waypoints} 
+                    markerRefs={markerRefs} 
+                    rectRef={canvasRectRef} 
+                />
             </Canvas>
-            <WaypointOverlay waypoints={waypoints} canvasRef={canvasRef}/>
+
+            <div className="waypoints">
+                { 
+                    waypoints.map((w) => (
+                        <WaypointMarker
+                            ref={(ref) => {
+                                if (ref) markerRefs.current.set(w.id, ref);
+                                return () => { markerRefs.current.delete(w.id); }
+                            }}
+                            key={w.id}
+                            waypoint={w}
+                            selected={selectedMarkerId == w.id}
+                            onClick={() => setSelectedMarkerId(w.id)}
+                            onCancel={() => setSelectedMarkerId(null)}
+                            onGo={() => {}}
+                        />)) 
+                }
+            </div>
+
             <div className="hero">
                 <div className="hero__title">mate blank</div>
                 <button onClick={() => setMovementEnabled(p => !p)}>Toggle movement</button>

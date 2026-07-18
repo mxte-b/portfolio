@@ -1,6 +1,13 @@
 import type { ReactNode } from "react";
 
-export type PointerContextType = { isTouch: boolean };
+/** Represents the type of the useDevicePreferences hook. */
+export type DevicePreferencesContextType = { 
+    /** Indicates if the current device uses touch as input source. */
+    isTouch: boolean,
+
+    /** Reveals the value of the prefers reduced motion accessibility setting. */
+    prefersReducedMotion: boolean,
+};
 
 export type Project = {
     title: string;

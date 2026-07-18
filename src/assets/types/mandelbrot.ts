@@ -16,7 +16,7 @@ export interface MandelbrotControls {
     moveTo: (target: [number, number], targetZoom: number) => void,
 
     /**
-     * Moves the view by a specified delta (in global coordinate).
+     * Moves the view by a specified delta (in world coordinates).
      * @param delta The amount to move the view by.
      */
     moveBy: (delta: [number, number]) => void,
@@ -31,12 +31,7 @@ export interface MandelbrotControls {
      * Sets the current zoom value.
      * @param zoom The desired zoom value.
      */
-    setZoom: (zoom: number) => void,
-
-    /**
-     * Resets the view to the default view.
-     */
-    returnToHome: () => void,
+    setZoom: (zoom: number) => void
 }
 
 /**
@@ -49,9 +44,9 @@ export type MandelbrotViewAction =
     { type: "setZoom",      zoom: number };
 
 /**
- * The type of the useMandelbrot hook context.
+ * The type of the useMandelbrotStore hook.
  */
-export type MandelbrotContextType = {
+export type MandelbrotStore = {
     /** The current view state. */
     viewState: MandelbrotViewState,
 

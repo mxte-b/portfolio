@@ -10,6 +10,12 @@
     $marker-active-bg: #13c0ff;
     $marker-body-bg: #0c0c0ce0;
     $marker-body-border: #272727;
+    $button-bg: #272727;
+    $button-bg-prominent: #107bc2;
+    $button-color: white;
+    $button-color-prominent: white;
+    $button-border: #3f3f3f;
+    $button-border-prominent: #13c0ff;
 
     position: absolute;
     width: $width;
@@ -92,7 +98,6 @@
     }
 
     &:has(.waypoint-marker__circle.selected) > &__body {
-        // opacity: 1;
         pointer-events: all;
     }
 
@@ -114,20 +119,26 @@
 
     &__cta > button {
         height: 35px;
-        border: 1px solid #3f3f3f;
+        border: 1px solid $button-border;
         border-radius: 10px;
-        background-color: #272727;
-        color: rgb(221 221 221);
+        background-color: $button-bg;
+        color: $button-color;
         box-shadow: 0 2px 5px #00000073;
         font-family: "Instrument Sans", sans-serif;
         font-size: 14px;
+        transition: scale 0.2s ease;
         flex-grow: 1;
         flex-basis: 0;
         cursor: pointer;
+
+        &:active {
+            scale: 0.98;
+        }
     }
 
     &__cta > button.prominent {
-        background-color: rgb(16 123 194);
-        border-color: rgb(19 192 255);
+        background-color: $button-bg-prominent;
+        color: $button-color-prominent;
+        border-color: $button-border-prominent;
     }
 }

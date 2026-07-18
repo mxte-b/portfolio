@@ -1,24 +1,20 @@
-import { useEffect } from "react";
+import { type Ref } from "react";
 import type { Waypoint } from "../types/general";
 import { AnimatePresence, motion } from 'motion/react';
 
 const WaypointMarker = (
-    { waypoint, screenPosition, selected, onClick, onCancel, onGo }: 
+    { ref, waypoint, selected, onClick, onCancel, onGo }: 
     { 
+        ref: Ref<HTMLDivElement | null>
         waypoint: Waypoint, 
-        screenPosition: [number, number], 
         selected: boolean,
         onClick: () => void,
         onCancel: () => void,
         onGo: () => void
     }) => {
 
-    useEffect(() => {
-        console.log(selected)
-    }, [selected])
-
     return (
-        <div className="waypoint-marker" tabIndex={1} style={{ transform: `translate3d(${screenPosition[0]}px, ${screenPosition[1]}px, 0)`}}>
+        <div ref={ref} className="waypoint-marker" tabIndex={1}>
             <div className="waypoint-marker__main">
                 <div className={`waypoint-marker__circle${selected ? " selected" : ""}`} onClick={onClick}/>
             </div>
