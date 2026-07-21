@@ -11,6 +11,7 @@ import Loader from "../components/Loader";
 import useFakeProgress from "../hooks/useFakeProgress";
 import useMandelbrotStore, { initialViewState } from "../hooks/useMandelbrotStore";
 import Animator, { interpolateView } from "../utils/animator";
+import { clamp } from "../utils/math";
 
 declare global {
     interface Window {
@@ -50,7 +51,6 @@ const WAYPOINTS: Waypoint[] = [
 ];
 
 const LOADER_TRANSITION_DURATION = 500;
-const WAYPOINT_TRANSITION_DURATION = 8000;
 
 const Portfolio = () => {
     const moveTo = useMandelbrotStore(s => s.controls.moveTo);
@@ -83,13 +83,14 @@ const Portfolio = () => {
 
         const state = useMandelbrotStore.getState().viewState;
 
-        let timeAnimator = new Animator<number>(0, 1, WAYPOINT_TRANSITION_DURATION, "easeInOut");
-
         const path = interpolateView(
             { center: state.center, width: 1 / state.zoom }, 
             { center: location, width: 1 / zoom },
         );
 
+        const animationTime = clamp(path.timeToComplete, 0.5, 10);
+        let timeAnimator = new Animator<number>(0, 1, animationTime * 1000, "easeInOut");
+        
         const animate = () => {
             const t = timeAnimator.getValue() * path.S;
 

@@ -78,6 +78,9 @@ export type ViewInterpolationPath = {
     /** Indicates the arc length of the interpolation path. */
     S: number,
 
+    /** Indicates the time that the view interpolation will take. */
+    timeToComplete: number,
+
     /**
      * Returns the current position of the view.
      * @param s The distance travelled along the path.
@@ -97,12 +100,14 @@ export type ViewInterpolationPath = {
  * Smoothly interpolates between two given views. This function implements an algorithm 
  * @param from The starting view.
  * @param to The end view.
+ * @param V Tuning variable changing the base animation speed.
  * @param rho Tuning variable changing the trade-off between zooming and panning.
  */
 export const interpolateView = (
     from: { center: [number, number], width: number },
     to: { center: [number, number], width: number },
-    rho: number = Math.SQRT2
+    V: number = 1.2,
+    rho: number = Math.SQRT2,
 ): ViewInterpolationPath => {
 
     const u1 = Math.hypot(to.center[0] - from.center[0], to.center[1] - from.center[1]);
@@ -125,6 +130,7 @@ export const interpolateView = (
 
     return  {
         S: S,
+        timeToComplete: S / V,
         c: s => {
             const t = w0rho2 * Math.cosh(r0) * Math.tanh(rho * s + r0) - w0rho2 * Math.sinh(r0);
             return lerp(from.center, to.center, t / u1)
