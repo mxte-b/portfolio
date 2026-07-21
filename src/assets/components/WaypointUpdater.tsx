@@ -16,7 +16,7 @@ const WaypointUpdater = (
 ) => {
 
     /**
-     * Calculates the screen-space posiiton of a waypoint marker.
+     * Calculates the screen-space position of a waypoint marker.
      * @param coordinate The global coordinate of the waypoint.
      * @param zoom The current zoom level of the viewer.
      * @param center The current center coordinate of the viewer.

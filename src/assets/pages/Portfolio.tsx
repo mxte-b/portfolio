@@ -7,6 +7,10 @@ import MandelbrotView from '../components/MandelbrotView';
 import WaypointMarker from "../components/WaypointMarker";
 import WaypointUpdater from "../components/WaypointUpdater";
 import useDevicePreferences from "../hooks/useDevicePreferences";
+import Loader from "../components/Loader";
+import useFakeProgress from "../hooks/useFakeProgress";
+import useMandelbrotStore, { initialViewState } from "../hooks/useMandelbrotStore";
+import Animator, { interpolateView } from "../utils/animator";
 
 declare global {
     interface Window {
@@ -14,7 +18,7 @@ declare global {
     }
 }
 
-const waypoints: Waypoint[] = [
+const WAYPOINTS: Waypoint[] = [
     {
         id: "aboutMe",
         label: "About Me",
@@ -29,32 +33,73 @@ const waypoints: Waypoint[] = [
         location: [0.32938, 0.039648],
         zoom: 1154
     },
-    { 
-        id: "projects",
-        label: "Projects",
-        description: "See my past projects and software that I've built.",
-        location: [-0.73979, 0.29075],
-        zoom: 712
-    },
     {
         id: "goals",
         label: "Goals",
         description: "A look into my future projects and plans.",
         location: [-1.77577, -0.00631],
         zoom: 540
+    },
+    { 
+        id: "projects",
+        label: "Projects",
+        description: "See my past projects and software that I've built.",
+        location: [-0.73979, 0.29075],
+        zoom: 712
     }
-]
+];
+
+const LOADER_TRANSITION_DURATION = 500;
+const WAYPOINT_TRANSITION_DURATION = 8000;
 
 const Portfolio = () => {
+    const moveTo = useMandelbrotStore(s => s.controls.moveTo);
     const { prefersReducedMotion } = useDevicePreferences();
+    const { progress, animationFinished, start } = useFakeProgress(1200, prefersReducedMotion ? 200 : LOADER_TRANSITION_DURATION, true, [
+        { value: 0.2, delay: 0 },
+        { value: 0.5, delay: 150 },
+        { value: 0.9, delay: 250 }
+    ])
 
-    const [movementEnabled, setMovementEnabled] = useState<boolean>(true);
-    const [animationsEnabled, setAnimationsEnabled] = useState<boolean>(true);
-    const [selectedMarkerId, setSelectedMarkerId] = useState<string | null>(null);
+    const [movementEnabled, setMovementEnabled]     = useState<boolean>(true);
+    const [animationsEnabled, setAnimationsEnabled] = useState<boolean>(!prefersReducedMotion);
+    const [selectedMarkerId, setSelectedMarkerId]   = useState<string | null>(null);
+    const [activeMarkerId, setActiveMarkerId]       = useState<string | null>(null);
 
     const canvasRectRef = useRef<DOMRect | null>(null);
-    const canvasRef = useRef<HTMLCanvasElement | null>(null);
-    const markerRefs = useRef<Map<string, HTMLDivElement>>(new Map());
+    const canvasRef     = useRef<HTMLCanvasElement | null>(null);
+    const markerRefs    = useRef<Map<string, HTMLDivElement>>(new Map());
+
+    /**
+     * Smoothly travels to the waypoint location. Handles reduced motion preferences by using a loader instead.
+     * @param waypoint The waypoint to travel to.
+     */
+    const travelTo = (location: [number, number], zoom: number) => {
+        if (prefersReducedMotion) {
+            start();
+            setTimeout(() => moveTo(location, zoom), LOADER_TRANSITION_DURATION);
+            return;
+        }
+
+        const state = useMandelbrotStore.getState().viewState;
+
+        let timeAnimator = new Animator<number>(0, 1, WAYPOINT_TRANSITION_DURATION, "easeInOut");
+
+        const path = interpolateView(
+            { center: state.center, width: 1 / state.zoom }, 
+            { center: location, width: 1 / zoom },
+        );
+
+        const animate = () => {
+            const t = timeAnimator.getValue() * path.S;
+
+            moveTo(path.c(t), 1 / path.w(t));
+
+            if (!timeAnimator.isDone()) requestAnimationFrame(animate);
+        }
+        
+        requestAnimationFrame(animate);
+    }
 
     // Cache the canvas DOMRect using a ref
     useEffect(() => {
@@ -69,25 +114,33 @@ const Portfolio = () => {
 
         return () => observer.disconnect();
     }, [canvasRef]);
+    
+    // Automatically adjust based on a change in the prefers reduced motion setting.
+    useEffect(() => setAnimationsEnabled(!prefersReducedMotion), [prefersReducedMotion])
+
+    // Start loader progress after component mount.
+    useEffect(start, [])
 
     return (
         <div className="main">
+            <Loader progress={progress} visible={!animationFinished} />
+
             <Canvas ref={canvasRef} className="viewer" frameloop="demand" dpr={1}>
+                <WaypointUpdater 
+                    waypoints={WAYPOINTS} 
+                    markerRefs={markerRefs} 
+                    rectRef={canvasRectRef} 
+                />
                 <MandelbrotView 
                     movementEnabled={movementEnabled} 
                     animationsEnabled={animationsEnabled} 
-                    rectRef={canvasRectRef} 
-                />
-                <WaypointUpdater 
-                    waypoints={waypoints} 
-                    markerRefs={markerRefs} 
                     rectRef={canvasRectRef} 
                 />
             </Canvas>
 
             <div className="waypoints">
                 { 
-                    waypoints.map((w) => (
+                    WAYPOINTS.map((w) => (
                         <WaypointMarker
                             ref={(ref) => {
                                 if (ref) markerRefs.current.set(w.id, ref);
@@ -96,9 +149,10 @@ const Portfolio = () => {
                             key={w.id}
                             waypoint={w}
                             selected={selectedMarkerId == w.id}
+                            active={activeMarkerId == w.id}
                             onClick={() => setSelectedMarkerId(w.id)}
                             onCancel={() => setSelectedMarkerId(null)}
-                            onGo={() => {}}
+                            onGo={() => { setActiveMarkerId(w.id); travelTo(w.location, w.zoom); }}
                         />)) 
                 }
             </div>
@@ -107,6 +161,8 @@ const Portfolio = () => {
                 <div className="hero__title">mate blank</div>
                 <button onClick={() => setMovementEnabled(p => !p)}>Toggle movement</button>
                 <button onClick={() => setAnimationsEnabled(p => !p)}>Toggle animations</button>
+                <button onClick={start}>Toggle loader</button>
+                <button onClick={() => travelTo(initialViewState.center, initialViewState.zoom)}>Home</button>
             </div>
         </div>
     )

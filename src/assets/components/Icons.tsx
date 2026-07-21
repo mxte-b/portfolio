@@ -9,6 +9,7 @@ import GitHub from "../icons/github.svg?react";
 import PortfolioIcon from "../icons/icon.svg?react";
 import PortfolioIconLarge from "../icons/icon-large.svg?react";
 import LinkedIn from "../icons/linkedin.svg?react";
+import Logo from "../icons/icon.svg?react";
 import MortarboardFill from "../icons/mortarboard-fill.svg?react";
 
 export type SvgIconProps = SVGProps<SVGSVGElement> & {
@@ -31,6 +32,7 @@ const Icons = {
     PortfolioIcon,
     PortfolioIconLarge,
     LinkedIn,
+    Logo,
     MortarboardFill,
 } satisfies Record<string, SvgIcon>
 

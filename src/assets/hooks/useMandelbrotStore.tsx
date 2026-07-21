@@ -1,13 +1,14 @@
 import { create } from "zustand";
 import type { MandelbrotStore, MandelbrotViewState } from "../types/mandelbrot";
 
-const initialState: MandelbrotViewState = { center: [-0.5, 0], zoom: 0.4, iterations: 200 };
+/** Represents the initial view state of the Mandelbrot viewer. */
+export const initialViewState: MandelbrotViewState = { center: [-0.5, 0], zoom: 0.4, iterations: 200 };
 
 /**
  * Zustand store exposing essential data of the current frame - such as center and zoom value - and functions that modify them.
  */
 const useMandelbrotStore = create<MandelbrotStore>()(set => ({
-    viewState: initialState,
+    viewState: initialViewState,
     controls: {
         moveTo: (target, targetZoom) => set(s => ({ 
             viewState: { ...s.viewState, center: target, zoom: targetZoom }

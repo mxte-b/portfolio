@@ -1,0 +1,38 @@
+// This file contains mixins and keyframe declarations for
+// various animations that come with reduced motion support.
+
+@keyframes fade {
+    from { 
+        opacity: 1; 
+        scale: 1; 
+    }
+
+    to { 
+        opacity: var(--min-opacity); 
+        scale: 0.95; 
+    }
+}
+
+@keyframes fade-reduced {
+    from { 
+        opacity: 1; 
+    }
+    
+    to { 
+        opacity: var(--min-opacity); 
+    }
+}
+
+@mixin fade($duration: 2s, $minOpacity: 0.1) {
+    --min-opacity: #{$minOpacity};
+
+    will-change: transform;
+    animation: fade $duration ease-in-out infinite alternate;
+
+    @media (prefers-reduced-motion: reduce) {
+        /* stylelint-disable-next-line block-no-redundant-nested-style-rules */
+        & {
+            animation: fade-reduced $duration ease infinite alternate;
+        }
+    }
+}

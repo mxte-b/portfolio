@@ -1,14 +1,5 @@
 import type { ReactNode } from "react";
 
-/** Represents the type of the useDevicePreferences hook. */
-export type DevicePreferencesContextType = { 
-    /** Indicates if the current device uses touch as input source. */
-    isTouch: boolean,
-
-    /** Reveals the value of the prefers reduced motion accessibility setting. */
-    prefersReducedMotion: boolean,
-};
-
 export type Project = {
     title: string;
     tags: string[];
@@ -39,3 +30,14 @@ export type Waypoint = {
     /** The component associated with this waypoint. */
     component?: ReactNode
 }
+
+/** Represents the type of the useDevicePreferences hook. */
+export type DevicePreferencesContextType = { 
+    /** Indicates if the current device uses touch as input source. */
+    isTouch: boolean,
+
+    /** Reveals the value of the prefers reduced motion accessibility setting. */
+    prefersReducedMotion: boolean,
+};
+
+export type Easing = "linear" | "easeIn" | "easeOut" | "easeInOut" | "easeInOutCubic";

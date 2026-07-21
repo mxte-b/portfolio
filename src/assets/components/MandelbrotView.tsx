@@ -40,9 +40,9 @@ const MandelbrotView = (
         rectRef: RefObject<DOMRect | null>
     }) => {  
 
-    const { isTouch }           = useDevicePreferences(); 
-    const { gl, viewport, invalidate }    = useThree();
-    const { moveBy, setZoom }   = useMandelbrotStore(s => s.controls);
+    const { isTouch, prefersReducedMotion }                   = useDevicePreferences(); 
+    const { moveBy, setZoom }           = useMandelbrotStore(s => s.controls);
+    const { gl, viewport, invalidate }  = useThree();
 
     const uniforms          = useMemo<ShaderUniforms>(() => {
         const rect = rectRef.current;
@@ -193,8 +193,17 @@ const MandelbrotView = (
             shouldRenderNextFrame = true;
             if (vAbsZ < EPSILON) zoomVelocityRef.current = 0;
             
+            if (prefersReducedMotion) {
+                // Zoom needs to be applied before the friction, because here the friction is 0.
+                zoomToAnchored(lastMousePositionRef.current, s.viewState.center, currentZoom, currentZoom + zoomVelocityRef.current * 0.02 * currentZoom)    
+            }
+
             zoomVelocityRef.current *= friction;
-            zoomToAnchored(lastMousePositionRef.current, s.viewState.center, currentZoom, currentZoom + zoomVelocityRef.current * 0.001 * currentZoom)
+
+            if (!prefersReducedMotion) {
+                // Apply zoom with smooth movement.
+                zoomToAnchored(lastMousePositionRef.current, s.viewState.center, currentZoom, currentZoom + zoomVelocityRef.current * 0.001 * currentZoom)
+            }
         }
 
         // Apply friction/acceleration to the time influence based on animationsEnabled
@@ -224,7 +233,7 @@ const MandelbrotView = (
     });
 
     // Change friction coefficient depending on pointer type
-    useEffect(() => { frictionCoefficientRef.current = isTouch ? 0.97 : 0.95 }, [isTouch]);
+    useEffect(() => { frictionCoefficientRef.current = (isTouch ? 0.97 : 0.95) * (prefersReducedMotion ? 0 : 1); }, [isTouch, prefersReducedMotion]);
 
     useEffect(() => {
         // In Safari, the animationsEnabled state is updated instantly which makes the animations jump.
