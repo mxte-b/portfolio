@@ -1,4 +1,4 @@
-import type { ReactNode } from "react";
+import type { ComponentType } from "react";
 
 export type Project = {
     title: string;
@@ -8,6 +8,11 @@ export type Project = {
     imageAlt?: string;
     details?: string[];
     links?: { label: string; href?: string }[];
+}
+
+export type WaypointComponentProps = {
+    waypoint: Waypoint,
+    onBack: () => void,
 }
 
 /** Represents a waypoint that is located inside the fractal and can trigger an overlay. */
@@ -28,7 +33,7 @@ export type Waypoint = {
     location: [number, number],
 
     /** The component associated with this waypoint. */
-    component?: ReactNode
+    component?: ComponentType<WaypointComponentProps>
 }
 
 /** Represents the type of the useDevicePreferences hook. */

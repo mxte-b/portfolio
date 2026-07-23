@@ -12,6 +12,10 @@ import useFakeProgress from "../hooks/useFakeProgress";
 import useMandelbrotStore, { initialViewState } from "../hooks/useMandelbrotStore";
 import Animator, { interpolateView } from "../utils/animator";
 import { clamp } from "../utils/math";
+import AboutMe from "./AboutMe";
+import Artworks from "./Artworks";
+import Goals from "./Goals";
+import Projects from "./Projects";
 
 declare global {
     interface Window {
@@ -25,28 +29,32 @@ const WAYPOINTS: Waypoint[] = [
         label: "About Me",
         description: "An overview of my background and interests.",
         location: [-0.81, -0.2025],
-        zoom: 670
+        zoom: 670,
+        component: AboutMe
     },
     {
         id: "artworks",
         label: "Artworks",
         description: "A gallery of my renders and artistic images.",
         location: [0.32938, 0.039648],
-        zoom: 1154
+        zoom: 1154,
+        component: Artworks
     },
     {
         id: "goals",
         label: "Goals",
         description: "A look into my future projects and plans.",
         location: [-1.77577, -0.00631],
-        zoom: 540
+        zoom: 540,
+        component: Goals
     },
     { 
         id: "projects",
         label: "Projects",
         description: "See my past projects and software that I've built.",
         location: [-0.73979, 0.29075],
-        zoom: 712
+        zoom: 712,
+        component: Projects
     }
 ];
 
@@ -61,10 +69,11 @@ const Portfolio = () => {
         { value: 0.9, delay: 250 }
     ])
 
-    const [movementEnabled, setMovementEnabled]     = useState<boolean>(true);
-    const [animationsEnabled, setAnimationsEnabled] = useState<boolean>(!prefersReducedMotion);
-    const [selectedMarkerId, setSelectedMarkerId]   = useState<string | null>(null);
-    const [activeMarkerId, setActiveMarkerId]       = useState<string | null>(null);
+    const [movementEnabled, setMovementEnabled]             = useState<boolean>(true);
+    const [animationsEnabled, setAnimationsEnabled]         = useState<boolean>(!prefersReducedMotion);
+    const [selectedMarkerId, setSelectedMarkerId]           = useState<string | null>(null);
+    const [activeMarkerId, setActiveMarkerId]               = useState<string | null>(null);
+    const [interactableMarkerId, setInteractableMarkerId]   = useState<string | null>(null);
 
     const canvasRectRef = useRef<DOMRect | null>(null);
     const canvasRef     = useRef<HTMLCanvasElement | null>(null);
@@ -74,7 +83,7 @@ const Portfolio = () => {
      * Smoothly travels to the waypoint location. Handles reduced motion preferences by using a loader instead.
      * @param waypoint The waypoint to travel to.
      */
-    const travelTo = (location: [number, number], zoom: number) => {
+    const travelTo = (location: [number, number], zoom: number, onTargetReached?: () => void) => {
         if (prefersReducedMotion) {
             start();
             setTimeout(() => moveTo(location, zoom), LOADER_TRANSITION_DURATION);
@@ -96,10 +105,26 @@ const Portfolio = () => {
 
             moveTo(path.c(t), 1 / path.w(t));
 
-            if (!timeAnimator.isDone()) requestAnimationFrame(animate);
+            if (timeAnimator.isDone()) {
+                onTargetReached?.();
+            }
+            else {
+                requestAnimationFrame(animate);
+            }
         }
         
         requestAnimationFrame(animate);
+    }
+
+    /** Smoothly returns to the initial view. */
+    const home = () => {
+        setActiveMarkerId(null);
+        setSelectedMarkerId(null);
+        setInteractableMarkerId(null);
+        setMovementEnabled(true);
+        setAnimationsEnabled(!prefersReducedMotion);
+        
+        travelTo(initialViewState.center, initialViewState.zoom);
     }
 
     // Cache the canvas DOMRect using a ref
@@ -151,9 +176,26 @@ const Portfolio = () => {
                             waypoint={w}
                             selected={selectedMarkerId == w.id}
                             active={activeMarkerId == w.id}
+                            interactable={interactableMarkerId == w.id }
                             onClick={() => setSelectedMarkerId(w.id)}
                             onCancel={() => setSelectedMarkerId(null)}
-                            onGo={() => { setActiveMarkerId(w.id); travelTo(w.location, w.zoom); }}
+                            onGo={() => { 
+                                setActiveMarkerId(w.id); 
+                                travelTo(w.location, w.zoom, () => { 
+                                    setMovementEnabled(false); 
+                                    setAnimationsEnabled(false);
+                                    setInteractableMarkerId(w.id);
+                                }); 
+                            }}
+                            onComponentExit={() => {
+                                setActiveMarkerId(null);
+                                setSelectedMarkerId(null);
+                                setInteractableMarkerId(null);
+                                setMovementEnabled(true);
+                                setAnimationsEnabled(!prefersReducedMotion);
+
+                                travelTo(w.location, w.zoom * 0.8);
+                            }}
                         />)) 
                 }
             </div>
@@ -163,7 +205,7 @@ const Portfolio = () => {
                 <button onClick={() => setMovementEnabled(p => !p)}>Toggle movement</button>
                 <button onClick={() => setAnimationsEnabled(p => !p)}>Toggle animations</button>
                 <button onClick={start}>Toggle loader</button>
-                <button onClick={() => travelTo(initialViewState.center, initialViewState.zoom)}>Home</button>
+                <button onClick={home}>Home</button>
             </div>
         </div>
     )

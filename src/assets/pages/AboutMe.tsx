@@ -1,10 +1,12 @@
-import Icons from "./Icons";
+import type { WaypointComponentProps } from "../types/general";
+import Icons from "../components/Icons";
 
-const AboutMe = () => {
+const AboutMe = ({ waypoint, onBack }: WaypointComponentProps) => {
     return (
         <section className="about-me" id="about-me">
             <header>
-                <div className="idx">1.</div>
+                <button onClick={onBack}>Back</button>
+                <div>Location: {waypoint.location[0]}{waypoint.location[1] < 0 ? "-" : "+"}{Math.abs(waypoint.location[1])}</div>
                 <h2 className="title">About Me</h2>
             </header>
             <div className="content">

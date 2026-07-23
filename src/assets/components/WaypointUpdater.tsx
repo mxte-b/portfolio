@@ -2,6 +2,7 @@ import { useFrame } from "@react-three/fiber";
 import type { Waypoint } from "../types/general";
 import type { RefObject } from "react";
 import useMandelbrotStore from "../hooks/useMandelbrotStore";
+import { clamp } from "../utils/math";
 
 /**
  * Updates waypoint position synchronized to the THREE.js canvas.
@@ -49,7 +50,12 @@ const WaypointUpdater = (
         for (const w of waypoints) {
             const [x, y] = getWaypointPosition(w.location, s.viewState.zoom, s.viewState.center, rect);
             const el = markerRefs.current.get(w.id);
-            if (el) el.style.transform = `translate3d(${x}px, ${y}px, 0)`;
+            if (el) {
+                const zoomRatio = s.viewState.zoom / w.zoom;
+                el.style.transform = `translate3d(${x}px, ${y}px, 0)`;
+                el.style.setProperty("--proximity-scale", `${zoomRatio}`);
+                el.style.setProperty("--proximity-opacity", `${clamp(zoomRatio, 0, 1)}`);
+            }
         }
     });
 

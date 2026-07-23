@@ -97,7 +97,9 @@ export type ViewInterpolationPath = {
 }
 
 /**
- * Smoothly interpolates between two given views. This function implements an algorithm 
+ * Smoothly interpolates between two given views. 
+ * This function implements Jarke van Wijk and Wim Nuij’s “Smooth and efficient zooming and panning” algorithm.
+ * https://scispace.com/pdf/smooth-and-efficient-zooming-and-panning-339ds7zmn1.pdf
  * @param from The starting view.
  * @param to The end view.
  * @param V Tuning variable changing the base animation speed.
@@ -112,6 +114,18 @@ export const interpolateView = (
 
     const u1 = Math.hypot(to.center[0] - from.center[0], to.center[1] - from.center[1]);
 
+    // If the distance between the to / from is too small, then interpolate the zoom only.
+    if (u1 < 1e-9) {
+        const S = Math.abs(to.width - from.width) / rho;
+
+        return {
+            S: S,
+            timeToComplete: S / V,
+            c: () => from.center,
+            w: (s) => from.width * Math.pow(to.width / from.width, s / S)
+        }
+    }
+
     const rho2 = rho * rho;
     const rho2u1 = rho2 * rho2 * u1 * u1;
 
@@ -123,8 +137,8 @@ export const interpolateView = (
     const b0 = (w1w0 + rho2u1) / (2 * w0 * rho2 * u1);
     const b1 = (w1w0 - rho2u1) / (2 * w1 * rho2 * u1);
 
-    const r0 = Math.log(-b0 + Math.sqrt(b0 * b0 + 1));
-    const r1 = Math.log(-b1 + Math.sqrt(b1 * b1 + 1));
+    const r0 = Math.asinh(-b0);
+    const r1 = Math.asinh(-b1);
 
     const S = (r1 - r0) / rho;
 

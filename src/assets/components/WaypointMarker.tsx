@@ -4,15 +4,17 @@ import { AnimatePresence, motion } from 'motion/react';
 import useDevicePreferences from "../hooks/useDevicePreferences";
 
 const WaypointMarker = (
-    { ref, waypoint, selected, active, onClick, onCancel, onGo }: 
+    { ref, waypoint, selected, active, interactable, onClick, onCancel, onGo, onComponentExit }: 
     { 
         ref: Ref<HTMLDivElement | null>
         waypoint: Waypoint, 
         selected: boolean,
         active: boolean,
+        interactable: boolean,
         onClick: () => void,
         onCancel: () => void,
-        onGo: () => void
+        onGo: () => void,
+        onComponentExit: () => void
     }) => {
 
     const { prefersReducedMotion } = useDevicePreferences();
@@ -40,6 +42,14 @@ const WaypointMarker = (
                     </motion.div>
                 }
             </AnimatePresence>
+            {
+                waypoint.component &&
+                <div className="waypoint-component" style={{ pointerEvents: interactable ? "all" : "none" }}>
+                    <div className="waypoint-component__body">
+                        <waypoint.component waypoint={waypoint} onBack={onComponentExit} />
+                    </div>
+                </div>
+            }
         </div>
     );
 };

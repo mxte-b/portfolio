@@ -25,6 +25,7 @@
         position: relative;
         width: $marker-size;
         height: $marker-size;
+        opacity: calc(1 - var(--proximity-opacity));
         transform: translate(-50%, -50%);
 
         &::after {
@@ -140,5 +141,26 @@
         background-color: $button-bg-prominent;
         color: $button-color-prominent;
         border-color: $button-border-prominent;
+    }
+}
+
+.waypoint-component {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: -1;
+    width: 100vw;
+    height: 100vh;
+    padding: 2rem;
+    background: #0c0c0cf5;
+    opacity: var(--proximity-opacity);
+    backdrop-filter: blur(5px);
+    pointer-events: none;
+    transform: translate(-50%, -50%) scale(var(--proximity-scale));
+
+    @include flex($align: flex-start);
+
+    &__body {
+        max-width: 1200px;
     }
 }
