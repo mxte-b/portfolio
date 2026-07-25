@@ -1,0 +1,55 @@
+@use "mixins" as *;
+
+.intro {
+    @include flex($align: stretch);
+
+    gap: 1rem;
+    margin-top: 2rem;
+
+    &__header {
+        font-size: 32px;
+        flex-basis: 0;
+        flex-grow: 1;
+    }
+
+    &__name {
+        padding: 0.2rem 0.5rem;
+        background-color: var(--color-accent);
+        text-shadow: none;
+    }
+
+    &__content {
+        gap: 1rem;
+        color: var(--color-secondary);
+        flex-basis: 0;
+        flex-grow: 1;
+
+        @include flex(column);
+    }
+
+    @media screen and (width <= 768px) {
+        flex-direction: column;
+    }
+}
+
+.fancy {
+    color: var(--color-primary);
+    font-family: "Playfair Display", serif;
+    font-size: 18px;
+    font-style: normal;
+}
+
+.story {
+    margin-top: 2rem;
+
+    &__header {
+        margin-bottom: 1rem;
+    }
+
+    &__content {
+        gap: 1rem;
+        color: var(--color-secondary);
+
+        @include flex(column);
+    }
+}

@@ -1,7 +1,6 @@
 @use "mixins" as *;
 
 .waypoint-marker {
-    $width: 50px;
     $marker-size: 15px;
     $marker-active-scale: 1.2;
     $marker-pulse-time: 1.5s;
@@ -18,7 +17,8 @@
     $button-border-prominent: #13c0ff;
 
     position: absolute;
-    width: $width;
+    width: $marker-size;
+    height: $marker-size;
     pointer-events: none;
     
     &__circle {
@@ -145,15 +145,19 @@
 }
 
 .waypoint-component {
+    $navbar-height: 2rem;
+
     position: absolute;
     top: 0;
     left: 0;
     z-index: -1;
+    gap: 2rem;
     width: 100vw;
     height: 100vh;
-    padding: 2rem;
-    background: #0c0c0cf5;
+    padding: calc($navbar-height + 2rem) 2rem;
+    background: radial-gradient(circle at right bottom, #200802f5, #0c0c0cf5 50%);
     opacity: var(--proximity-opacity);
+    overflow-y: auto;
     backdrop-filter: blur(5px);
     pointer-events: none;
     transform: translate(-50%, -50%) scale(var(--proximity-scale));
@@ -161,6 +165,88 @@
     @include flex($align: flex-start);
 
     &__body {
-        max-width: 1200px;
+        width: 1000px;
+        max-width: 100%;
+
+        // text-shadow: 0 0 5px rgb(12 12 12);
+
+        @include flex(column, flex-start);
+
+        section  {
+            width: 100%;
+            font-size: 18px;
+            line-height: 1.5;
+        }
+    }
+
+    &__header {
+        gap: 0.5rem;
+        width: 100%;
+        margin-top: 1rem;
+        overflow: hidden;
+
+        @include flex($justify: space-between, $align: flex-end);
+    }
+
+    &__title {
+        display: inline-flex;
+        align-items: center;
+        height: 1em;
+        font-family: "Palanquin Dark", serif;
+        font-size: clamp(50px, 5cqw, 80px);
+    }
+
+    &__back {
+        gap: 0.5rem;
+        padding: 0.5rem 0.8rem;
+        border: none;
+        background-color: #ffffff07;
+        color: var(--color-primary);
+        font-family: "Instrument Sans", sans-serif;
+        font-size: 18px;
+        transition: scale 0.2s ease, background-color 0.2s ease;
+        font-weight: 500;
+        cursor: pointer;
+
+        @include flex($align: center);
+
+        &:hover {
+            background-color: #ffffff10;
+        }
+
+        &:active {
+            scale: 0.98;
+        }
+
+        svg {
+            width: 20px;
+            height: 20px;
+        }
+    }
+
+    .divider {
+        width: 100%;
+        height: 1px;
+        background-color: white;
+        opacity: 0.5;
+        margin-block: 1rem;
+
+        &.vertical {
+            width: 1px;
+            height: auto;
+            margin: 0;
+        }
+    }
+}
+
+.waypoint-info {
+    @include flex(column, center, flex-start);
+
+    gap: 0.2rem;
+    font-size: 16px;
+    line-height: 1;
+
+    @media screen and (width <= 480px) {
+        display: none;
     }
 }

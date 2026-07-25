@@ -16,6 +16,7 @@ import AboutMe from "./AboutMe";
 import Artworks from "./Artworks";
 import Goals from "./Goals";
 import Projects from "./Projects";
+import NavBar from "../components/NavBar";
 
 declare global {
     interface Window {
@@ -181,8 +182,8 @@ const Portfolio = () => {
                             onCancel={() => setSelectedMarkerId(null)}
                             onGo={() => { 
                                 setActiveMarkerId(w.id); 
+                                setMovementEnabled(false);
                                 travelTo(w.location, w.zoom, () => { 
-                                    setMovementEnabled(false); 
                                     setAnimationsEnabled(false);
                                     setInteractableMarkerId(w.id);
                                 }); 
@@ -198,14 +199,6 @@ const Portfolio = () => {
                             }}
                         />)) 
                 }
-            </div>
-
-            <div className="hero">
-                <div className="hero__title">mate blank</div>
-                <button onClick={() => setMovementEnabled(p => !p)}>Toggle movement</button>
-                <button onClick={() => setAnimationsEnabled(p => !p)}>Toggle animations</button>
-                <button onClick={start}>Toggle loader</button>
-                <button onClick={home}>Home</button>
             </div>
         </div>
     )

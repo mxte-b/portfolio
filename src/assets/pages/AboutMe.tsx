@@ -3,60 +3,45 @@ import Icons from "../components/Icons";
 
 const AboutMe = ({ waypoint, onBack }: WaypointComponentProps) => {
     return (
-        <section className="about-me" id="about-me">
-            <header>
-                <button onClick={onBack}>Back</button>
-                <div>Location: {waypoint.location[0]}{waypoint.location[1] < 0 ? "-" : "+"}{Math.abs(waypoint.location[1])}</div>
-                <h2 className="title">About Me</h2>
-            </header>
-            <div className="content">
-                <div className="intro">
-                    <h3>My name is <i>Norman M. Blank</i>, known online as <i>mxte_b</i>.</h3>
-                    <p>I am 20 years old, and I enjoy learning and expanding my knowledge in every way I can.</p>
-                    <p>I am especially interested in Web Development, Fractal Rendering and Cryptography, and have made numerous projects related to these areas.</p>
-                    <p>Alongside my projects, I have consistently achieved outstanding academic performance for over 14 years.</p>
-                </div>
-                
-                <div className="events">
-                    <div className="events__header">
-                        <Icons.MortarboardFill className="events__icon" />
-                        <h3 className="events__title">Education</h3>
+        <section className="about-me" id="aboutMe">
+            <button className="waypoint-component__back" aria-label="Back" onClick={onBack}>
+                <Icons.ArrowLeft />
+                Back
+            </button>
+            <header className="waypoint-component__header">
+                <h2 className="waypoint-component__title">About me</h2>
+                <div className="waypoint-info">
+                    <div className="waypoint-info__location">
+                        Location: [{waypoint.location[0]}, {waypoint.location[1]}]
                     </div>
-                    <div className="events__items">
-                        <div className="event-item">
-                            <div className="event-item__body">
-                                <h4 className="event-item__title">Computer Science BSc</h4>
-                                <div className="event-item__description">University of Pannonia</div>
-                            </div>
-                            <span className="event-item__timespan">2025 - Present</span>
-                        </div>
-                        <div className="event-item">
-                            <div className="event-item__body">
-                                <h4 className="event-item__title">Software Development & Testing - Technical Diploma</h4>
-                                <div className="event-item__description">VSZC Ipari Technical Secondary School</div>
-                            </div>
-                            <span className="event-item__timespan">2020 - 2025</span>
-                        </div>
+                    <div className="waypoint-info__zoom">Zoom: {waypoint.zoom}</div>
+                </div>
+            </header>
+
+            <div className="divider" />
+
+            <div className="waypoint-component__content">
+                <div className="intro">
+                    <div className="intro__header">
+                        Hi, my name is <span className="intro__name">Norman</span>, aka mxte_b.
+                    </div>
+                    <div className="divider vertical" />
+                    <div className="intro__content">
+                        <p>I am a developer, a 3D artist, and a person who loves building things that <em className="fancy">amazes</em> people.</p>
+                        <p>I have over 5 years of experience in Web Development and Desktop Development from my educational history, with additional hands-on experience in Cryptography, Computer Algorithms, and Cybersecurity.</p>
                     </div>
                 </div>
 
-                <div className="events">
-                    <div className="events__header">
-                        <Icons.AwardFill className="events__icon" />
-                        <h3 className="events__title">Awards</h3>
-                    </div>
-                    <div className="events__items">
-                        <div className="event-item">
-                            <div className="event-item__body">
-                                <div className="event-item__title">Young Talent's Award</div>
-                                <div className="event-item__description">Awarded for outstanding academic performance and consistent excellence.</div>
-                            </div>
-                            <div className="event-item__timespan">2020</div>
-                        </div>
+                <div className="story">
+                    <h2 className="story__header">Why fractals?</h2>
+                    <div className="story__content">
+                        <p>Just by looking at this website, you can probably guess that I like fractals. I made my first Mandelbrot set renderer 3 years ago, and ever since then, I never stopped. </p>
+                        <p>The latest and greatest of mine is <em className="fancy">Fractalis</em>, which is a cross-platform escape-time fractal renderer that is fast, expandable, and supports distributed video rendering, which is a fancy way of saying you can hook up multiple devices (via LAN or VPN) and have them work together. </p>
                     </div>
                 </div>
             </div>
         </section>
+
     )
 }
 

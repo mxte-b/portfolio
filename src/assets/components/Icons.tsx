@@ -1,5 +1,6 @@
 import type { FunctionComponent, SVGProps } from "react";
 
+import ArrowLeft from "../icons/arrow-left.svg?react";
 import ArrowUpRight from "../icons/arrow-up-right.svg?react";
 import AwardFill from "../icons/award-fill.svg?react";
 import ChevronDown from "../icons/chevron-down.svg?react";
@@ -23,6 +24,7 @@ export type SvgIcon = FunctionComponent<SvgIconProps>;
 export type IconMap = Record<string, SvgIcon>;
 
 const Icons = {
+    ArrowLeft,
     ArrowUpRight,
     AwardFill,
     ChevronDown,
