@@ -1,10 +1,10 @@
 @use "mixins" as *;
 
 .intro {
-    @include flex($align: stretch);
+    @include flex(column, flex-start, flex-start);
 
     gap: 1rem;
-    margin-top: 2rem;
+    margin-top: 4rem;
 
     &__header {
         font-size: 32px;
@@ -24,7 +24,7 @@
         flex-basis: 0;
         flex-grow: 1;
 
-        @include flex(column);
+        @include flex(column, flex-start, flex-start);
     }
 
     @media screen and (width <= 768px) {
@@ -35,12 +35,12 @@
 .fancy {
     color: var(--color-primary);
     font-family: "Playfair Display", serif;
-    font-size: 18px;
+    padding-inline: 0.25rem;
     font-style: normal;
 }
 
 .story {
-    margin-top: 2rem;
+    margin-top: 4rem;
 
     &__header {
         margin-bottom: 1rem;
@@ -51,5 +51,75 @@
         color: var(--color-secondary);
 
         @include flex(column);
+    }
+}
+
+.essentials {
+    padding: 2rem;
+    background: radial-gradient(ellipse at 50% 200%, #201d1c,  var(--color-background-01) 70%);
+    margin-top: 4rem;
+
+    &__header {
+        @include flex($justify: flex-start, $align: flex-end);
+
+        gap: 2rem;
+        margin-bottom: 2rem;
+
+        @media screen and (width <= 768px) {    
+            flex-direction: column;
+            align-items: center;
+            gap: 0;
+        }
+    }
+
+    &__description {
+        color: var(--color-secondary);
+        margin-bottom: 3px;
+    }
+
+    &__content {
+        @include flex($justify: space-between);
+
+        gap: 1rem;
+
+        @media screen and (width <= 768px) {
+            flex-direction: column;
+            gap: 2rem;
+        }
+    }
+
+    &__divider {
+        width: 1px;
+        height: 35px;
+        background-color: #af6048;
+        flex-shrink: 0;
+
+        @media screen and (width <= 768px) {
+            width: 55px;
+            height: 1px;
+        }
+    }
+
+    &__item {
+        @include flex(column, flex-start, flex-start);
+
+        width: 200px;
+
+        &.center { 
+            align-items: center; 
+            width: 250px;
+            margin-inline: 1rem; 
+        }
+
+        &.right { 
+            align-items: flex-end; 
+        }
+
+        &__subtext { font-family: "Playfair Display", serif; }
+        &__main { font-size: 32px; }
+
+        @media screen and (width <= 768px) {
+            align-items: center !important;
+        }
     }
 }

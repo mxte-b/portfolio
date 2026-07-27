@@ -46,3 +46,7 @@ export type DevicePreferencesContextType = {
 };
 
 export type Easing = "linear" | "easeIn" | "easeOut" | "easeInOut" | "easeInOutCubic";
+
+export type Dimensions = { width: number, height: number };
+
+export type DrawHelper = (ctx: CanvasRenderingContext2D, dim: Dimensions) => void;

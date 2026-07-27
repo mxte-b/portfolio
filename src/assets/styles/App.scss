@@ -14,10 +14,10 @@ main {
     height: 100vh !important;
     inset: 0;
     overflow: hidden;
+    touch-action: none;
+    image-rendering: auto;
 }
 
 canvas {
-    width: 100vw !important;
-    height: 100vh !important;
     touch-action: none;
 }

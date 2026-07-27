@@ -20,9 +20,14 @@ const WaypointMarker = (
     const { prefersReducedMotion } = useDevicePreferences();
 
     return (
-        <div ref={ref} className="waypoint-marker" tabIndex={1}>
+        <div ref={ref} className="waypoint-marker">
             <div className="waypoint-marker__main">
-                <div className={`waypoint-marker__circle${selected ? " selected" : ""}`} onClick={onClick}/>
+                <div 
+                    className={`waypoint-marker__circle${selected ? " selected" : ""}`} 
+                    style={{ pointerEvents: interactable ? "none" : "all" }}
+                    onClick={onClick}
+                    tabIndex={1}
+                />
             </div>
             <AnimatePresence>
                 {

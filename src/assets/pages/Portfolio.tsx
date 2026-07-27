@@ -27,7 +27,7 @@ declare global {
 const WAYPOINTS: Waypoint[] = [
     {
         id: "aboutMe",
-        label: "About Me",
+        label: "About me",
         description: "An overview of my background and interests.",
         location: [-0.81, -0.2025],
         zoom: 670,

@@ -34,6 +34,18 @@
     font-display: swap;
 }
 
+@font-face {
+    font-family: "Computer Modern";
+    src: url("/fonts/ComputerModern/regular.woff2") format("woff2");
+    font-display: swap;
+}
+
+@font-face {
+    font-family: "Computer Modern Italic";
+    src: url("/fonts/ComputerModern/italic.woff2") format("woff2");
+    font-display: swap;
+}
+
 :root {
     /* Colors */
     --color-background: #0c0c0c;
