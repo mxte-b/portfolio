@@ -1,4 +1,4 @@
-import type { ComponentType } from "react";
+import type { ComponentType, ReactNode } from "react";
 
 export type Project = {
     title: string;
@@ -50,3 +50,17 @@ export type Easing = "linear" | "easeIn" | "easeOut" | "easeInOut" | "easeInOutC
 export type Dimensions = { width: number, height: number };
 
 export type DrawHelper = (ctx: CanvasRenderingContext2D, dim: Dimensions) => void;
+
+export type RevealParams = { 
+    /** A state whose change will
+     *  trigger the animations.
+     */
+    trigger: number,
+
+    /** The delay of the animation start in milliseconds */
+    delay: number,
+
+    /** Optional, explicit width of the wrapper. */
+    width?: string,
+    children: ReactNode
+}

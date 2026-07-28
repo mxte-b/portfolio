@@ -16,7 +16,6 @@ import AboutMe from "./AboutMe";
 import Artworks from "./Artworks";
 import Goals from "./Goals";
 import Projects from "./Projects";
-import NavBar from "../components/NavBar";
 
 declare global {
     interface Window {
@@ -186,6 +185,7 @@ const Portfolio = () => {
                                 travelTo(w.location, w.zoom, () => { 
                                     setAnimationsEnabled(false);
                                     setInteractableMarkerId(w.id);
+                                    window.dispatchEvent(new Event("component-enter"))
                                 }); 
                             }}
                             onComponentExit={() => {

@@ -1,24 +1,24 @@
 import type { WaypointComponentProps } from "../types/general";
-import Icons from "../components/Icons";
-import WaypointInfo from "../components/WaypointInfo";
+import { useEffect, useState } from "react";
+import WaypointHeader from "../components/WaypointHeader";
 
 const AboutMe = ({ waypoint, onBack }: WaypointComponentProps) => {
+
+    const [animationTrigger, setAnimationTrigger] = useState<number>(0);
+
+    useEffect(() => {
+        const handleEnter = () => {
+            setAnimationTrigger(p => p + 1);
+        }
+
+        window.addEventListener("component-enter", handleEnter);
+
+        return () => window.removeEventListener("component-enter", handleEnter);
+    }, []);
+
     return (
         <section className="about-me" id="aboutMe">
-            <button className="waypoint-component__back" aria-label="Back" onClick={onBack}>
-                <Icons.ArrowLeft />
-                Back
-            </button>
-            <div className="waypoint-component__top">
-                <header className="waypoint-component__header">
-                    <h2 className="waypoint-component__title">{waypoint.label}</h2>
-                    <div className="waypoint-component__subtext">{waypoint.description}</div>
-                </header>
-
-                <WaypointInfo location={waypoint.location} zoom={waypoint.zoom} />
-            </div>
-            
-            <div className="divider" />
+            <WaypointHeader waypoint={waypoint} trigger={animationTrigger} onBack={onBack} />
 
             <div className="waypoint-component__content">
                 <div className="intro">
