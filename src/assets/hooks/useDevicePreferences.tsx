@@ -1,12 +1,12 @@
 import { createContext, useContext, useEffect, useState, type ReactNode } from "react";
-import type { DevicePreferencesContextType } from "../types/general";
+import type { DevicePreferencesContextValue } from "../types/general";
 
 const QUERIES = {
     isTouch: window.matchMedia('(pointer: coarse)'),
     prefersReducedMotion: window.matchMedia('(prefers-reduced-motion: reduce)')
 }
 
-const DevicePreferencesContext = createContext<DevicePreferencesContextType | undefined>(undefined);
+const DevicePreferencesContext = createContext<DevicePreferencesContextValue | undefined>(undefined);
 
 export const DevicePreferencesProvider = ({ children }: { children: ReactNode }) => {
     const [isTouch, setIsTouch] = useState<boolean>(QUERIES.isTouch.matches);

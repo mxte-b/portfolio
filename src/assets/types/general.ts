@@ -10,12 +10,9 @@ export type Project = {
     links?: { label: string; href?: string }[];
 }
 
-export type WaypointComponentProps = {
-    waypoint: Waypoint,
-    onBack: () => void,
-}
-
-/** Represents a waypoint that is located inside the fractal and can trigger an overlay. */
+/** 
+ * Represents a waypoint that is located inside the fractal and can trigger an overlay. 
+ */
 export type Waypoint = {
     /** The unique identifier of the waypoint. */
     id: string,
@@ -36,8 +33,35 @@ export type Waypoint = {
     component?: ComponentType<WaypointComponentProps>
 }
 
-/** Represents the type of the useDevicePreferences hook. */
-export type DevicePreferencesContextType = { 
+export type Easing = "linear" | "easeIn" | "easeOut" | "easeInOut" | "easeInOutCubic";
+
+export type Dimensions = { width: number, height: number };
+
+export type DrawHelper = (ctx: CanvasRenderingContext2D, dim: Dimensions) => void;
+
+/* -------------------------------------------------------------------------- */
+/*                          Component property types                          */
+/* -------------------------------------------------------------------------- */
+
+export type WaypointComponentProps = {
+    waypoint: Waypoint,
+    onBack: () => void,
+}
+
+export type RevealParams = { 
+    /** Optional, explicit width of the wrapper. */
+    width?: string,
+    className?: string,
+    children: ReactNode,
+}
+
+/* -------------------------------------------------------------------------- */
+/*                             Context value types                            */
+/* -------------------------------------------------------------------------- */
+/** 
+ * Represents the type of the useDevicePreferences hook. 
+ */
+export type DevicePreferencesContextValue = { 
     /** Indicates if the current device uses touch as input source. */
     isTouch: boolean,
 
@@ -45,22 +69,10 @@ export type DevicePreferencesContextType = {
     prefersReducedMotion: boolean,
 };
 
-export type Easing = "linear" | "easeIn" | "easeOut" | "easeInOut" | "easeInOutCubic";
+export type RevealAnimationContextValue = {
+    /** The current animation state. */
+    revealed: boolean,
 
-export type Dimensions = { width: number, height: number };
-
-export type DrawHelper = (ctx: CanvasRenderingContext2D, dim: Dimensions) => void;
-
-export type RevealParams = { 
-    /** A state whose change will
-     *  trigger the animations.
-     */
-    trigger: number,
-
-    /** The delay of the animation start in milliseconds */
-    delay: number,
-
-    /** Optional, explicit width of the wrapper. */
-    width?: string,
-    children: ReactNode
+    /** A registration function returning the delay value (in milliseconds) assigned to the caller. */
+    acquireDelay: () => number,
 }

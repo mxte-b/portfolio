@@ -8,7 +8,7 @@ import { useEffect, useState } from "react";
  * @param anchors The list of anchor points.
  * @returns 
  */
-const useFakeProgress = (duration: number, transitionDuration: number, jitter: boolean, anchors : { value: number, delay: number }[])
+const useFakeProgress = (duration: number, transitionDuration: number, jitter: boolean, anchors: { value: number, delay: number }[])
 : {
     /** The current progress value in the range [0, 1]. */
     progress: number, 
