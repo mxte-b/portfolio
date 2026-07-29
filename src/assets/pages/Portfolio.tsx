@@ -185,7 +185,13 @@ const Portfolio = () => {
                                 travelTo(w.location, w.zoom, () => { 
                                     setAnimationsEnabled(false);
                                     setInteractableMarkerId(w.id);
-                                    window.dispatchEvent(new Event("component-enter"))
+
+                                    window.dispatchEvent(new CustomEvent<{ waypointId: string }>(
+                                        "component-enter", 
+                                        { 
+                                            detail: { waypointId: w.id } 
+                                        }
+                                    ));
                                 }); 
                             }}
                             onComponentExit={() => {

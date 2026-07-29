@@ -21,8 +21,11 @@ const WaypointPage = (
     const [revealed, setRevealed] = useState<boolean>(false);
 
     useEffect(() => {
-        const handleEnter = () => {
-            setRevealed(true);
+        const handleEnter = (e: CustomEvent<{ waypointId: string }>) => {
+            console.log(e.detail.waypointId, waypoint.id)
+            if (e.detail.waypointId === waypoint.id) {
+                setRevealed(true);
+            }
         }
 
         window.addEventListener("component-enter", handleEnter);

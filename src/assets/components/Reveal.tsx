@@ -38,7 +38,6 @@ const Reveal = ({ width, className, children }: RevealParams) => {
             style={width ? { width: width } : { width: "fit-content" }}
             transition={{ delay: delay / 1000 }}
             className={className}
-            data-animation-delay={delay}
         >
             {children}
         </motion.div>

@@ -1,5 +1,11 @@
 import type { ComponentType, ReactNode } from "react";
 
+declare global {
+    interface WindowEventMap {
+        "component-enter": CustomEvent<{ waypointId: string }>
+    }
+}
+
 export type Project = {
     title: string;
     tags: string[];
