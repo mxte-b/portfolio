@@ -3,6 +3,7 @@ import { motion } from "motion/react";
 import { RevealAnimationProvider } from "../hooks/useRevealAnimation";
 import type { Waypoint } from "../types/general";
 import WaypointHeader from "./WaypointHeader";
+import WaypointRevealOverlay from "./WaypointRevealOverlay";
 
 const WaypointPage = (
     { 
@@ -22,7 +23,6 @@ const WaypointPage = (
 
     useEffect(() => {
         const handleEnter = (e: CustomEvent<{ waypointId: string }>) => {
-            console.log(e.detail.waypointId, waypoint.id)
             if (e.detail.waypointId === waypoint.id) {
                 setRevealed(true);
             }
@@ -35,6 +35,7 @@ const WaypointPage = (
 
     return (
         <RevealAnimationProvider revealed={revealed} stagger={50}>
+            <WaypointRevealOverlay label={waypoint.label + '.'} />
             <motion.section className={label} id={label}>
                 <WaypointHeader waypoint={waypoint} onBack={onBack} />
                 <div className="waypoint-component__content">

@@ -164,6 +164,13 @@
 
     @include flex($align: flex-start);
 
+    &__overlay {
+        position: absolute;
+        inset: 0;
+
+        @include flex;
+    }
+
     &__body {
         width: 1000px;
         max-width: 100%;

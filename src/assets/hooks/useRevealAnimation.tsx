@@ -24,7 +24,18 @@ export const RevealAnimationProvider = (
     </RevealAnimationContext.Provider>
 };
 
-/** Provides access to an animation trigger value. Used for Reveal and Stagger components. */
+/** Provides access to an animation trigger value. */
+export const useRevealState = () => {
+    const context = useContext(RevealAnimationContext);
+    if (context === undefined) throw new Error("useAnimationTrigger must be used inside of an AnimationTriggerProvider.");
+
+    return context.revealed;
+}
+
+/** 
+ * Provides access to an animation trigger value and an assigned delay. 
+ * Used for Reveal and Stagger components. 
+ */
 export const useRevealAnimation = (): {
     /** The current animation state. */
     revealed: boolean,
