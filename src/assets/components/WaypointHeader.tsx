@@ -23,7 +23,7 @@ const WaypointHeader = ({ waypoint, onBack }: { waypoint: Waypoint, onBack: () =
                 </header>
 
                 <Reveal>
-                    <WaypointInfo location={waypoint.location} zoom={waypoint.zoom} />
+                    <WaypointInfo location={waypoint.location} />
                 </Reveal>
             </div>
 

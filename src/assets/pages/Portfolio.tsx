@@ -86,7 +86,10 @@ const Portfolio = () => {
     const travelTo = (location: [number, number], zoom: number, onTargetReached?: () => void) => {
         if (prefersReducedMotion) {
             start();
-            setTimeout(() => moveTo(location, zoom), LOADER_TRANSITION_DURATION);
+            setTimeout(() => {
+                moveTo(location, zoom); 
+                onTargetReached?.();
+            }, LOADER_TRANSITION_DURATION);
             return;
         }
 

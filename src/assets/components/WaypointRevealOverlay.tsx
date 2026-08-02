@@ -1,17 +1,35 @@
-import { motion } from "motion/react";
 import { useRevealState } from "../hooks/useRevealAnimation";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
+import { gsap } from "gsap";
+import { SplitText } from "gsap/SplitText";
+import useDevicePreferences from "../hooks/useDevicePreferences";
 
-const WaypointRevealOverlay = ({ label }: { label: string }) => {
+const WaypointRevealOverlay = ({ label, duration }: { label: string, duration: number }) => {
     const revealed = useRevealState();
+    const { prefersReducedMotion } = useDevicePreferences();
+    const overlayRef = useRef<HTMLDivElement | null>(null);
+
+    useEffect(() => {
+        if (!revealed || prefersReducedMotion) return;
+
+        const split = SplitText.create(overlayRef.current, { type: "chars,words" });
+
+        gsap.to(split.chars, {
+            yPercent: 100,
+            opacity: 0,
+            stagger: {
+                from: "end",
+                amount: 0.05,
+            },
+            ease: "power2.inOut",
+            duration: duration / 1000,
+        });
+    }, [revealed]);
 
     return (
-        <motion.div
-            className="waypoint-component__overlay"
-            initial={{ opacity: 1 }}
-        >
-            {label}
-        </motion.div>
+        <div style={{ visibility: prefersReducedMotion ? "hidden" : "visible" }} className="waypoint-component__overlay">
+            <div ref={overlayRef} className="waypoint-component__overlay__container">{label}</div>
+        </div>
     );
 };
 

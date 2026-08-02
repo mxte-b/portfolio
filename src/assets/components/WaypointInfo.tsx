@@ -24,7 +24,7 @@ const CIRCLE_BASE_COLOR = "#E46C16";
 const CIRCLE_BORDER_COLOR = "#FFA270";
 const CIRCLE_RADIUS = 4;
 
-const WaypointInfo = ({ location, zoom }: { location: [number, number], zoom: number }) => {
+const WaypointInfo = ({ location }: { location: [number, number] }) => {
 
     const [fontsReady, setFontsReady] = useState<boolean>(false);
 
@@ -249,7 +249,7 @@ const WaypointInfo = ({ location, zoom }: { location: [number, number], zoom: nu
     }, []);
 
     return (
-        <canvas ref={canvasRef} className="waypoint-info" width={200 * window.devicePixelRatio} height={125 * window.devicePixelRatio} />
+        <canvas aria-label="Current location" ref={canvasRef} className="waypoint-info" width={200 * window.devicePixelRatio} height={125 * window.devicePixelRatio} />
     );
 };
 

@@ -166,9 +166,18 @@
 
     &__overlay {
         position: absolute;
+        z-index: 10;
+        padding: 2rem;
+        font-family: Orbitron, sans-serif;
+        font-size: clamp(40px, 15vw, 250px);
+        pointer-events: none;
+        font-weight: 900;
         inset: 0;
+        line-height: clamp(40px, 12vw, 250px);
+        font-kerning: none;
+        text-rendering: optimizespeed;
 
-        @include flex;
+        @include flex(row, flex-start, flex-end);
     }
 
     &__body {

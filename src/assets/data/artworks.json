@@ -1,0 +1,135 @@
+[
+    {
+        "sourceName": "ascii_mandelbulb",
+        "kind": "fractals",
+        "title": "ASCII Mandelbulb",
+        "subtitle": "Artistic ASCII effect applied to an old render with Fractalis.",
+        "year": 2026
+    },
+    {
+        "sourceName": "boat",
+        "kind": "blender",
+        "title": "Old boat in a new world",
+        "subtitle": "Experimenting with realistic water shading and coloring.",
+        "year": 2026
+    },
+    {
+        "sourceName": "corridor",
+        "kind": "blender",
+        "title": "Abstract corridor",
+        "subtitle": "The inspiration was a mathematical accident I had while making 'Crystal Tube' :)",
+        "year": 2026
+    },
+    {
+        "sourceName": "crystal_tube",
+        "kind": "blender",
+        "title": "Crystal Tube",
+        "subtitle": "I imagined what a symmetric crystal cave would look like.",
+        "year": 2026
+    },
+    {
+        "sourceName": "distance",
+        "kind": "fractals",
+        "title": "Distance Estimation",
+        "subtitle": "This technique reveals the details of the fractal much better than escape-time coloring.",
+        "year": 2024
+    },
+    {
+        "sourceName": "exit_void",
+        "kind": "blender",
+        "title": "Exit Void",
+        "subtitle": "Backrooms inspired scene. This was my first project after returning to Blender.",
+        "year": 2026
+    },
+    {
+        "sourceName": "flake",
+        "kind": "fractals",
+        "title": "Flake",
+        "subtitle": "Found by accident when exploring a deep-zoom location. Personally considered one of my bests of this category.",
+        "year": 2026
+    },
+    {
+        "sourceName": "flowers",
+        "kind": "fractals",
+        "title": "Vibrant Flowers",
+        "subtitle": "Tuned the color palette to make it more like a flower with a yellow center.",
+        "year": 2024
+    },
+    {
+        "sourceName": "hotel",
+        "kind": "blender",
+        "title": "Liminal Hotel",
+        "subtitle": "My first ever recreation of a real photo. The layout and details took lots of work :)",
+        "year": 2026
+    },
+    {
+        "sourceName": "lake",
+        "kind": "blender",
+        "title": "Abstract Lake",
+        "subtitle": "Practicing rock sculpting. Making them look realistic is kind of hard...",
+        "year": 2026
+    },
+    {
+        "sourceName": "menger",
+        "kind": "blender",
+        "title": "Menger Sponge",
+        "subtitle": "Experimenting with fractal rendering in Blender.",
+        "year": 2023
+    },
+    {
+        "sourceName": "moons",
+        "kind": "blender",
+        "title": "Moons",
+        "subtitle": "My interest in space made it inevitable to create a render like this.",
+        "year": 2024
+    },
+    {
+        "sourceName": "morphing",
+        "kind": "fractals",
+        "title": "Deep Julia Morphing",
+        "subtitle": "Exploring advanced techniques to find interesting locations in the Mandelbrot set.",
+        "year": 2026
+    }, 
+    {
+        "sourceName": "oceanic",
+        "kind": "fractals",
+        "title": "Oceanic Structures",
+        "subtitle": "One of my older works, it shows a busy part of the Mandelbrot set that looks like a coral reef.",
+        "year": 2024
+    },
+    {
+        "sourceName": "panorama",
+        "kind": "blender",
+        "title": "A Foreign World",
+        "subtitle": "This image composition is exactly how I imagine living in another solar system looks like.",
+        "year": 2026   
+    },
+    {
+        "sourceName": "poolrooms",
+        "kind": "blender",
+        "title": "The Poolrooms",
+        "subtitle": "Based on a great tutorial on how to create a poolside environment.",
+        "year": 2026
+    },
+    {
+        "sourceName": "shoreline",
+        "kind": "fractals",
+        "title": "Fractal Shoreline",
+        "subtitle": "When I first saw this area, I immediately thought it's similar to a satellite image of a shoreline.",
+        "year": 2023
+    },
+    {
+        "sourceName": "storm_of_ares",
+        "kind": "blender",
+        "title": "Storm of Ares",
+        "subtitle": "An abstract scene that depicts strange architecture lost in the dusty environment of the desert.",
+        "year": 2026
+    },
+    {
+        "sourceName": "valley_of_spirals",
+        "kind": "fractals",
+        "title": "Valley of Spirals",
+        "subtitle": "A 'minibrot' embedded into lots of spirals. I used slope shading to add more depth to the image.",
+        "year": 2024
+    }
+]

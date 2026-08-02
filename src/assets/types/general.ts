@@ -6,14 +6,26 @@ declare global {
     }
 }
 
+export type Image = {
+    uri: string,
+    alt?: string
+}
+
 export type Project = {
     title: string;
     tags: string[];
     description: string;
-    image?: string;
-    imageAlt?: string;
+    image?: Image,
     details?: string[];
     links?: { label: string; href?: string }[];
+}
+
+export type Artwork = {
+    kind: "fractals" | "blender",
+    title: string,
+    subtitle: string,
+    year: number,
+    sourceName: string,
 }
 
 /** 

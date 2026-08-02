@@ -5,6 +5,8 @@ import type { Waypoint } from "../types/general";
 import WaypointHeader from "./WaypointHeader";
 import WaypointRevealOverlay from "./WaypointRevealOverlay";
 
+const REVEAL_DURATION = 800;
+
 const WaypointPage = (
     { 
         waypoint, 
@@ -34,14 +36,14 @@ const WaypointPage = (
     }, []);
 
     return (
-        <RevealAnimationProvider revealed={revealed} stagger={50}>
-            <WaypointRevealOverlay label={waypoint.label + '.'} />
-            <motion.section className={label} id={label}>
+        <RevealAnimationProvider revealed={revealed} stagger={50} delay={REVEAL_DURATION}>
+            <WaypointRevealOverlay label={waypoint.label + '.'} duration={REVEAL_DURATION} />
+            <motion.main className={label} id={label}>
                 <WaypointHeader waypoint={waypoint} onBack={onBack} />
                 <div className="waypoint-component__content">
                     {children}
                 </div>
-            </motion.section>
+            </motion.main>
         </RevealAnimationProvider>
     );
 };
