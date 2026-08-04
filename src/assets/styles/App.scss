@@ -1,5 +1,6 @@
 @use "hero";
 @use "aboutMe";
+@use "artworks";
 @use "waypoints";
 @use "loader";
 
@@ -11,7 +12,7 @@ main {
 .viewer {
     position: fixed !important;
     width: 100vw !important;
-    height: 100vh !important;
+    height: 100dvh !important;
     inset: 0;
     overflow: hidden;
     touch-action: none;

@@ -50,9 +50,7 @@ const WaypointMarker = (
             {
                 waypoint.component &&
                 <div className="waypoint-component" style={{ pointerEvents: interactable ? "all" : "none" }}>
-                    <div className="waypoint-component__body">
-                        <waypoint.component waypoint={waypoint} onBack={onComponentExit} />
-                    </div>
+                    <waypoint.component waypoint={waypoint} onBack={onComponentExit} />
                 </div>
             }
         </div>

@@ -91,6 +91,13 @@
         "year": 2026
     }, 
     {
+        "sourceName": "shoreline",
+        "kind": "fractals",
+        "title": "Fractal Shoreline",
+        "subtitle": "When I first saw this area, I immediately thought it's similar to a satellite image of a shoreline.",
+        "year": 2023
+    },
+    {
         "sourceName": "oceanic",
         "kind": "fractals",
         "title": "Oceanic Structures",
@@ -102,7 +109,7 @@
         "kind": "blender",
         "title": "A Foreign World",
         "subtitle": "This image composition is exactly how I imagine living in another solar system looks like.",
-        "year": 2026   
+        "year": 2026
     },
     {
         "sourceName": "poolrooms",
@@ -110,13 +117,6 @@
         "title": "The Poolrooms",
         "subtitle": "Based on a great tutorial on how to create a poolside environment.",
         "year": 2026
-    },
-    {
-        "sourceName": "shoreline",
-        "kind": "fractals",
-        "title": "Fractal Shoreline",
-        "subtitle": "When I first saw this area, I immediately thought it's similar to a satellite image of a shoreline.",
-        "year": 2023
     },
     {
         "sourceName": "storm_of_ares",

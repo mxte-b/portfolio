@@ -1,3 +1,4 @@
+import type { HTMLElements } from "motion/react";
 import type { ComponentType, ReactNode } from "react";
 
 declare global {
@@ -25,7 +26,7 @@ export type Artwork = {
     title: string,
     subtitle: string,
     year: number,
-    sourceName: string,
+    sourceName: string
 }
 
 /** 
@@ -67,8 +68,16 @@ export type WaypointComponentProps = {
 }
 
 export type RevealParams = { 
-    /** Optional, explicit width of the wrapper. */
+    /** Defines the HTML element type that the Reveal will use. Defaults to \<div\>. */
+    as?: keyof HTMLElements,
+
+    /** Explicit width of the wrapper. Defaults to "fit-content". */
     width?: string,
+
+    /** Explicit height of the wrapper. Defaults to "auto". */
+    height?: string,
+
+    /** Explicit class name of the wrapper. */
     className?: string,
     children: ReactNode,
 }

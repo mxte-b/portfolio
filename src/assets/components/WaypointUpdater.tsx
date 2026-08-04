@@ -53,7 +53,7 @@ const WaypointUpdater = (
             if (el) {
                 const zoomRatio = s.viewState.zoom / w.zoom;
                 el.style.transform = `translate3d(${x}px, ${y}px, 0)`;
-                el.style.setProperty("--proximity-scale", `${zoomRatio}`);
+                el.style.setProperty("--proximity-scale", `${clamp(zoomRatio, 0, 10)}`);
                 el.style.setProperty("--proximity-opacity", `${clamp(Math.pow(zoomRatio, 0.5), 0, 1)}`);
             }
         }

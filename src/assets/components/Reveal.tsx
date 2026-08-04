@@ -1,10 +1,12 @@
-import { useEffect } from "react";
+import { useEffect, useMemo} from "react";
 import type { RevealParams } from "../types/general";
 import { motion, useAnimationControls, type Variants } from "motion/react";
 import { useRevealAnimation } from "../hooks/useRevealAnimation";
 import useDevicePreferences from "../hooks/useDevicePreferences";
 
-const Reveal = ({ width, className, children }: RevealParams) => {
+const Reveal = ({ as = "div", width, height, className, children }: RevealParams) => {
+    const MotionComponent = useMemo(() => motion.create(as), []);
+
     const controls = useAnimationControls();
     const { prefersReducedMotion } = useDevicePreferences();
     const { revealed, delay } = useRevealAnimation();
@@ -33,16 +35,18 @@ const Reveal = ({ width, className, children }: RevealParams) => {
     }, [revealed]);
 
     return (
-        <motion.div
+        <MotionComponent
             variants={variants}
             initial="hidden"
             animate={controls}
-            style={width ? { width: width } : { width: "fit-content" }}
+            style={ 
+                { width: width ?? "fit-content", height: height ?? "auto" }
+            }
             transition={{ delay: prefersReducedMotion ? 0 : delay / 1000 }}
             className={className}
         >
             {children}
-        </motion.div>
+        </MotionComponent>
     );
 };
 
