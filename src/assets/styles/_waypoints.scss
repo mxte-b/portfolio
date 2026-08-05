@@ -20,6 +20,7 @@
     width: $marker-size;
     height: $marker-size;
     pointer-events: none;
+    touch-action: none;
     
     &__circle {
         position: relative;
@@ -153,7 +154,7 @@
     z-index: -1;
     gap: 2rem;
     width: 100vw;
-    height: 100dvh;
+    height: calc(100svh - 1px);
     padding: calc($navbar-height + 2rem) 2rem;
     background: radial-gradient(circle at right bottom, #200802f5, #0c0c0cf5 50%);
     opacity: var(--proximity-opacity);

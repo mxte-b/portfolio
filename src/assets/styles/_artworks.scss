@@ -25,6 +25,8 @@
         flex-grow: 1;
         flex-basis: content;
         overflow: hidden;
+        clip-path: inset(0);
+        transform: translateZ(0);
 
         &:hover {
             .artwork-details {
@@ -60,7 +62,7 @@
     padding: 0.25rem 0.5rem;
     background-color: var(--color-accent);
     transition: transform 0.2s ease;
-    transform: translateY(100%);
+    transform: translateY(101%);
 }
 
 footer {
