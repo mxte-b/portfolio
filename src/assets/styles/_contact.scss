@@ -1,0 +1,87 @@
+@use "mixins" as *;
+
+.contact-methods {
+    border: 1px solid var(--color-background-02);
+    background: linear-gradient(to bottom, var(--color-background-02), var(--color-background-01) 50%);
+    margin-top: 2rem;
+    padding-bottom: 2rem;
+
+    &__header {
+        @include flex(column, flex-start, flex-start);
+
+        padding: 1.5rem 2rem;
+        padding-bottom: 0;
+
+        h4 {
+            font-size: 32px;
+            font-weight: normal;
+        }
+
+        p {
+            color: var(--color-secondary);
+            margin-bottom: 4px;
+        }
+    }
+}
+
+.header__inline {
+    @include flex(row, flex-start, flex-end);
+
+    gap: 2rem;
+
+    @media screen and (width <= 768px) {
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: flex-start;
+        gap: 0;
+    }
+}
+
+.contact-method {
+    position: relative;
+    padding: 1rem;
+    transition: transform 0.3s ease;
+    cursor: pointer;
+    margin-inline: 2rem;
+    list-style-type: none;
+    overflow: hidden;
+    
+    &__background {
+        position: absolute;
+        z-index: -1;
+        background-color: var(--color-accent);
+        inset: 0;
+    }
+
+    &__icon {
+        width: 30px;
+        height: 30px;
+        flex-shrink: 0;
+    }
+
+    &__title {
+        font-weight: 600;
+        flex-grow: 1;
+        line-height: 100%;
+        margin-bottom: 2px;
+    }
+
+    &__cta {
+        width: 20px;
+        height: 20px;
+        flex-shrink: 0;
+    }
+
+    a {
+        gap: 1rem;
+        width: 100%;
+        color: var(--color-primary);
+        text-decoration: none;
+
+        @include flex(row, flex-start, flex-end);
+    }
+
+    &:active {
+        transform: scale(0.99);
+    }
+}

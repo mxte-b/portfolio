@@ -58,6 +58,18 @@ export type Dimensions = { width: number, height: number };
 
 export type DrawHelper = (ctx: CanvasRenderingContext2D, dim: Dimensions) => void;
 
+/** Represents a responsive masonry grouping for an arbitrary amount of images. */
+export type MasonryGrouping = {
+    /** Grouping for large displays such as desktops or laptops. */
+    large: Artwork[][], 
+
+    /** Grouping for medium-sized displays. */
+    medium: Artwork[][], 
+
+    /** Grouping for small displays. */
+    small: Artwork[][]
+}
+
 /* -------------------------------------------------------------------------- */
 /*                          Component property types                          */
 /* -------------------------------------------------------------------------- */

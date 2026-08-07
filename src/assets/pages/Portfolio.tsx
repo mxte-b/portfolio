@@ -14,7 +14,7 @@ import Animator, { interpolateView } from "../utils/animator";
 import { clamp } from "../utils/math";
 import AboutMe from "./AboutMe";
 import Artworks from "./Artworks";
-import Goals from "./Goals";
+import Contact from "./Contact";
 import Projects from "./Projects";
 
 declare global {
@@ -41,12 +41,12 @@ const WAYPOINTS: Waypoint[] = [
         component: Artworks
     },
     {
-        id: "goals",
-        label: "Goals",
-        description: "A look into my future projects and plans.",
+        id: "contact",
+        label: "Contact",
+        description: "An overview of my contact methods.",
         location: [-1.77577, -0.00631],
         zoom: 540,
-        component: Goals
+        component: Contact
     },
     { 
         id: "projects",
@@ -132,7 +132,6 @@ const Portfolio = () => {
 
     // Cache the canvas DOMRect using a ref
     useEffect(() => {
-        console.log(prefersReducedMotion)
         const canvas = canvasRef.current;
         if (!canvas) return;
 

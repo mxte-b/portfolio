@@ -37,7 +37,7 @@ const Reveal = ({ as = "div", width, height, className, children }: RevealParams
     return (
         <MotionComponent
             variants={variants}
-            initial="hidden"
+            initial={revealed ? "visible" : "hidden"}
             animate={controls}
             style={ 
                 { width: width ?? "fit-content", height: height ?? "auto" }

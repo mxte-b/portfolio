@@ -49,7 +49,6 @@
 
         flex: 1;
         gap: 0.5rem;
-        max-width: 350px;
     }
 }
 
@@ -63,12 +62,29 @@
     background-color: var(--color-accent);
     transition: transform 0.2s ease;
     transform: translateY(101%);
+
+    @include flex($justify: space-between, $align: flex-end);
+
+    &__year {
+        font-size: 16px;
+        margin-bottom: 2px;
+    }
+
+    @media (pointer: coarse) {
+        transform: translateY(0) !important;
+        
+        &__title { font-size: 16px; }
+
+        &__year { 
+            font-size: 14px; 
+            margin-bottom: 0;
+        }
+    }
 }
 
 footer {
     padding: 2rem;
     color: var(--color-secondary);
     font-size: 14px;
-    margin-top: 2rem;
     text-align: center;
 }

@@ -26,7 +26,6 @@ const WaypointMarker = (
                     className={`waypoint-marker__circle${selected ? " selected" : ""}`} 
                     style={{ pointerEvents: interactable ? "none" : "all" }}
                     onClick={onClick}
-                    tabIndex={1}
                 />
             </div>
             <AnimatePresence>

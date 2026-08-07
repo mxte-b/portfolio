@@ -14,7 +14,7 @@ const Footer = () => {
                     <nav className="footer__links">
                         <a href="https://github.com/mxte-b" className="footer__link" target="_blank" rel="noreferrer" title="https://github.com/mxte-b"><Icons.GitHub /></a>
                         <a href="https://linkedin.com/in/mxteb" className="footer__link" target="_blank" rel="noreferrer" title="https://linkedin.com/in/mxteb"><Icons.LinkedIn /></a>
-                        <a href="mailto:hello@mxteb.dev" className="footer__link" title="mailto:hello@mxteb.dev"><Icons.EnveopeFill /></a>
+                        <a href="mailto:hello@mxteb.dev" className="footer__link" title="mailto:hello@mxteb.dev"><Icons.EnvelopeFill /></a>
                     </nav>
                 </div>
 

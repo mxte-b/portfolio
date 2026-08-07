@@ -97,13 +97,14 @@
 }
 
 html {
-    min-height: 100dvh;
+    height: 100dvh;
     background-color: var(--color-background);
     scrollbar-width: none;
+    clip-path: inset(0);
 }
 
 body {
-    min-height: 100dvh;
+    height: 100dvh;
     background-color: var(--color-background);
     color: var(--color-primary);
     font-family: "Instrument Sans", sans-serif;
@@ -117,5 +118,5 @@ body::-webkit-scrollbar {
 }
 
 #root {
-    min-height: 100dvh;
+    height: 100dvh;
 }

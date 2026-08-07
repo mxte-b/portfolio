@@ -4,7 +4,7 @@ import ArrowLeft from "../icons/arrow-left.svg?react";
 import ArrowUpRight from "../icons/arrow-up-right.svg?react";
 import AwardFill from "../icons/award-fill.svg?react";
 import ChevronDown from "../icons/chevron-down.svg?react";
-import EnveopeFill from "../icons/envelope-fill.svg?react";
+import EnvelopeFill from "../icons/envelope-fill.svg?react";
 import GeoAltFill from "../icons/geo-alt-fill.svg?react";
 import GitHub from "../icons/github.svg?react";
 import PortfolioIcon from "../icons/icon.svg?react";
@@ -28,7 +28,7 @@ const Icons = {
     ArrowUpRight,
     AwardFill,
     ChevronDown,
-    EnveopeFill,
+    EnvelopeFill,
     GeoAltFill,
     GitHub,
     PortfolioIcon,
