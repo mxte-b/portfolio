@@ -4,6 +4,8 @@ import type { RefObject } from "react";
 import useMandelbrotStore from "../hooks/useMandelbrotStore";
 import { clamp } from "../utils/math";
 
+const MARKER_SIZE_HALF = 7.5;
+
 /**
  * Updates waypoint position synchronized to the THREE.js canvas.
  */
@@ -47,13 +49,38 @@ const WaypointUpdater = (
         if (!rect) return;
 
         const s = useMandelbrotStore.getState();
+        const viewportWidth = window.innerWidth;
+        const viewportHeight = window.innerHeight;
+
         for (const w of waypoints) {
             const [x, y] = getWaypointPosition(w.location, s.viewState.zoom, s.viewState.center, rect);
             const el = markerRefs.current.get(w.id);
+            
             if (el) {
-                const zoomRatio = s.viewState.zoom / w.zoom;
+                const zoomRatio = clamp(s.viewState.zoom / w.zoom, 0, 10);
+                const screenWidthHalf = viewportWidth * zoomRatio / 2;
+                const screenHeightHalf = viewportHeight * zoomRatio / 2;
+
+                // If the component is smaller than the marker circle then we don't
+                // have to do AABB testing for it.
+                if (screenWidthHalf < MARKER_SIZE_HALF) {
+                    // Marker circle AABB testing
+                    if (x < -MARKER_SIZE_HALF || x > viewportWidth + MARKER_SIZE_HALF || y < -MARKER_SIZE_HALF || y > viewportHeight + MARKER_SIZE_HALF) {
+                        el.style.display = "none";
+                        continue;
+                    }
+                }
+                else {
+                    // Component AABB testing
+                    if (x < -screenWidthHalf || x > viewportWidth + screenWidthHalf || y < -screenHeightHalf || y > viewportHeight + screenHeightHalf) {
+                        el.style.display = "none";
+                        continue;
+                    }
+                }
+
+                el.style.display = "block";
                 el.style.transform = `translate3d(${x}px, ${y}px, 0)`;
-                el.style.setProperty("--proximity-scale", `${clamp(zoomRatio, 0, 10)}`);
+                el.style.setProperty("--proximity-scale", `${zoomRatio}`);
                 el.style.setProperty("--proximity-opacity", `${clamp(Math.pow(zoomRatio, 0.5), 0, 1)}`);
             }
         }
