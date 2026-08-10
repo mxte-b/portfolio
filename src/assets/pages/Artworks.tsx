@@ -1,3 +1,4 @@
+import ResponsiveImage from "../components/ResponsiveImage";
 import Reveal from "../components/Reveal";
 import Stagger from "../components/Stagger";
 import WaypointPage from "../components/WaypointPage";
@@ -50,25 +51,7 @@ const Artworks = ({ waypoint, onBack }: WaypointComponentProps) => {
                 {
                     g.map(a => 
                         <Reveal as={"li"} key={a.sourceName} className="artwork-masonry__item" height="100%" width="100%">
-                            <picture>
-                                <source
-                                    type="image/avif"
-                                    srcSet={`
-                                        /media/artworks/generated/${a.sourceName}-350.avif 350w,
-                                        /media/artworks/generated/${a.sourceName}-700.avif 700w,
-                                    `}
-                                    sizes="(max-width: 768px) 50vw, 350px"
-                                />
-                                <source
-                                    type="image/webp"
-                                    srcSet={`
-                                        /media/artworks/generated/${a.sourceName}-350.webp 350w,
-                                        /media/artworks/generated/${a.sourceName}-700.webp 700w,
-                                    `}
-                                    sizes="(max-width: 768px) 50vw, 350px"
-                                />
-                                <img draggable={false} src={`/media/artworks/generated/${a.sourceName}-700.webp`} loading="lazy" />
-                            </picture>
+                            <ResponsiveImage category="artworks" sourceName={a.sourceName} />
                             <div className="artwork-details">
                                 <h4 className="artwork-details__title">{a.title}</h4>
                                 <p className="artwork-details__year">{a.year}</p>

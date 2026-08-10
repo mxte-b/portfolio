@@ -1,0 +1,11 @@
+{
+    "targetFormats": ["avif", "webp"],
+    "targetWidths": {
+        "artworks": [350, 700, 1400],
+        "projects": [500, 1000, 1500]
+    },
+    "sizes": {
+        "artworks": "(max-width: 768px) 50vw, 350px",
+        "projects": "(max-width: 768px) 50vw, 500px"
+    }
+}

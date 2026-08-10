@@ -64,21 +64,30 @@ const WaypointUpdater = (
                 // If the component is smaller than the marker circle then we don't
                 // have to do AABB testing for it.
                 if (screenWidthHalf < MARKER_SIZE_HALF) {
+                    el.classList.add("component-hidden");
+
+                    const circleOutside = 
+                        x < -MARKER_SIZE_HALF || 
+                        x > viewportWidth + MARKER_SIZE_HALF || 
+                        y < -MARKER_SIZE_HALF || 
+                        y > viewportHeight + MARKER_SIZE_HALF;
+
                     // Marker circle AABB testing
-                    if (x < -MARKER_SIZE_HALF || x > viewportWidth + MARKER_SIZE_HALF || y < -MARKER_SIZE_HALF || y > viewportHeight + MARKER_SIZE_HALF) {
-                        el.style.display = "none";
-                        continue;
-                    }
+                    el.classList[circleOutside ? "add" : "remove"]("hidden");
+                    if (circleOutside) continue;
                 }
                 else {
+                    const componentOutside = 
+                        x < -screenWidthHalf || 
+                        x > viewportWidth + screenWidthHalf || 
+                        y < -screenHeightHalf || 
+                        y > viewportHeight + screenHeightHalf;
+
                     // Component AABB testing
-                    if (x < -screenWidthHalf || x > viewportWidth + screenWidthHalf || y < -screenHeightHalf || y > viewportHeight + screenHeightHalf) {
-                        el.style.display = "none";
-                        continue;
-                    }
+                    el.classList[componentOutside ? "add" : "remove"]("hidden", "component-hidden");
+                    if (componentOutside) continue;
                 }
 
-                el.style.display = "block";
                 el.style.transform = `translate3d(${x}px, ${y}px, 0)`;
                 el.style.setProperty("--proximity-scale", `${zoomRatio}`);
                 el.style.setProperty("--proximity-opacity", `${clamp(Math.pow(zoomRatio, 0.5), 0, 1)}`);

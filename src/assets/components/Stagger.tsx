@@ -1,11 +1,13 @@
 import { Children, isValidElement } from "react";
 import type { RevealParams } from "../types/general";
-import { motion } from "motion/react";
 import Reveal from "./Reveal";
 
-const Stagger = ({ width, className, children }: RevealParams) => {
+const Stagger = ({ as = "div", width, className, children }: RevealParams) => {
+
+    const Component = as;
+
     return (
-        <motion.div className={className} style={{ width: width ?? "fit-content" }}>
+        <Component className={className} style={{ width: width ?? "fit-content" }}>
             {
                 Children.map(children, c => {
                     if (!isValidElement(c) || c.type === Stagger) return c;
@@ -13,7 +15,7 @@ const Stagger = ({ width, className, children }: RevealParams) => {
                     return <Reveal>{c}</Reveal>
                 })
             }
-        </motion.div>
+        </Component>
     );
 };
 

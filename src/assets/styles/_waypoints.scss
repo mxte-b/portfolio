@@ -21,6 +21,14 @@
     height: $marker-size;
     pointer-events: none;
     touch-action: none;
+
+    &.hidden {
+        display: none;
+    }
+
+    &.component-hidden > .waypoint-component {
+        display: none;
+    }
     
     &__circle {
         position: relative;
@@ -229,6 +237,10 @@
             width: 20px;
             height: 20px;
         }
+    }
+
+    &__content {
+        padding-bottom: 2rem;
     }
 
     .divider {

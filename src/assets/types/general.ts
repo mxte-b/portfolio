@@ -12,13 +12,21 @@ export type Image = {
     alt?: string
 }
 
-export type Project = {
-    title: string;
-    tags: string[];
-    description: string;
-    image?: Image,
-    details?: string[];
-    links?: { label: string; href?: string }[];
+type Project = {
+    id: string,
+    title: string,
+    tags: string[],
+    description: string,
+    href?: string,
+}
+
+export type FeaturedProject = Project & {
+    details: string[];
+    sourceName: string,
+}
+
+export type SmallProject = Project & {
+    protected?: boolean;
 }
 
 export type Artwork = {

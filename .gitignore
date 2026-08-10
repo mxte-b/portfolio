@@ -23,4 +23,5 @@ dist-ssr
 *.sln
 *.sw?
 
-public/media/artworks/
+public/images/
+assets/images/

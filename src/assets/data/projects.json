@@ -1,0 +1,66 @@
+{
+    "featured": [
+        {
+            "id": "nebula_manager",
+            "title": "Nebula Manager",
+            "tags": ["Tauri", "Desktop App"],
+            "description": "A modern, hassle-free password manager focused on data locality and privacy.",
+            "sourceName": "nebula_manager",
+            "imageAlt": "Image of the user interface of Nebula Manager",
+            "details": [
+                "My goal with this project was to build a fully-featured password manager I could truly trust with my own credentials.",
+                "In contrast to many password managers, this project keeps everything local and puts ownership in the user's hands. It features quality-of-life features, like a quick-access overlay that lets you retrieve any password in seconds."
+            ],
+            "href": "https://github.com/mxte-b/nebula-manager"
+        },
+        {
+            "id": "fractalis",
+            "title": "Fractalis",
+            "tags": ["C#", "Fractals", "Networking"],
+            "description": "A feature-packed, cross-platform fractal renderer focused on performance and extensibility.",
+            "sourceName": "fractalis",
+            "imageAlt": "An image of the Fractalis icon overlayed on top of a fractal image.",
+            "details": [
+                "This is the pinnacle of my long-standing interest in fractals. I made this program as a base for all my future fractal projects.",
+                "Currently it includes multiple fractals with vectorized code, in addition to locally distributed video rendering, which makes rendering extremely deep locations a breeze."
+            ],
+            "href": "https://github.com/mxte-b/fractalis"
+        },
+        {
+            "id": "qray",
+            "title": "QRay",
+            "tags": ["C#", "From Scratch"],
+            "sourceName": "qray",
+            "imageAlt": "Image of the console output of QRay",
+            "description": "A QR Code Generator made from scratch, using the ISO specification.",
+            "details": [
+                "Implementing QR Code generation was something that I found very interesting, and I have attempted it once before QRay, however I wasn't satisfied with the result.",
+                "This is why I gave it another go, and the result was a clean, maintainable and readable C# implementation of the ISO/IEC 18004:2024 spec."
+            ],
+            "href": "https://github.com/mxte-b/QRay"
+        }
+    ],
+    "other": [
+        {
+            "id": "aes",
+            "title": "AES Encryption",
+            "tags": ["C#", "From Scratch"],
+            "description": "A full implementation of the AES Encryption algorithm, written from scratch.",
+            "href": "https://github.com/mxte-b/AES"
+        },
+        {
+            "id": "fractal-sfml",
+            "title": "Fractal Raymarcher",
+            "tags": ["C++", "SFML", "Raymarching"],
+            "description": "A real-time fractal explorer with realistic lighting, camera effects, and freecam controls.",
+            "href": "https://github.com/mxte-b/fractal-sfml"
+        },
+        {
+            "id": "florens_botanica",
+            "title": "Florens Botanica e-commerce",
+            "tags": ["End-to-End", "Academic"],
+            "description": "A fully-featured e-commerce website using PHP backend, and HTML/CSS/JS for the frontend. Made for academic purposes.",
+            "protected": true
+        }
+    ]
+}

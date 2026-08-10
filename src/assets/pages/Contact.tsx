@@ -1,4 +1,4 @@
-import { useEffect, useRef, type JSX, type RefObject } from "react";
+import { useEffect, useRef, type JSX } from "react";
 import Icons from "../components/Icons";
 import Reveal from "../components/Reveal";
 import WaypointPage from "../components/WaypointPage";

@@ -1,6 +1,8 @@
 import type { Easing } from "../types/general";
 import { CubicBezier } from "./cubicBezier";
 
+const EPSILON = 1e-9;
+
 type Animatable = number | [number, number];
 
 const lerp = <T extends Animatable>(x1: T, x2: T, t: number): T => {
@@ -115,8 +117,17 @@ export const interpolateView = (
     const u1 = Math.hypot(to.center[0] - from.center[0], to.center[1] - from.center[1]);
 
     // If the distance between the to / from is too small, then interpolate the zoom only.
-    if (u1 < 1e-9) {
-        const S = Math.abs(to.width - from.width) / rho;
+    if (u1 < EPSILON) {
+        const dz = Math.abs(to.width - from.width);
+        
+        if (dz < EPSILON) return {
+            S: 0,
+            timeToComplete: 0,
+            c: () => from.center,
+            w: () => from.width
+        }
+
+        const S = dz / rho;
 
         return {
             S: S,

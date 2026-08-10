@@ -1,22 +1,16 @@
 import { useState } from "react";
-import type { Project } from "../types/general";
+import type { FeaturedProject } from "../types/general";
 import { motion } from "motion/react";
 import Icons from "./Icons";
+import ResponsiveImage from "./ResponsiveImage";
 
-const ProjectCard = ({ project, imagePlacement = "left" }: { project: Project, imagePlacement?: "left" | "right" }) => {
+const FeaturedProjectCard = ({ project, imagePlacement = "left" }: { project: FeaturedProject, imagePlacement?: "left" | "right" }) => {
     const [expanded, setExpanded] = useState(false);
     const detailsId = `details-${project.title.replace(/\s+/g, "-").toLowerCase()}`;
 
     return (
         <li className="project" data-image-placement={imagePlacement}>
-            {project.image && (
-                <img
-                    draggable={false}
-                    src={project.image}
-                    alt={project.imageAlt}
-                    className="project__image"
-                />
-            )}
+            <ResponsiveImage className="project__image" category="projects" sourceName={project.sourceName} />
 
             <div className="project__body">
                 <div className="project__header">
@@ -62,24 +56,17 @@ const ProjectCard = ({ project, imagePlacement = "left" }: { project: Project, i
                         </button>
                     }
                     {
-                        project.links?.map((link) =>
-                            link.href ? (
-                                <a
-                                    key={link.label}
-                                    href={link.href}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    className="project__link"
-                                >
-                                    {link.label}
-                                    <Icons.ArrowUpRight />
-                                </a>
-                            ) : (
-                                <span key={link.label} className="project__link--static">
-                                    {link.label}
-                                </span>
-                            )
-                        )
+                        project.href && 
+                        <a
+                            key={project.href}
+                            href={project.href}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="project__link"
+                        >
+                            Source
+                            <Icons.ArrowUpRight />
+                        </a>
                     }
                 </div>
             </div>
@@ -87,4 +74,4 @@ const ProjectCard = ({ project, imagePlacement = "left" }: { project: Project, i
     );
 };
 
-export default ProjectCard;
+export default FeaturedProjectCard;
