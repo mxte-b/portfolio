@@ -270,7 +270,7 @@
 
 .waypoint-overlay {
     position: absolute;
-    bottom: 2rem;
+    bottom: 4rem;
     left: 2rem;
     z-index: 10;
     font-family: Orbitron, sans-serif;
@@ -280,4 +280,9 @@
     line-height: clamp(40px, 12vw, 250px);
     font-kerning: none;
     text-rendering: optimizespeed;
+
+    &__container > div {
+        padding-inline: 0.2em;
+        margin-inline: -0.2em;
+    }
 }

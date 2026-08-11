@@ -12,10 +12,10 @@ const WaypointRevealOverlay = ({ label, duration }: { label: string, duration: n
     useEffect(() => {
         if (!revealed || prefersReducedMotion) return;
 
-        const split = SplitText.create(overlayRef.current, { type: "chars,words" });
+        const split = SplitText.create(overlayRef.current, { type: "chars" });
 
         gsap.to(split.chars, {
-            yPercent: 100,
+            yPercent: 150,
             opacity: 0,
             stagger: {
                 from: "end",

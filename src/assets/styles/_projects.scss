@@ -185,7 +185,7 @@
 
     &__link--static {
         color: var(--color-secondary);
-        font-size: 0.8125rem;
+        font-size: 14px;
     }
 
     @media screen and (width >= 768px) {
@@ -267,7 +267,7 @@
 .project-small {
     @include flex(column, flex-start, stretch);
 
-    gap: 0.625rem;
+    gap: 11px;
     height: 100%;
     padding: 1rem;
     border: 1px solid var(--color-border);
@@ -298,14 +298,14 @@
         border: 1px solid var(--color-border);
         background-color: var(--color-background-03);
         font-family: "JetBrains Mono", monospace;
-        font-size: 0.625rem;
+        font-size: 11px;
         text-transform: uppercase;
         letter-spacing: 0.04em;
     }
 
     &__description {
         color: var(--color-secondary);
-        font-size: 0.875rem;
+        font-size: 16px;
         line-height: 1.55;
         flex-grow: 1;
     }

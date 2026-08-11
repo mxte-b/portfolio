@@ -1,4 +1,4 @@
-import { createContext, useContext, useEffect, useRef, type ReactNode } from "react";
+import { createContext, useContext, useRef, type ReactNode } from "react";
 import type { RevealAnimationContextValue } from "../types/general";
 
 const RevealAnimationContext = createContext<RevealAnimationContextValue | undefined>(undefined);
@@ -13,12 +13,19 @@ export const RevealAnimationProvider = (
     }
 ) => {
     const indexRef = useRef<number>(0);
-
-    useEffect(() => { indexRef.current = 0 }, []);
+    const delayMapRef = useRef<Map<string, number>>(new Map());
 
     return <RevealAnimationContext.Provider value={{
         revealed: revealed,
-        acquireDelay: () => indexRef.current++ * stagger + delay
+        acquireDelay: (id: string | undefined) => {
+            if (!id) return indexRef.current++ * stagger + delay;
+
+            if (!delayMapRef.current.has(id)) {
+                delayMapRef.current.set(id, indexRef.current++ * stagger + delay);
+            }
+
+            return delayMapRef.current.get(id)!;
+        }
     }}>
         {children}
     </RevealAnimationContext.Provider>
@@ -36,7 +43,7 @@ export const useRevealState = () => {
  * Provides access to an animation trigger value and an assigned delay. 
  * Used for Reveal and Stagger components. 
  */
-export const useRevealAnimation = (): {
+export const useRevealAnimation = (id: string | undefined = undefined): {
     /** The current animation state. */
     revealed: boolean,
     
@@ -48,7 +55,7 @@ export const useRevealAnimation = (): {
 
     const delayRef = useRef<number | null>(null);
 
-    if (delayRef.current === null) delayRef.current = context.acquireDelay();
+    if (delayRef.current === null) delayRef.current = context.acquireDelay(id);
 
     return {
         revealed: context.revealed,

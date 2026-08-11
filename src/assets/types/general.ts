@@ -99,7 +99,16 @@ export type RevealParams = {
 
     /** Explicit class name of the wrapper. */
     className?: string,
+
+    /** Identifier of the component. Keeps the delay stable even when remounting an element. */
+    id?: string,
+
     children: ReactNode,
+}
+
+export type StaggerParams = Omit<RevealParams, "id"> & {
+    /** A function that assigns a stable key to each child element of the Stagger component. */
+    id?: (i: number) => string
 }
 
 /* -------------------------------------------------------------------------- */
@@ -121,5 +130,5 @@ export type RevealAnimationContextValue = {
     revealed: boolean,
 
     /** A registration function returning the delay value (in milliseconds) assigned to the caller. */
-    acquireDelay: () => number,
+    acquireDelay: (id: string | undefined) => number,
 }

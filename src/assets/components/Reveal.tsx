@@ -4,12 +4,12 @@ import { motion, useAnimationControls, type Variants } from "motion/react";
 import { useRevealAnimation } from "../hooks/useRevealAnimation";
 import useDevicePreferences from "../hooks/useDevicePreferences";
 
-const Reveal = ({ as = "div", width, height, className, children }: RevealParams) => {
-    const MotionComponent = useMemo(() => motion.create(as), []);
+const Reveal = ({ as = "div", width, height, className, id, children }: RevealParams) => {
+    const MotionComponent = useMemo(() => motion.create(as), [as]);
 
     const controls = useAnimationControls();
     const { prefersReducedMotion } = useDevicePreferences();
-    const { revealed, delay } = useRevealAnimation();
+    const { revealed, delay } = useRevealAnimation(id);
 
     const variants: Variants = {
         hidden: {
