@@ -114,9 +114,7 @@ export type StaggerParams = Omit<RevealParams, "id"> & {
 /* -------------------------------------------------------------------------- */
 /*                             Context value types                            */
 /* -------------------------------------------------------------------------- */
-/** 
- * Represents the type of the useDevicePreferences hook. 
- */
+/** Represents the type of the useDevicePreferences hook. */
 export type DevicePreferencesContextValue = { 
     /** Indicates if the current device uses touch as input source. */
     isTouch: boolean,
@@ -125,10 +123,16 @@ export type DevicePreferencesContextValue = {
     prefersReducedMotion: boolean,
 };
 
+/** Represents the type of the useRevealAnimation hook. */
 export type RevealAnimationContextValue = {
     /** The current animation state. */
     revealed: boolean,
 
     /** A registration function returning the delay value (in milliseconds) assigned to the caller. */
     acquireDelay: (id: string | undefined) => number,
+}
+
+/** Represents the type of the useRouter hook. */
+export type RouterContextValue = {
+    navigate: (waypointId: string) => void
 }

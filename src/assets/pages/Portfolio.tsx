@@ -1,62 +1,17 @@
-import Lenis from "lenis";
 import { Canvas } from '@react-three/fiber';
 import { useEffect, useRef, useState } from 'react';
 
-import type { Waypoint } from "../types/general";
+import { clamp } from "../utils/math";
+import waypoints from "../data/waypoints";
+import Loader from "../components/Loader";
+import useFakeProgress from "../hooks/useFakeProgress";
 import MandelbrotView from '../components/MandelbrotView';
 import WaypointMarker from "../components/WaypointMarker";
 import WaypointUpdater from "../components/WaypointUpdater";
-import useDevicePreferences from "../hooks/useDevicePreferences";
-import Loader from "../components/Loader";
-import useFakeProgress from "../hooks/useFakeProgress";
-import useMandelbrotStore, { initialViewState } from "../hooks/useMandelbrotStore";
 import Animator, { interpolateView } from "../utils/animator";
-import { clamp } from "../utils/math";
-import AboutMe from "./AboutMe";
-import Artworks from "./Artworks";
-import Contact from "./Contact";
-import Projects from "./Projects";
-
-declare global {
-    interface Window {
-        lenis: Lenis;
-    }
-}
-
-const WAYPOINTS: Waypoint[] = [
-    {
-        id: "aboutMe",
-        label: "About me",
-        description: "An overview of my background and interests.",
-        location: [-0.81, -0.2025],
-        zoom: 670,
-        component: AboutMe
-    },
-    {
-        id: "artworks",
-        label: "Artworks",
-        description: "A gallery of my renders and artistic images.",
-        location: [0.32938, 0.039648],
-        zoom: 1154,
-        component: Artworks
-    },
-    {
-        id: "contact",
-        label: "Contact",
-        description: "An overview of my contact methods.",
-        location: [-1.77577, -0.00631],
-        zoom: 540,
-        component: Contact
-    },
-    { 
-        id: "projects",
-        label: "Projects",
-        description: "See my past projects and software that I've built.",
-        location: [-0.73979, 0.29075],
-        zoom: 712,
-        component: Projects
-    }
-];
+import useDevicePreferences from "../hooks/useDevicePreferences";
+import useMandelbrotStore from "../hooks/useMandelbrotStore";
+import { RouterProvider } from '../hooks/useRouter';
 
 const LOADER_TRANSITION_DURATION = 500;
 
@@ -69,11 +24,11 @@ const Portfolio = () => {
         { value: 0.9, delay: 250 }
     ])
 
-    const [movementEnabled, setMovementEnabled]             = useState<boolean>(true);
+    const [movementEnabled, setMovementEnabled]             = useState<boolean>(false);
     const [animationsEnabled, setAnimationsEnabled]         = useState<boolean>(!prefersReducedMotion);
-    const [selectedMarkerId, setSelectedMarkerId]           = useState<string | null>(null);
-    const [activeMarkerId, setActiveMarkerId]               = useState<string | null>(null);
-    const [interactableMarkerId, setInteractableMarkerId]   = useState<string | null>(null);
+    const [selectedMarkerId, setSelectedMarkerId]           = useState<string | null>("home");
+    const [activeMarkerId, setActiveMarkerId]               = useState<string | null>("home");
+    const [interactableMarkerId, setInteractableMarkerId]   = useState<string | null>("home");
 
     const canvasRectRef = useRef<DOMRect | null>(null);
     const canvasRef     = useRef<HTMLCanvasElement | null>(null);
@@ -124,10 +79,33 @@ const Portfolio = () => {
         setActiveMarkerId(null);
         setSelectedMarkerId(null);
         setInteractableMarkerId(null);
-        setMovementEnabled(true);
         setAnimationsEnabled(!prefersReducedMotion);
         
-        travelTo(initialViewState.center, initialViewState.zoom);
+        travelTo([-0.5, 0], 0.4, () => setMovementEnabled(true));
+    }
+
+    const handleNavigate = (waypointId: string | "default") => {
+        if (waypointId === "default") return home();
+
+        const target = waypoints.find(x => x.id === waypointId);
+        if (!target) return;
+
+        setSelectedMarkerId(waypointId);
+        setActiveMarkerId(waypointId); 
+        setInteractableMarkerId(null);
+        setMovementEnabled(false);
+
+        travelTo(target.location, target.zoom, () => { 
+            setAnimationsEnabled(false);
+            setInteractableMarkerId(waypointId);
+
+            window.dispatchEvent(new CustomEvent<{ waypointId: string }>(
+                "component-enter", 
+                { 
+                    detail: { waypointId: waypointId } 
+                }
+            ));
+        }); 
     }
 
     // Cache the canvas DOMRect using a ref
@@ -150,65 +128,52 @@ const Portfolio = () => {
     useEffect(start, [])
 
     return (
-        <div className="main">
-            <Loader progress={progress} visible={!animationFinished} />
+        <RouterProvider navigate={handleNavigate}>
+            <div className="main">
+                <Loader progress={progress} visible={!animationFinished} />
 
-            <Canvas ref={canvasRef} className="viewer" frameloop="demand" dpr={1}>
-                <WaypointUpdater 
-                    waypoints={WAYPOINTS} 
-                    markerRefs={markerRefs} 
-                    rectRef={canvasRectRef} 
-                />
-                <MandelbrotView 
-                    movementEnabled={movementEnabled} 
-                    animationsEnabled={animationsEnabled} 
-                    rectRef={canvasRectRef} 
-                />
-            </Canvas>
+                <Canvas ref={canvasRef} className="viewer" frameloop="demand" dpr={1}>
+                    <WaypointUpdater 
+                        waypoints={waypoints} 
+                        markerRefs={markerRefs} 
+                        rectRef={canvasRectRef} 
+                    />
+                    <MandelbrotView 
+                        movementEnabled={movementEnabled} 
+                        animationsEnabled={animationsEnabled} 
+                        rectRef={canvasRectRef} 
+                    />
+                </Canvas>
 
-            <div className="waypoints">
-                { 
-                    WAYPOINTS.map((w) => (
-                        <WaypointMarker
-                            ref={(ref) => {
-                                if (ref) markerRefs.current.set(w.id, ref);
-                                return () => { markerRefs.current.delete(w.id); }
-                            }}
-                            key={w.id}
-                            waypoint={w}
-                            selected={selectedMarkerId == w.id}
-                            active={activeMarkerId == w.id}
-                            interactable={interactableMarkerId == w.id }
-                            onClick={() => setSelectedMarkerId(w.id)}
-                            onCancel={() => setSelectedMarkerId(null)}
-                            onGo={() => { 
-                                setActiveMarkerId(w.id); 
-                                setMovementEnabled(false);
-                                travelTo(w.location, w.zoom, () => { 
-                                    setAnimationsEnabled(false);
-                                    setInteractableMarkerId(w.id);
+                <div className="waypoints">
+                    { 
+                        waypoints.map((w) => (
+                            <WaypointMarker
+                                ref={(ref) => {
+                                    if (ref) markerRefs.current.set(w.id, ref);
+                                    return () => { markerRefs.current.delete(w.id); }
+                                }}
+                                key={w.id}
+                                waypoint={w}
+                                selected={selectedMarkerId == w.id}
+                                active={activeMarkerId == w.id}
+                                interactable={interactableMarkerId == w.id }
+                                onClick={() => setSelectedMarkerId(w.id)}
+                                onCancel={() => setSelectedMarkerId(null)}
+                                onGo={() => handleNavigate(w.id)} 
+                                onComponentExit={() => {
+                                    setActiveMarkerId(null);
+                                    setSelectedMarkerId(null);
+                                    setInteractableMarkerId(null);
+                                    setAnimationsEnabled(!prefersReducedMotion);
 
-                                    window.dispatchEvent(new CustomEvent<{ waypointId: string }>(
-                                        "component-enter", 
-                                        { 
-                                            detail: { waypointId: w.id } 
-                                        }
-                                    ));
-                                }); 
-                            }}
-                            onComponentExit={() => {
-                                setActiveMarkerId(null);
-                                setSelectedMarkerId(null);
-                                setInteractableMarkerId(null);
-                                setMovementEnabled(true);
-                                setAnimationsEnabled(!prefersReducedMotion);
-
-                                travelTo(w.location, w.zoom * 0.8);
-                            }}
-                        />)) 
-                }
+                                    travelTo(w.location, w.zoom * 0.8, () => setMovementEnabled(true));
+                                }}
+                            />)) 
+                    }
+                </div>
             </div>
-        </div>
+        </RouterProvider>
     )
 }
 
