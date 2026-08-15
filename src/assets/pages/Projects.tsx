@@ -8,7 +8,7 @@ import Reveal from "../components/Reveal";
 
 const Projects = ({ waypoint, onBack }: WaypointComponentProps) => {
     return (
-        <WaypointPage waypoint={waypoint} label={"projects"} onBack={onBack}>
+        <WaypointPage waypoint={waypoint} onBack={onBack}>
             <div className="project-categories">
                 <section className="project-category">
                     <Stagger as="header" className="project-category__header">

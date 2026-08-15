@@ -20,7 +20,7 @@ const WaypointMarker = (
     const { prefersReducedMotion } = useDevicePreferences();
 
     return (
-        <div ref={ref} className="waypoint-marker">
+        <div ref={ref} className="waypoint-marker" id={waypoint.id}>
             <div className="waypoint-marker__main">
                 <div 
                     className={`waypoint-marker__circle${selected ? " selected" : ""}`} 

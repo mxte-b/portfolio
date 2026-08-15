@@ -1,4 +1,4 @@
-import Hero from "../components/Hero";
+import Hero from "../pages/Hero";
 import AboutMe from "../pages/AboutMe";
 import Artworks from "../pages/Artworks";
 import Contact from "../pages/Contact";
@@ -6,14 +6,6 @@ import Projects from "../pages/Projects";
 import type { Waypoint } from "../types/general";
 
 const waypoints: Waypoint[] = [
-    {
-        id: "home",
-        label: "Home",
-        description: "What normally is the top of the page.",
-        location: [-0.92347, 0.29193],
-        zoom: 2370,
-        component: Hero
-    },
     {
         id: "aboutMe",
         label: "About me",
@@ -45,7 +37,15 @@ const waypoints: Waypoint[] = [
         location: [-0.73979, 0.29075],
         zoom: 712,
         component: Projects
-    }
+    },
+    {
+        id: "home",
+        label: "Home",
+        description: "What normally is the top of the page.",
+        location: [-0.92347, 0.293],
+        zoom: 2360,
+        component: Hero
+    },
 ];
 
 export default waypoints;

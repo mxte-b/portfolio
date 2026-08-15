@@ -55,7 +55,7 @@ const MandelbrotView = (
     }, []);
     
     const timeInfluenceRef          = useRef<number>(0);
-    const uTimeRef                  = useRef<number>(0);
+    const uTimeRef                  = useRef<number>(6);
     const zoomVelocityRef           = useRef<number>(0);
     const frictionCoefficientRef    = useRef<number>(0.95);
     const animationsEnabledRef      = useRef<boolean>(true);

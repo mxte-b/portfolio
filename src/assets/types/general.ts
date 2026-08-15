@@ -1,9 +1,11 @@
 import type { HTMLElements } from "motion/react";
 import type { ComponentType, ReactNode } from "react";
+import type ComponentEvent from "../utils/componentEvent";
 
 declare global {
     interface WindowEventMap {
-        "component-enter": CustomEvent<{ waypointId: string }>
+        "component-enter": ComponentEvent,
+        "component-exit": ComponentEvent
     }
 }
 

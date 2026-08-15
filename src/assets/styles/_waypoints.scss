@@ -154,19 +154,19 @@
 }
 
 .waypoint-component {
-    $navbar-height: 2rem;
+    $navbar-height: 4.25rem;
 
     position: fixed;
     top: 0;
     left: 0;
     z-index: -1;
-    gap: 2rem;
     width: 100vw;
     height: calc(100svh + 1px);
-    padding: calc($navbar-height + 2rem) 2rem;
+    padding: calc($navbar-height) 2rem;
     background: radial-gradient(circle at right bottom, #200802f5, #0c0c0cf5 50%);
-    opacity: var(--proximity-opacity);
+    opacity: var(--proximity-opacity);  
     overflow-y: auto;
+    scrollbar-width: none;
     backdrop-filter: blur(5px);
     pointer-events: none;
     transform: translate(-50%, -50%) scale(var(--proximity-scale));
@@ -256,6 +256,14 @@
             margin: 0;
         }
     }
+}
+
+#home > .waypoint-component {
+    background: url("/images/scatter (2).png");
+    background-repeat: repeat;
+    background-size: 30px 100%;
+
+    // backdrop-filter: none !important;
 }
 
 .waypoint-info {

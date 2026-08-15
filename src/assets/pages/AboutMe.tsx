@@ -5,7 +5,7 @@ import WaypointPage from "../components/WaypointPage";
 
 const AboutMe = ({ waypoint, onBack }: WaypointComponentProps) => {
     return (
-        <WaypointPage waypoint={waypoint} onBack={onBack} label="about-me">
+        <WaypointPage waypoint={waypoint} onBack={onBack}>
             <div className="intro">
                 <Reveal className="intro__header">
                     Hi, my name is <span className="intro__name">Norman</span>, aka mxte_b.

@@ -10,7 +10,7 @@ export const RouterProvider = ({ navigate, children }: { navigate: (waypointId: 
 }
 
 const useRouter = (): {
-    navigate: (waypointId: string) => void
+    navigate: (waypointId: string, callback?: () => void) => void
 } => {
     const context = useContext(RouterContext);
     if (!context) throw new Error("useRouter should only be used inside a RouterProvider.");

@@ -1,8 +1,13 @@
 import { create } from "zustand";
 import type { MandelbrotStore, MandelbrotViewState } from "../types/mandelbrot";
+import waypoints from "../data/waypoints";
 
 /** Represents the initial view state of the Mandelbrot viewer. */
-export const initialViewState: MandelbrotViewState = { center: [-0.92347, 0.29193], zoom: 2370, iterations: 200 };
+export const initialViewState: MandelbrotViewState = { 
+    center: waypoints.find(x => x.id === "home")?.location ?? [-0.5, 0], 
+    zoom: waypoints.find(x => x.id === "home")?.zoom ?? 0.4, 
+    iterations: 200 
+};
 
 /**
  * Zustand store exposing essential data of the current frame - such as center and zoom value - and functions that modify them.

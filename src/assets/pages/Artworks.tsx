@@ -3,7 +3,7 @@ import Reveal from "../components/Reveal";
 import Stagger from "../components/Stagger";
 import WaypointPage from "../components/WaypointPage";
 import artworks from "../data/artworks.json";
-import useMasonryBreakpoint from "../hooks/useMasonryBreakpoint";
+import useScreenBreakpoint from "../hooks/useScreenBreakpoint";
 import type { Artwork, MasonryGrouping, WaypointComponentProps } from "../types/general";
 
 const MASONRY_COLUMNS_LARGE     = 3;
@@ -38,7 +38,7 @@ const blender = createMasonryGroups(artworks.filter(a => a.kind === "blender") a
 
 const Artworks = ({ waypoint, onBack }: WaypointComponentProps) => {
 
-    const breakpoint = useMasonryBreakpoint();
+    const breakpoint = useScreenBreakpoint();
 
     /**
      * Renders an artwork group.
@@ -64,7 +64,7 @@ const Artworks = ({ waypoint, onBack }: WaypointComponentProps) => {
     }
 
     return (
-        <WaypointPage waypoint={waypoint} label={"artworks"} onBack={onBack}>
+        <WaypointPage waypoint={waypoint} onBack={onBack}>
             <div className="artwork-gallery">
                 <section className="artwork-category">
                     <header>

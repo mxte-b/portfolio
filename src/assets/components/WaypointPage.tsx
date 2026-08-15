@@ -1,22 +1,20 @@
 import { useEffect, useState, type ReactNode } from "react";
-import { motion } from "motion/react";
 import { RevealAnimationProvider } from "../hooks/useRevealAnimation";
 import type { Waypoint } from "../types/general";
 import WaypointHeader from "./WaypointHeader";
 import WaypointRevealOverlay from "./WaypointRevealOverlay";
+import type ComponentEvent from "../utils/componentEvent";
 
 const REVEAL_DURATION = 800;
 
 const WaypointPage = (
     { 
         waypoint, 
-        label, 
         onBack, 
         children 
     }: 
     { 
         waypoint: Waypoint, 
-        label: string,
         onBack: () => void,
         children: ReactNode, 
     }
@@ -24,8 +22,8 @@ const WaypointPage = (
     const [revealed, setRevealed] = useState<boolean>(false);
 
     useEffect(() => {
-        const handleEnter = (e: CustomEvent<{ waypointId: string }>) => {
-            if (e.detail.waypointId === waypoint.id) {
+        const handleEnter = (e: ComponentEvent) => {
+            if (e.waypointId === waypoint.id) {
                 setRevealed(true);
             }
         }
@@ -38,12 +36,12 @@ const WaypointPage = (
     return (
         <RevealAnimationProvider revealed={revealed} stagger={50} delay={REVEAL_DURATION}>
             <WaypointRevealOverlay label={waypoint.label + '.'} duration={REVEAL_DURATION} />
-            <motion.main className={label} id={label}>
+            <main>
                 <WaypointHeader waypoint={waypoint} onBack={onBack} />
                 <div className="waypoint-component__content">
                     {children}
                 </div>
-            </motion.main>
+            </main>
         </RevealAnimationProvider>
     );
 };

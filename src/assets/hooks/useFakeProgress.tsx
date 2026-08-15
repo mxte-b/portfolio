@@ -22,7 +22,7 @@ const useFakeProgress = (duration: number, transitionDuration: number, jitter: b
 
     const [progressId, setProgressId] = useState<number>(-1);
     const [progress, setProgress] = useState<number>(0);
-    const [isFinished, setIsFinished] = useState<boolean>(true);
+    const [isFinished, setIsFinished] = useState<boolean>(false);
 
     useEffect(() => {
         if (progressId < 0) return;

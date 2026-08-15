@@ -11,7 +11,7 @@ const getBreakpoint = () => {
     return "large";
 }
 
-const useMasonryBreakpoint = (): "large" | "medium" | "small" => {
+const useScreenBreakpoint = (): "large" | "medium" | "small" => {
 
     const [breakpoint, setBreakpoint] = useState<"large" | "medium" | "small">(getBreakpoint());
 
@@ -30,4 +30,4 @@ const useMasonryBreakpoint = (): "large" | "medium" | "small" => {
     return breakpoint;
 };
 
-export default useMasonryBreakpoint;
+export default useScreenBreakpoint;

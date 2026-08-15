@@ -69,7 +69,7 @@ const Contact = ({ waypoint, onBack }: WaypointComponentProps) => {
     }, []);
 
     return (
-        <WaypointPage waypoint={waypoint} label={"contact"} onBack={onBack}>
+        <WaypointPage waypoint={waypoint} onBack={onBack}>
             <Reveal as="section" className="contact-methods" width="100%">
                 <header className="contact-methods__header">
                     <div className="header__inline">

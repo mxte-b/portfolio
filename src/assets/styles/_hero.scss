@@ -1,15 +1,183 @@
+@use "mixins" as *;
+
 .hero {
     position: relative;
+    width: 100%;
+    max-width: 1300px;
     height: 100%;
+    container-type: inline-size;
+
+    @include flex(column, center, stretch);
 
     &__content {
         position: relative;
         z-index: 2;
     }
 
-    &__title {
-        font-family: "Palanquin Dark", sans-serif;
+    &__wrapper {
+        position: relative;
+    }
 
-        // font-size: 100pt;
+    &__title {
+        // padding: 2rem;
+        font-family: Orbitron, sans-serif;
+        font-size: clamp(80px, 15.5cqw, 201px);
+
+        // white-space: nowrap;
+        text-align: center;
+        font-weight: normal;
+        line-height: clamp(80px, 15.5cqw, 201px);
+    }
+
+    &__accent-line {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        z-index: -1;
+        width: 100%;
+        height: 22%;
+        background-color: var(--color-accent) !important;
+    }
+
+    &__details {
+        @include flex(column, flex-start, stretch);
+
+        position: relative;
+        gap: 0.5rem;
+        padding: 2rem;
+        margin-block: 1rem;
+    }
+
+    &__detail {
+        @include flex($justify: space-between);
+
+        color: var(--color-secondary);
+        font-size: clamp(20px, 2cqw, 30px);
+    }
+
+    &__detail--main {
+        @include flex($justify: space-between);
+        
+        font-family: Orbitron, sans-serif;
+        font-size: clamp(40px, 4cqw, 52px);
+    }
+
+    &__cta {
+        @include flex;
+
+        position: absolute;
+        right: 2rem;
+        bottom: 0;
+        gap: 2rem;
+    }
+
+    &__mail {
+        gap: 0.75rem;
+        padding: 0.75rem 1.5rem;
+        border: 1px solid var(--color-border);
+        background-color: var(--color-background-01);
+        color: var(--color-primary);
+        box-shadow: 0 0 5px #00000073;
+        font-family: "Instrument Sans", sans-serif;
+        font-size: 18px;
+        outline: none;
+        transition: scale 0.2s ease, background-color 0.2s ease, color 0.2s ease;
+        will-change: transform;
+        text-decoration: none;
+        font-weight: 500;
+        cursor: pointer;
+
+        @include flex;
+
+        span {
+            flex-shrink: 0;
+        }
+
+        svg {
+            width: 15px;
+            height: 15px;
+        }
+    }
+
+    &__start {
+        padding: 0.75rem 2rem;
+        border: 1px solid var(--color-border-accent);
+        background-color: var(--color-accent);
+        color: var(--color-primary);
+        box-shadow: 0 0 5px #00000073;
+        font-family: "Instrument Sans", sans-serif;
+        font-size: 18px;
+        outline: none;
+        transition: scale 0.2s ease, background-color 0.2s ease;
+        will-change: transform;
+        font-weight: 500;
+        cursor: pointer;
+    }
+
+    &__start:hover {
+        background-color: var(--color-accent-01);
+    }
+
+    &__mail:hover {
+        background-color: #141414;
+        color: var(--color-primary);
+    }
+
+    &__start:active, &__mail:active {
+        scale: 0.98;
+    }
+
+    .highlight {
+        color: var(--color-primary);
+    }
+
+    @media screen and (width <= 768px) {
+        &__wrapper {
+            width: max-content;
+            max-width: 100%;
+        }
+
+        &__title {
+            text-align: left;
+        }
+
+        &__accent-line {
+            height: 15%;
+        }
+
+        &__details {
+            padding-inline: 0;
+        }
+
+        &__detail, &__detail--main {
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        &__cta {
+            right: 0;
+        }
+    }
+
+    @media screen and (width <= 480px) {
+        &__wrapper {
+            width: min-content;
+            max-width: 100%;
+        }
+
+        &__details {
+            margin-top: 0;
+        }
+
+        &__accent-line {
+            height: 10%;
+        }
+
+        &__cta {
+            flex-direction: column;
+            align-items: stretch;
+            gap: 1rem;
+            width: 100%;
+        }
     }
 }
