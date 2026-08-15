@@ -18,9 +18,10 @@
     max-width: min(1000px, calc(100% - 2rem));
     height: 3.25rem;
     padding: 0.5rem;
-    border: 1px solid #ffffff20;
     background-color: #0c0c0c9c;
+    box-shadow: 0 0 5px #00000020;
     will-change: height;
+    border-bottom: 1px solid #ffffff40;
     backface-visibility: hidden;
     backdrop-filter: blur(10px);
     overflow: hidden;
@@ -36,14 +37,27 @@
         @include flex;
 
         gap: 0.5rem;
+        height: 100%;
+        border: 1px solid var(--color-border-accent);
+        background-color: var(--color-accent);
         font-family: "JetBrains Mono", monospace;
-        padding-left: 0.25rem;
+        transition: transform 0.2s ease, background-color 0.2s ease;
+        will-change: scale;
+        aspect-ratio: 1;
         cursor: pointer;
         flex-shrink: 0;
 
         svg { 
             width: 25px; height: 25px; 
             pointer-events: none;
+        }
+
+        &:hover {
+            background: var(--color-accent-01);
+        }
+
+        &:active {
+            transform: scale(0.98);
         }
     }
 

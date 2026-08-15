@@ -1,5 +1,5 @@
 import type { HTMLElements } from "motion/react";
-import type { ComponentType, ReactNode } from "react";
+import type { ComponentType, JSX, ReactNode } from "react";
 import type ComponentEvent from "../utils/componentEvent";
 
 declare global {
@@ -78,6 +78,13 @@ export type MasonryGrouping = {
 
     /** Grouping for small displays. */
     small: Artwork[][]
+}
+
+export type NavbarItem = {
+    title: string,
+    waypointId: string,
+    icon?: JSX.Element,
+    prominent?: boolean,
 }
 
 /* -------------------------------------------------------------------------- */
