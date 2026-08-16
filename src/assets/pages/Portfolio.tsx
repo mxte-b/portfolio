@@ -159,7 +159,7 @@ const Portfolio = () => {
             {
                 breakpoint === "large"
                 ? <Navbar visible={animationFinished} />
-                : <MobileNavbar />
+                : <MobileNavbar visible={animationFinished} />
             }
             <div className="main">
                 <Loader progress={progress} visible={!animationFinished} />

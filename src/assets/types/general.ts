@@ -1,6 +1,7 @@
 import type { HTMLElements } from "motion/react";
-import type { ComponentType, JSX, ReactNode } from "react";
+import type { ComponentType, ReactNode } from "react";
 import type ComponentEvent from "../utils/componentEvent";
+import Icons from "../components/Icons";
 
 declare global {
     interface WindowEventMap {
@@ -83,7 +84,7 @@ export type MasonryGrouping = {
 export type NavbarItem = {
     title: string,
     waypointId: string,
-    icon?: JSX.Element,
+    icon: keyof typeof Icons,
     prominent?: boolean,
 }
 
