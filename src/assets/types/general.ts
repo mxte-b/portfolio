@@ -40,12 +40,14 @@ export type Artwork = {
     sourceName: string
 }
 
+export type WaypointId = "aboutMe" | "artworks" | "contact" | "home" | "projects";
+
 /** 
  * Represents a waypoint that is located inside the fractal and can trigger an overlay. 
  */
 export type Waypoint = {
     /** The unique identifier of the waypoint. */
-    id: string,
+    id: WaypointId,
 
     /** The label of the waypoint. */
     label: string,
@@ -83,7 +85,7 @@ export type MasonryGrouping = {
 
 export type NavbarItem = {
     title: string,
-    waypointId: string,
+    waypointId: WaypointId,
     icon: keyof typeof Icons,
     prominent?: boolean,
 }
@@ -124,6 +126,21 @@ export type StaggerParams = Omit<RevealParams, "id"> & {
 /* -------------------------------------------------------------------------- */
 /*                             Context value types                            */
 /* -------------------------------------------------------------------------- */
+/** Represents the type of the useLoader hook. */
+export type LoaderContextValue = {
+    /** The current duration of the CSS transitions on the loader element. */
+    cssTransitionDuration: number,
+
+    /** The current progress value in the range [0, 1]. */
+    progress: number, 
+
+    /** Whether the animation is finished (including CSS transitions). */
+    animationFinished: boolean, 
+
+    /** Resets and starts a new progress. */
+    start: () => void 
+}
+
 /** Represents the type of the useDevicePreferences hook. */
 export type DevicePreferencesContextValue = { 
     /** Indicates if the current device uses touch as input source. */
@@ -142,7 +159,32 @@ export type RevealAnimationContextValue = {
     acquireDelay: (id: string | undefined) => number,
 }
 
-/** Represents the type of the useRouter hook. */
-export type RouterContextValue = {
-    navigate: (waypointId: string) => void
+/** Represents the type of the useWaypointRouter hook. */
+export type WaypointRouterContextValue = {
+    /** 
+     * The identifier of the current waypoint. 
+     * A current waypoint is such that is being navigated to or its component is interactable.
+     */
+    currentWaypoint: WaypointId | null,
+
+    /**
+     * The identifier of the currently active waypoint.
+     * A waypoint is considered active when its component is interactable.
+     */
+    activeWaypoint: WaypointId | null,
+
+    /**
+     * Navigates to a specified waypoint.
+     * @param id The waypoint to navigate to.
+     * @param onNavigationStart Callback that fires before the navigation starts.
+     * @param onNavigationEnd Callback that fires after the navigation finishes.
+     */
+    navigate: (
+        id: WaypointId | "default", 
+        onNavigationStart?: (id: WaypointId | "default") => void, 
+        onNavigationEnd?: (id: WaypointId | "default") => void
+    ) => void,
+
+    /** Exits the current route component. */
+    back: (id: WaypointId) => void,
 }

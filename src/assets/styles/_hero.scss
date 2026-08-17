@@ -9,6 +9,11 @@
 
     @include flex(column, center, stretch);
 
+    @media screen and (width <= 768px) {
+        justify-content: flex-start;
+        padding-top: 4rem;
+    }
+
     &__content {
         position: relative;
         z-index: 2;
@@ -19,11 +24,8 @@
     }
 
     &__title {
-        // padding: 2rem;
         font-family: Orbitron, sans-serif;
         font-size: clamp(80px, 15.5cqw, 201px);
-
-        // white-space: nowrap;
         text-align: center;
         font-weight: normal;
         line-height: clamp(80px, 15.5cqw, 201px);

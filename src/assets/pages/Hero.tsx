@@ -1,10 +1,8 @@
-import { useEffect } from "react";
-import useRouter from "../hooks/useRouter";
-import DebugView from "../components/DebugView";
+import useWaypointRouter from "../hooks/useWaypointRouter";
 import Icons from "../components/Icons";
 
 const Hero = () => {
-    const { navigate } = useRouter();
+    const { navigate } = useWaypointRouter();
 
     return (
         <>

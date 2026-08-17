@@ -1,9 +1,5 @@
-import Hero from "../pages/Hero";
-import AboutMe from "../pages/AboutMe";
-import Artworks from "../pages/Artworks";
-import Contact from "../pages/Contact";
-import Projects from "../pages/Projects";
 import type { Waypoint } from "../types/general";
+import { lazy } from "react";
 
 const waypoints: Waypoint[] = [
     {
@@ -12,7 +8,7 @@ const waypoints: Waypoint[] = [
         description: "An overview of my background and interests.",
         location: [-0.81, -0.2025],
         zoom: 670,
-        component: AboutMe
+        component: lazy(() => import("../pages/AboutMe"))
     },
     {
         id: "artworks",
@@ -20,7 +16,7 @@ const waypoints: Waypoint[] = [
         description: "A gallery of my renders and artistic images.",
         location: [0.32938, 0.039648],
         zoom: 1154,
-        component: Artworks
+        component: lazy(() => import("../pages/Artworks"))
     },
     {
         id: "contact",
@@ -28,7 +24,7 @@ const waypoints: Waypoint[] = [
         description: "An overview of my contact methods.",
         location: [-1.77577, -0.00631],
         zoom: 540,
-        component: Contact
+        component: lazy(() => import("../pages/Contact"))
     },
     { 
         id: "projects",
@@ -36,7 +32,7 @@ const waypoints: Waypoint[] = [
         description: "See my past projects and software that I've built.",
         location: [-0.73979, 0.29075],
         zoom: 712,
-        component: Projects
+        component: lazy(() => import("../pages/Projects"))
     },
     {
         id: "home",
@@ -44,7 +40,7 @@ const waypoints: Waypoint[] = [
         description: "What normally is the top of the page.",
         location: [-0.92347, 0.293],
         zoom: 2360,
-        component: Hero
+        component: lazy(() => import("../pages/Hero"))
     },
 ];
 

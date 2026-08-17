@@ -1,11 +1,11 @@
 import Icons from "./Icons";
 import navbarItems from "../data/navbarItems";
 
-import useRouter from "../hooks/useRouter";
+import useWaypointRouter from "../hooks/useWaypointRouter";
 import { motion } from "motion/react";
 
 const Navbar = ({ visible = false }: { visible?: boolean }) => {
-    const { navigate } = useRouter();
+    const { navigate } = useWaypointRouter();
 
     return (
         visible && 
@@ -28,7 +28,7 @@ const Navbar = ({ visible = false }: { visible?: boolean }) => {
                                 onClick={() => navigate(item.waypointId)}
                                 title={item.title}
                                 tabIndex={1}
-                                className={`navbar__item cursor-pointer ${item.prominent ? "prominent" : ""}`}
+                                className={`navbar__item cursor-pointer${item.prominent ? " prominent" : ""}`}
                             >
                                 {item.title}
                             </div>

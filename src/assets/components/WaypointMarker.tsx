@@ -1,5 +1,5 @@
 import { type Ref } from "react";
-import type { Waypoint } from "../types/general";
+import type { Waypoint, WaypointId } from "../types/general";
 import { AnimatePresence, motion } from 'motion/react';
 import useDevicePreferences from "../hooks/useDevicePreferences";
 
@@ -11,9 +11,9 @@ const WaypointMarker = (
         selected: boolean,
         active: boolean,
         interactable: boolean,
-        onClick: () => void,
+        onClick: (waypointId: WaypointId) => void,
         onCancel: () => void,
-        onGo: () => void,
+        onGo: (waypointId: WaypointId) => void,
         onComponentExit: () => void
     }) => {
 
@@ -23,9 +23,9 @@ const WaypointMarker = (
         <div ref={ref} className="waypoint-marker" id={waypoint.id}>
             <div className="waypoint-marker__main">
                 <div 
-                    className={`waypoint-marker__circle${selected ? " selected" : ""}`} 
+                    className={`waypoint-marker__circle${selected || active ? " selected" : ""}`} 
                     style={{ pointerEvents: interactable ? "none" : "all" }}
-                    onClick={onClick}
+                    onClick={() => onClick(waypoint.id)}
                 />
             </div>
             <AnimatePresence>
@@ -41,7 +41,7 @@ const WaypointMarker = (
                         <div className="waypoint-marker__description">{waypoint.description}</div>
                         <div className="waypoint-marker__cta">
                             <button className="waypoint-marker__cancel" onClick={onCancel}>Cancel</button>
-                            <button className="waypoint-marker__go prominent" onClick={onGo}>Go</button>
+                            <button className="waypoint-marker__go prominent" onClick={() => onGo(waypoint.id)}>Go</button>
                         </div>
                     </motion.div>
                 }

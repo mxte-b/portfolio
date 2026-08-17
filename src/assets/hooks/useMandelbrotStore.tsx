@@ -14,6 +14,10 @@ export const initialViewState: MandelbrotViewState = {
  */
 const useMandelbrotStore = create<MandelbrotStore>()(set => ({
     viewState: initialViewState,
+    flags: {
+        animationsEnabled: false,
+        movementEnabled: false,
+    },
     controls: {
         moveTo: (target, targetZoom) => set(s => ({ 
             viewState: { ...s.viewState, center: target, zoom: targetZoom }
@@ -29,7 +33,11 @@ const useMandelbrotStore = create<MandelbrotStore>()(set => ({
 
         setZoom: zoom => set(s => ({ 
             viewState: { ...s.viewState, zoom: zoom }
-        }))
+        })),
+
+        setAnimationsEnabled: enabled => set(s => ({ flags: {...s.flags, animationsEnabled: enabled} })),
+
+        setMovementEnabled: enabled => set(s => ({ flags: {...s.flags, movementEnabled: enabled} })),
     }
 }));
 

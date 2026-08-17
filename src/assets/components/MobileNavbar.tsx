@@ -1,11 +1,11 @@
 import { motion } from "motion/react";
 import navbarItems from "../data/navbarItems";
 import Icons from "./Icons";
-import useRouter from "../hooks/useRouter";
+import useWaypointRouter from "../hooks/useWaypointRouter";
 import type { NavbarItem } from "../types/general";
 
 const MobileNavbar = ({ visible = false }: { visible?: boolean }) => {
-    const { navigate } = useRouter();
+    const { currentWaypoint, navigate } = useWaypointRouter();
 
     const homeNavbarItem: NavbarItem = {
         title: "Home", 
@@ -36,7 +36,7 @@ const MobileNavbar = ({ visible = false }: { visible?: boolean }) => {
                                         onClick={() => navigate(item.waypointId)}
                                         title={item.title}
                                         tabIndex={1}
-                                        className={`navbar-mobile__item cursor-pointer ${item.prominent ? "prominent" : ""}`}
+                                        className={`navbar-mobile__item cursor-pointer${item.prominent ? " prominent" : ""}${item.waypointId === currentWaypoint ? " active" : ""}`}
                                     >
                                         <Icon />
                                         {item.title}

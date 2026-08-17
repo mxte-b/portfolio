@@ -31,7 +31,19 @@ export interface MandelbrotControls {
      * Sets the current zoom value.
      * @param zoom The desired zoom value.
      */
-    setZoom: (zoom: number) => void
+    setZoom: (zoom: number) => void,
+
+    /**
+     * Changes whether animations are enabled or disabled.
+     * @param enabled True if enabled, false if not.
+     */
+    setAnimationsEnabled: (enabled: boolean) => void,
+
+    /**
+     * Changes whether movement is enabled or disabled.
+     * @param enabled True if enabled, false if not.
+     */
+    setMovementEnabled: (enabled: boolean) => void,
 }
 
 /**
@@ -43,12 +55,23 @@ export type MandelbrotViewAction =
     { type: "setPosition",  position: [number, number] } | 
     { type: "setZoom",      zoom: number };
 
+/** Represents the flags used in the renderer. */
+export type MandelbrotFlags = {
+    /** Indicates whether animations are enabled or disabled. */
+    animationsEnabled: boolean,
+
+    /** Indicates whether animations are enabled or disabled. */
+    movementEnabled: boolean,
+}
+
 /**
  * The type of the useMandelbrotStore hook.
  */
 export type MandelbrotStore = {
     /** The current view state. */
     viewState: MandelbrotViewState,
+
+    flags: MandelbrotFlags,
 
     /** The set of methods that transform the view state. */
     controls: MandelbrotControls
