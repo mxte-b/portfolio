@@ -14,7 +14,6 @@ export const WaypointRouterProvider = ({ children }: { children: ReactNode }) =>
     const { cssTransitionDuration, start } = useLoader();
     const { prefersReducedMotion } = useDevicePreferences();
     const { moveTo, setMovementEnabled, setAnimationsEnabled } = useMandelbrotStore(s => s.controls);
-    
 
     const [currentWaypoint, setCurrentWaypoint]             = useState<WaypointId | null>("home");
     const [activeWaypoint, setActiveWaypoint]               = useState<WaypointId | null>("home");

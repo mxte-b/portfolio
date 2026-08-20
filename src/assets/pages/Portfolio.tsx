@@ -10,15 +10,12 @@ import Navbar from '../components/Navbar';
 import useScreenBreakpoint from '../hooks/useScreenBreakpoint';
 import MobileNavbar from '../components/MobileNavbar';
 import type { WaypointId } from '../types/general';
-import useWaypointRouter from '../hooks/useWaypointRouter';
-import useMandelbrotStore from '../hooks/useMandelbrotStore';
 import useLoader from '../hooks/useLoader';
+import RecenterButton from '../components/RecenterButton';
 
 const Portfolio = () => {
-    const breakpoint                                            = useScreenBreakpoint();
-    const { progress, animationFinished, start }                = useLoader();
-    const { animationsEnabled, movementEnabled }                = useMandelbrotStore(s => s.flags);
-    const { activeWaypoint, currentWaypoint, back, navigate }   = useWaypointRouter();
+    const breakpoint         = useScreenBreakpoint();
+    const { start }          = useLoader();
 
     const [selectedMarkerId, setSelectedMarkerId] = useState<WaypointId | null>(null);
 
@@ -46,11 +43,12 @@ const Portfolio = () => {
         <>
             {
                 breakpoint === "large"
-                ? <Navbar visible={animationFinished} />
-                : <MobileNavbar visible={animationFinished} />
+                ? <Navbar />
+                : <MobileNavbar />
             }
+            <RecenterButton />
             <div className="main">
-                <Loader progress={progress} visible={!animationFinished} />
+                <Loader />
 
                 <Canvas ref={canvasRef} className="viewer" frameloop="demand" dpr={1}>
                     <WaypointUpdater 
@@ -58,11 +56,7 @@ const Portfolio = () => {
                         markerRefs={markerRefs} 
                         rectRef={canvasRectRef} 
                     />
-                    <MandelbrotView 
-                        movementEnabled={movementEnabled} 
-                        animationsEnabled={animationsEnabled} 
-                        rectRef={canvasRectRef} 
-                    />
+                    <MandelbrotView rectRef={canvasRectRef} />
                 </Canvas>
 
                 <div className="waypoints">
@@ -76,15 +70,10 @@ const Portfolio = () => {
                                 key={w.id}
                                 waypoint={w}
                                 selected={selectedMarkerId == w.id}
-                                active={currentWaypoint == w.id}
-                                interactable={activeWaypoint == w.id}
                                 onClick={setSelectedMarkerId}
-                                onGo={navigate}
+                                onGo={() => setSelectedMarkerId(null)}
                                 onCancel={() => setSelectedMarkerId(null)}
-                                onComponentExit={() => {
-                                    setSelectedMarkerId(null);
-                                    back(w.id);
-                                }}
+                                onComponentExit={() => setSelectedMarkerId(null)}
                             />)) 
                     }
                 </div>

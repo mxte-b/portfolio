@@ -2,17 +2,20 @@ import { AnimatePresence, motion } from "motion/react"
 import Icons from "./Icons";
 import { clamp } from "../utils/math";
 import { useEffect } from "react";
+import useLoader from "../hooks/useLoader";
 
 let isFirstLoad = true;
 
-const Loader = ({ progress, visible }: { progress: number, visible: boolean }) => {
+const Loader = () => {
+
+    const { progress, animationFinished } = useLoader();
 
     useEffect(() => { isFirstLoad = false }, [])
 
     return (
         <AnimatePresence>
             {
-                (progress < 1 || visible) &&
+                (progress < 1 || !animationFinished) &&
                 <motion.div 
                     className="loader"
                     initial={{opacity: isFirstLoad ? 1 : 0}}

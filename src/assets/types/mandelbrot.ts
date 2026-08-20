@@ -46,15 +46,6 @@ export interface MandelbrotControls {
     setMovementEnabled: (enabled: boolean) => void,
 }
 
-/**
- * The collection of available actions on the view state.
- */
-export type MandelbrotViewAction = 
-    { type: "moveBy",       delta: [number, number] } | 
-    { type: "zoomBy",       delta: number } | 
-    { type: "setPosition",  position: [number, number] } | 
-    { type: "setZoom",      zoom: number };
-
 /** Represents the flags used in the renderer. */
 export type MandelbrotFlags = {
     /** Indicates whether animations are enabled or disabled. */
@@ -67,7 +58,7 @@ export type MandelbrotFlags = {
 /**
  * The type of the useMandelbrotStore hook.
  */
-export type MandelbrotStore = {
+export type MandelbrotState = {
     /** The current view state. */
     viewState: MandelbrotViewState,
 

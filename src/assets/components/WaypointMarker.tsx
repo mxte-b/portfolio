@@ -2,22 +2,25 @@ import { type Ref } from "react";
 import type { Waypoint, WaypointId } from "../types/general";
 import { AnimatePresence, motion } from 'motion/react';
 import useDevicePreferences from "../hooks/useDevicePreferences";
+import useWaypointRouter from "../hooks/useWaypointRouter";
 
 const WaypointMarker = (
-    { ref, waypoint, selected, active, interactable, onClick, onCancel, onGo, onComponentExit }: 
+    { ref, waypoint, selected, onClick, onCancel, onGo, onComponentExit }: 
     { 
         ref: Ref<HTMLDivElement | null>
         waypoint: Waypoint, 
         selected: boolean,
-        active: boolean,
-        interactable: boolean,
         onClick: (waypointId: WaypointId) => void,
         onCancel: () => void,
         onGo: (waypointId: WaypointId) => void,
         onComponentExit: () => void
-    }) => {
+}) => {
 
+    const { activeWaypoint, currentWaypoint, navigate, back } = useWaypointRouter();
     const { prefersReducedMotion } = useDevicePreferences();
+
+    const active = currentWaypoint == waypoint.id;
+    const interactable = activeWaypoint == waypoint.id;
 
     return (
         <div ref={ref} className="waypoint-marker" id={waypoint.id}>
@@ -41,7 +44,10 @@ const WaypointMarker = (
                         <div className="waypoint-marker__description">{waypoint.description}</div>
                         <div className="waypoint-marker__cta">
                             <button className="waypoint-marker__cancel" onClick={onCancel}>Cancel</button>
-                            <button className="waypoint-marker__go prominent" onClick={() => onGo(waypoint.id)}>Go</button>
+                            <button className="waypoint-marker__go prominent" onClick={() => {
+                                navigate(waypoint.id);
+                                onGo(waypoint.id);
+                            }}>Go</button>
                         </div>
                     </motion.div>
                 }
@@ -49,7 +55,10 @@ const WaypointMarker = (
             {
                 waypoint.component &&
                 <div className="waypoint-component" style={{ pointerEvents: interactable ? "all" : "none" }}>
-                    <waypoint.component waypoint={waypoint} onBack={onComponentExit} />
+                    <waypoint.component waypoint={waypoint} onBack={() => {
+                        back(waypoint.id);
+                        onComponentExit();
+                    }} />
                 </div>
             }
         </div>

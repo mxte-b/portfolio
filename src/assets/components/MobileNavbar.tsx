@@ -3,9 +3,11 @@ import navbarItems from "../data/navbarItems";
 import Icons from "./Icons";
 import useWaypointRouter from "../hooks/useWaypointRouter";
 import type { NavbarItem } from "../types/general";
+import useLoader from "../hooks/useLoader";
 
-const MobileNavbar = ({ visible = false }: { visible?: boolean }) => {
+const MobileNavbar = () => {
     const { currentWaypoint, navigate } = useWaypointRouter();
+    const { animationFinished } = useLoader();
 
     const homeNavbarItem: NavbarItem = {
         title: "Home", 
@@ -16,7 +18,7 @@ const MobileNavbar = ({ visible = false }: { visible?: boolean }) => {
     const items = [...navbarItems.slice(0, 2), homeNavbarItem, ...navbarItems.slice(2, navbarItems.length)];
 
     return (
-        visible && 
+        animationFinished && 
         <motion.div
             initial={{ opacity: 0, y: 50 }}
             animate={{ opacity: 1, y: 0 }}

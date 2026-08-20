@@ -1,6 +1,7 @@
 import { create } from "zustand";
-import type { MandelbrotStore, MandelbrotViewState } from "../types/mandelbrot";
+import type { MandelbrotState, MandelbrotViewState } from "../types/mandelbrot";
 import waypoints from "../data/waypoints";
+import { subscribeWithSelector } from "zustand/middleware";
 
 /** Represents the initial view state of the Mandelbrot viewer. */
 export const initialViewState: MandelbrotViewState = { 
@@ -12,7 +13,7 @@ export const initialViewState: MandelbrotViewState = {
 /**
  * Zustand store exposing essential data of the current frame - such as center and zoom value - and functions that modify them.
  */
-const useMandelbrotStore = create<MandelbrotStore>()(set => ({
+const useMandelbrotStore = create<MandelbrotState>()(subscribeWithSelector(set => ({
     viewState: initialViewState,
     flags: {
         animationsEnabled: false,
@@ -39,6 +40,6 @@ const useMandelbrotStore = create<MandelbrotStore>()(set => ({
 
         setMovementEnabled: enabled => set(s => ({ flags: {...s.flags, movementEnabled: enabled} })),
     }
-}));
+})));
 
 export default useMandelbrotStore;

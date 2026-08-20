@@ -3,12 +3,15 @@ import navbarItems from "../data/navbarItems";
 
 import useWaypointRouter from "../hooks/useWaypointRouter";
 import { motion } from "motion/react";
+import useLoader from "../hooks/useLoader";
 
-const Navbar = ({ visible = false }: { visible?: boolean }) => {
+const Navbar = () => {
+
+    const { animationFinished } = useLoader();
     const { navigate } = useWaypointRouter();
 
     return (
-        visible && 
+        animationFinished && 
         <motion.div
             initial={{ opacity: 0, y: -50 }}
             animate={{ opacity: 1, y: 0 }}

@@ -28,23 +28,14 @@ const constructUniforms = (viewState: MandelbrotViewState): ShaderUniforms => {
     };
 }
 
-const MandelbrotView = (
-    {
-        movementEnabled = true,
-        animationsEnabled = true,
-        rectRef
-    }: 
-    { 
-        movementEnabled?: boolean,
-        animationsEnabled?: boolean,
-        rectRef: RefObject<DOMRect | null>
-    }) => {  
+const MandelbrotView = ({ rectRef }: { rectRef: RefObject<DOMRect | null> }) => {  
 
-    const { isTouch, prefersReducedMotion }                   = useDevicePreferences(); 
-    const { moveBy, setZoom }           = useMandelbrotStore(s => s.controls);
-    const { gl, viewport, invalidate }  = useThree();
+    const { gl, viewport, invalidate }           = useThree();
+    const { isTouch, prefersReducedMotion }      = useDevicePreferences(); 
+    const { moveBy, setZoom }                    = useMandelbrotStore(s => s.controls);
+    const { movementEnabled, animationsEnabled } = useMandelbrotStore(s => s.flags);
 
-    const uniforms          = useMemo<ShaderUniforms>(() => {
+    const uniforms = useMemo<ShaderUniforms>(() => {
         const rect = rectRef.current;
         return {
             ...constructUniforms(useMandelbrotStore.getState().viewState),

@@ -63,7 +63,7 @@ const WaypointUpdater = (
 
                 // If the component is smaller than the marker circle then we don't
                 // have to do AABB testing for it.
-                if (screenWidthHalf < MARKER_SIZE_HALF) {
+                if (screenWidthHalf < MARKER_SIZE_HALF && screenHeightHalf < MARKER_SIZE_HALF) {
                     el.classList.add("component-hidden");
 
                     const circleOutside = 
