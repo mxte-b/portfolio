@@ -1,4 +1,3 @@
-import { motion } from "motion/react";
 import navbarItems from "../data/navbarItems";
 import Icons from "./Icons";
 import useWaypointRouter from "../hooks/useWaypointRouter";
@@ -6,7 +5,7 @@ import type { NavbarItem } from "../types/general";
 import useLoader from "../hooks/useLoader";
 
 const MobileNavbar = () => {
-    const { currentWaypoint, navigate } = useWaypointRouter();
+    const { route, controls } = useWaypointRouter();
     const { animationFinished } = useLoader();
 
     const homeNavbarItem: NavbarItem = {
@@ -19,12 +18,7 @@ const MobileNavbar = () => {
 
     return (
         animationFinished && 
-        <motion.div
-            initial={{ opacity: 0, y: 50 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: 50 }}
-            className="navbar-mobile-wrapper"
-        >
+        <div className="navbar-mobile-wrapper">
             <div className="navbar-mobile">
                 <div className="navbar-mobile__items">
                     {
@@ -35,10 +29,10 @@ const MobileNavbar = () => {
                                 return (
                                     <div
                                         key={item.waypointId}
-                                        onClick={() => navigate(item.waypointId)}
+                                        onClick={() => controls.navigate(item.waypointId)}
                                         title={item.title}
                                         tabIndex={1}
-                                        className={`navbar-mobile__item cursor-pointer${item.prominent ? " prominent" : ""}${item.waypointId === currentWaypoint ? " active" : ""}`}
+                                        className={`navbar-mobile__item cursor-pointer${item.prominent ? " prominent" : ""}${item.waypointId === route.target ? " active" : ""}`}
                                     >
                                         <Icon />
                                         {item.title}
@@ -49,7 +43,7 @@ const MobileNavbar = () => {
                     }
                 </div>
             </div>
-        </motion.div>
+        </div>
 
     );
 };

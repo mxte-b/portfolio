@@ -16,24 +16,24 @@ const WaypointMarker = (
         onComponentExit: () => void
 }) => {
 
-    const { activeWaypoint, currentWaypoint, navigate, back } = useWaypointRouter();
+    const { route, controls } = useWaypointRouter();
     const { prefersReducedMotion } = useDevicePreferences();
 
-    const active = currentWaypoint == waypoint.id;
-    const interactable = activeWaypoint == waypoint.id;
+    const target = route.target == waypoint.id;
+    const active = route.active == waypoint.id;
 
     return (
         <div ref={ref} className="waypoint-marker" id={waypoint.id}>
             <div className="waypoint-marker__main">
                 <div 
-                    className={`waypoint-marker__circle${selected || active ? " selected" : ""}`} 
-                    style={{ pointerEvents: interactable ? "none" : "all" }}
+                    className={`waypoint-marker__circle${selected || target ? " selected" : ""}`} 
+                    style={{ pointerEvents: active ? "none" : "all" }}
                     onClick={() => onClick(waypoint.id)}
                 />
             </div>
             <AnimatePresence>
                 {
-                    selected && !active && 
+                    selected && !target && 
                     <motion.div 
                         initial={{ opacity: 0, scale: prefersReducedMotion ? 1 : 0.9, x: "-50%"}}
                         animate={{ opacity: 1, scale: 1, x: "-50%" }}
@@ -45,7 +45,7 @@ const WaypointMarker = (
                         <div className="waypoint-marker__cta">
                             <button className="waypoint-marker__cancel" onClick={onCancel}>Cancel</button>
                             <button className="waypoint-marker__go prominent" onClick={() => {
-                                navigate(waypoint.id);
+                                controls.navigate(waypoint.id);
                                 onGo(waypoint.id);
                             }}>Go</button>
                         </div>
@@ -54,9 +54,9 @@ const WaypointMarker = (
             </AnimatePresence>
             {
                 waypoint.component &&
-                <div className="waypoint-component" style={{ pointerEvents: interactable ? "all" : "none" }}>
+                <div className="waypoint-component" style={{ pointerEvents: active ? "all" : "none" }}>
                     <waypoint.component waypoint={waypoint} onBack={() => {
-                        back(waypoint.id);
+                        controls.back(waypoint.id);
                         onComponentExit();
                     }} />
                 </div>

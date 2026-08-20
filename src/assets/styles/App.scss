@@ -35,36 +35,3 @@ canvas {
 .responsive-image {
     overflow: hidden;
 }
-
-.button-recenter {
-    position: fixed;
-    right: 0.5rem;
-    bottom: 0.5rem;
-    z-index: 99;
-    width: 50px;
-    border: 1px solid var(--color-border-01);
-    background-color: var(--color-background-02);
-    color: var(--color-secondary);
-    opacity: 0;
-    font-family: "Instrument Sans", sans-serif;
-    font-size: 12px;
-    transition: opacity 0.2s ease, transform 0.2s ease;
-    will-change: transform;
-    font-weight: 500;
-    aspect-ratio: 1;
-    cursor: pointer;
-    transform: translateY(calc(100% + 0.5rem)) scale(1);
-
-    &.visible {
-        opacity: 1;
-        transform: translateY(0);
-    }
-
-    &.visible:active {
-        transform: translateY(0) scale(0.98);
-    }
-
-    @media screen and (width <= 768px) {
-        bottom: calc(75px + 0.5rem);
-    }
-}

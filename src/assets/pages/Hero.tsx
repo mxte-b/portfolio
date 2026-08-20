@@ -2,7 +2,7 @@ import useWaypointRouter from "../hooks/useWaypointRouter";
 import Icons from "../components/Icons";
 
 const Hero = () => {
-    const { navigate } = useWaypointRouter();
+    const { controls } = useWaypointRouter();
 
     return (
         <>
@@ -23,7 +23,7 @@ const Hero = () => {
                 </div>
                 <div className="hero__cta">
                     <a href="mailto:hello@mxteb.dev" className="hero__mail"><span>Contact me</span><Icons.ArrowUpRight /></a>
-                    <button className="hero__start" onClick={() => navigate("default")}>Start Experience</button>
+                    <button className="hero__start" onClick={() => controls.navigate("overview")}>Start Experience</button>
                 </div>
             </section>
         </>

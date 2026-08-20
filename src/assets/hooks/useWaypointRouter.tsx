@@ -17,8 +17,14 @@ export const WaypointRouterProvider = ({ children }: { children: ReactNode }) =>
 
     const [currentWaypoint, setCurrentWaypoint]             = useState<WaypointId | null>("home");
     const [activeWaypoint, setActiveWaypoint]               = useState<WaypointId | null>("home");
+    const [isInFlight, setIsInFlight]                       = useState<boolean>(false);
     
     const inFlightRef = useRef<boolean>(false);
+
+    const setInFlight = (value: boolean) => {
+        inFlightRef.current = value;
+        setIsInFlight(value);
+    }
 
     /**
      * Smoothly travels to the waypoint location. Handles reduced motion preferences by using a loader instead.
@@ -27,12 +33,12 @@ export const WaypointRouterProvider = ({ children }: { children: ReactNode }) =>
     const travelTo = (location: [number, number], zoom: number, onTargetReached?: () => void) => {
         if (inFlightRef.current) return;
 
-        inFlightRef.current = true;
+        setInFlight(true);
 
         if (prefersReducedMotion) {
             start();
             setTimeout(() => {
-                inFlightRef.current = false;
+                setInFlight(false);
                 moveTo(location, zoom); 
                 onTargetReached?.();
             }, cssTransitionDuration);
@@ -55,7 +61,7 @@ export const WaypointRouterProvider = ({ children }: { children: ReactNode }) =>
             moveTo(path.c(t), 1 / path.w(t));
 
             if (timeAnimator.isDone()) {
-                inFlightRef.current = false;
+                setInFlight(false);
                 onTargetReached?.();
             }
             else {
@@ -68,8 +74,8 @@ export const WaypointRouterProvider = ({ children }: { children: ReactNode }) =>
 
     /** Smoothly returns to the initial view. */
     const home = (
-        onNavigationStart?: (id: WaypointId | "default") => void,
-        onNavigationEnd?: (id: WaypointId | "default") => void
+        onNavigationStart?: (id: WaypointId | "overview") => void,
+        onNavigationEnd?: (id: WaypointId | "overview") => void
     ) => {
         if (inFlightRef.current) return;
 
@@ -78,7 +84,7 @@ export const WaypointRouterProvider = ({ children }: { children: ReactNode }) =>
         setActiveWaypoint(null);
         setCurrentWaypoint(null);
         setAnimationsEnabled(!prefersReducedMotion)
-        onNavigationStart?.("default");
+        onNavigationStart?.("overview");
         
         // Travel to default view, taking into consideration view size.
         const [w, h] = [window.innerWidth, window.innerHeight];
@@ -89,18 +95,18 @@ export const WaypointRouterProvider = ({ children }: { children: ReactNode }) =>
          
         travelTo(w > h ? [-0.5, 0] : [-0.75, 0], Math.min(zw, zh), () => {
             setMovementEnabled(true);
-            onNavigationEnd?.("default");
+            onNavigationEnd?.("overview");
         });
     }
 
     const navigate = (
-        id: WaypointId | "default", 
-        onNavigationStart?: (id: WaypointId | "default") => void,
-        onNavigationEnd?: (id: WaypointId | "default") => void,
+        id: WaypointId | "overview", 
+        onNavigationStart?: (id: WaypointId | "overview") => void,
+        onNavigationEnd?: (id: WaypointId | "overview") => void,
     ) => {
         if (inFlightRef.current || activeWaypoint === id) return;
 
-        if (id === "default") {
+        if (id === "overview") {
             return home(onNavigationStart, onNavigationEnd);
         }
 
@@ -143,10 +149,17 @@ export const WaypointRouterProvider = ({ children }: { children: ReactNode }) =>
 
     return <WaypointRouterContext.Provider value={
         {
-            currentWaypoint: currentWaypoint,
-            activeWaypoint: activeWaypoint,
-            navigate: navigate,
-            back: back,
+            route: {
+                target: currentWaypoint,
+                active: activeWaypoint
+            },
+            controls: {
+                navigate: navigate,
+                back: back,
+            },
+            flags: {
+                isInFlight: isInFlight
+            }
         }
     }>
         {children}

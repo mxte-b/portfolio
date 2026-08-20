@@ -100,13 +100,13 @@ export type WaypointComponentProps = {
 }
 
 export type RevealParams = { 
-    /** Defines the HTML element type that the Reveal will use. Defaults to \<div\>. */
+    /** Defines the HTML element type that the Reveal will use. overviews to \<div\>. */
     as?: keyof HTMLElements,
 
-    /** Explicit width of the wrapper. Defaults to "fit-content". */
+    /** Explicit width of the wrapper. overviews to "fit-content". */
     width?: string,
 
-    /** Explicit height of the wrapper. Defaults to "auto". */
+    /** Explicit height of the wrapper. overviews to "auto". */
     height?: string,
 
     /** Explicit class name of the wrapper. */
@@ -124,7 +124,7 @@ export type StaggerParams = Omit<RevealParams, "id"> & {
 }
 
 /* -------------------------------------------------------------------------- */
-/*                             Context value types                            */
+/*                     Context value types / Zustand types                    */
 /* -------------------------------------------------------------------------- */
 /** Represents the type of the useLoader hook. */
 export type LoaderContextValue = {
@@ -161,30 +161,40 @@ export type RevealAnimationContextValue = {
 
 /** Represents the type of the useWaypointRouter hook. */
 export type WaypointRouterContextValue = {
-    /** 
-     * The identifier of the current waypoint. 
-     * A current waypoint is such that is being navigated to or its component is interactable.
-     */
-    currentWaypoint: WaypointId | null,
+    /** Provides identifiers of the current route (waypoint). */
+    route: {
+        /** 
+         * The identifier of the waypoint that is being navigated to or its component is interactable.
+         */
+        target: WaypointId | null,
 
-    /**
-     * The identifier of the currently active waypoint.
-     * A waypoint is considered active when its component is interactable.
-     */
-    activeWaypoint: WaypointId | null,
+        /**
+         * The identifier of the waypoint whose component is interactable.
+         */
+        active: WaypointId | null,
+    },
 
-    /**
-     * Navigates to a specified waypoint.
-     * @param id The waypoint to navigate to.
-     * @param onNavigationStart Callback that fires before the navigation starts.
-     * @param onNavigationEnd Callback that fires after the navigation finishes.
-     */
-    navigate: (
-        id: WaypointId | "default", 
-        onNavigationStart?: (id: WaypointId | "default") => void, 
-        onNavigationEnd?: (id: WaypointId | "default") => void
-    ) => void,
+    /** Provides flags reflecting the state of the router. */
+    flags: {
+        /** Indicates whether the router is currently navigating to another route. */
+        isInFlight: boolean
+    },
 
-    /** Exits the current route component. */
-    back: (id: WaypointId) => void,
+     /** Provides router controls such as navigation and route exiting. */
+    controls: {
+        /**
+         * Navigates to a specified route.
+         * @param id The identifier of the target waypoint.
+         * @param onNavigationStart Callback that fires before the navigation starts.
+         * @param onNavigationEnd Callback that fires after the navigation finishes.
+         */
+        navigate: (
+            id: WaypointId | "overview", 
+            onNavigationStart?: (id: WaypointId | "overview") => void, 
+            onNavigationEnd?: (id: WaypointId | "overview") => void
+        ) => void,
+    
+        /** Exits the current route component. */
+        back: (id: WaypointId) => void,
+    },
 }
