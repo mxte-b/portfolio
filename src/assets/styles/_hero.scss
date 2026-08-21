@@ -71,10 +71,12 @@
         right: 2rem;
         bottom: 0;
         gap: 2rem;
+        height: 50px;
     }
 
     &__mail {
         gap: 0.75rem;
+        height: 100%;
         padding: 0.75rem 1.5rem;
         border: 1px solid var(--color-border);
         background-color: var(--color-background-01);
@@ -98,10 +100,33 @@
         svg {
             width: 15px;
             height: 15px;
+            flex-shrink: 0;
         }
     }
 
+    &__button {
+        width: 50px;
+        height: 50px;
+        border: 1px solid var(--color-border);
+        background-color: var(--color-background-01);
+        color: var(--color-primary);
+        box-shadow: 0 0 5px #00000073;
+        font-family: "Instrument Sans", sans-serif;
+        font-size: 18px;
+        outline: none;
+        transition: scale 0.2s ease, background-color 0.2s ease, color 0.2s ease;
+        will-change: transform;
+
+        // aspect-ratio: 1;
+        text-decoration: none;
+        font-weight: 500;
+        cursor: pointer;
+
+        @include flex;
+    }
+
     &__start {
+        height: 100%;
         padding: 0.75rem 2rem;
         border: 1px solid var(--color-border-accent);
         background-color: var(--color-accent);
@@ -112,6 +137,7 @@
         outline: none;
         transition: scale 0.2s ease, background-color 0.2s ease;
         will-change: transform;
+        white-space: nowrap;
         font-weight: 500;
         cursor: pointer;
     }
@@ -125,7 +151,7 @@
         color: var(--color-primary);
     }
 
-    &__start:active, &__mail:active {
+    &__start:active, &__mail:active, &__button:active {
         scale: 0.98;
     }
 
@@ -157,7 +183,11 @@
         }
 
         &__cta {
-            right: 0;
+            left: 0;
+            flex-direction: column;
+            align-items: flex-start;
+            width: 100%;
+            height: fit-content;
         }
     }
 
@@ -177,9 +207,40 @@
 
         &__cta {
             flex-direction: column;
-            align-items: stretch;
             gap: 1rem;
             width: 100%;
         }
+    }
+}
+
+.cta__socials {
+    @include flex;
+
+    gap: 2rem;
+
+    @media screen and (width <= 480px) {
+        flex-direction: column;
+        gap: 1rem;
+    }
+}
+
+.cta__main {
+    @include flex;
+
+    gap: 2rem;
+
+    @media screen and (width <= 768px) {
+        width: 100%;
+
+        & > * {
+            flex-grow: 1;
+        }
+    }
+
+    @media screen and (width <= 480px) {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 1rem;
+        width: 100%;
     }
 }

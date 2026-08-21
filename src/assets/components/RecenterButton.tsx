@@ -3,8 +3,22 @@ import useWaypointRouter from "../hooks/useWaypointRouter";
 import useMandelbrotStore from "../hooks/useMandelbrotStore";
 import type { WaypointId } from "../types/general";
 import Icons from "./Icons";
+import { motion, type Variants } from "framer-motion";
 
 const RecenterButton = () => {
+    const variants: Variants = {
+        hidden: {
+            opacity: 0,
+            y: "calc(100% + 0.5rem)",
+            visibility: "hidden",
+        },
+        visible: {
+            opacity: 1,
+            y: 0,
+            visibility: "visible",
+        },
+    };
+
     const { route, controls, flags } = useWaypointRouter();
     
     const [isVisible, setIsVisible] = useState<boolean>(false);
@@ -33,10 +47,16 @@ const RecenterButton = () => {
     }, []);
 
     return (
-        <button className={`button-recenter${isVisible ? " visible" : ""}`} onClick={() => controls.navigate("overview")}>
+        <motion.button 
+            className="button-recenter"
+            variants={variants}
+            initial="hidden"
+            animate={isVisible ? "visible" : "hidden"}
+            onClick={() => controls.navigate("overview")}
+        >
             <Icons.GeoAltFill />
             Recenter
-        </button>
+        </motion.button>
     );
 };
 

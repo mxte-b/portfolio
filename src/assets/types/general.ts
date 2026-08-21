@@ -2,6 +2,7 @@ import type { HTMLElements } from "motion/react";
 import type { ComponentType, ReactNode } from "react";
 import type ComponentEvent from "../utils/componentEvent";
 import Icons from "../components/Icons";
+import DevIcons from "../components/DevIcons";
 
 declare global {
     interface WindowEventMap {
@@ -40,7 +41,7 @@ export type Artwork = {
     sourceName: string
 }
 
-export type WaypointId = "aboutMe" | "artworks" | "contact" | "home" | "projects";
+export type WaypointId = "aboutMe" | "artworks" | "skills" | "home" | "projects";
 
 /** 
  * Represents a waypoint that is located inside the fractal and can trigger an overlay. 
@@ -88,6 +89,19 @@ export type NavbarItem = {
     waypointId: WaypointId,
     icon: keyof typeof Icons,
     prominent?: boolean,
+}
+
+export type Skill = {
+    id: string,
+    label: string,
+    accentColor: string,
+    icon: keyof typeof DevIcons
+}
+
+export type SkillCategory = {
+    id: string,
+    label: string,
+    skills: Skill[]
 }
 
 /* -------------------------------------------------------------------------- */

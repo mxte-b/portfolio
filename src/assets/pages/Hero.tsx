@@ -22,8 +22,18 @@ const Hero = () => {
                     </div>
                 </div>
                 <div className="hero__cta">
-                    <a href="mailto:hello@mxteb.dev" className="hero__mail"><span>Contact me</span><Icons.ArrowUpRight /></a>
-                    <button className="hero__start" onClick={() => controls.navigate("overview")}>Start Experience</button>
+                    <div className="cta__socials">
+                        <a href="https://github.com/mxte-b" target="_blank" className="hero__button">
+                            <Icons.GitHub className="contact-method__icon" />
+                        </a>
+                        <a href="https://www.linkedin.com/in/mxteb/" target="_blank" className="hero__button">
+                            <Icons.LinkedIn className="contact-method__icon" />
+                        </a>
+                    </div>
+                    <div className="cta__main">
+                        <a href="mailto:hello@mxteb.dev" className="hero__mail"><span>Contact me</span><Icons.ArrowUpRight /></a>
+                        <button className="hero__start" onClick={() => controls.navigate("overview")}>Start Experience</button>
+                    </div>
                 </div>
             </section>
         </>

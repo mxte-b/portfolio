@@ -19,12 +19,12 @@ const waypoints: Waypoint[] = [
         component: lazy(() => import("../pages/Artworks"))
     },
     {
-        id: "contact",
-        label: "Contact",
-        description: "An overview of my contact methods.",
+        id: "skills",
+        label: "Skills",
+        description: "An overview of my programming skills.",
         location: [-1.77577, -0.00631],
         zoom: 540,
-        component: lazy(() => import("../pages/Contact"))
+        component: lazy(() => import("../pages/Skills"))
     },
     { 
         id: "projects",

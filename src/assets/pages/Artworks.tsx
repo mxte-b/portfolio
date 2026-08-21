@@ -51,7 +51,7 @@ const Artworks = ({ waypoint, onBack }: WaypointComponentProps) => {
                 {
                     g.map(a => 
                         <Reveal as={"li"} key={a.sourceName} id={a.sourceName} className="artwork-masonry__item" height="100%" width="100%">
-                            <ResponsiveImage category="artworks" sourceName={a.sourceName} />
+                            <ResponsiveImage alt={a.subtitle} category="artworks" sourceName={a.sourceName} />
                             <div className="artwork-details">
                                 <h4 className="artwork-details__title">{a.title}</h4>
                                 <p className="artwork-details__year">{a.year}</p>
