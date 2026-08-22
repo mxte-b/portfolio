@@ -2,11 +2,9 @@ import navbarItems from "../data/navbarItems";
 import Icons from "./Icons";
 import useWaypointRouter from "../hooks/useWaypointRouter";
 import type { NavbarItem } from "../types/general";
-import useLoader from "../hooks/useLoader";
 
 const MobileNavbar = () => {
     const { route, controls } = useWaypointRouter();
-    const { animationFinished } = useLoader();
 
     const homeNavbarItem: NavbarItem = {
         title: "Home", 
@@ -17,7 +15,6 @@ const MobileNavbar = () => {
     const items = [...navbarItems.slice(0, 2), homeNavbarItem, ...navbarItems.slice(2, navbarItems.length)];
 
     return (
-        animationFinished && 
         <div className="navbar-mobile-wrapper">
             <div className="navbar-mobile">
                 <div className="navbar-mobile__items">
@@ -27,7 +24,7 @@ const MobileNavbar = () => {
                                 const Icon = Icons[item.icon];
 
                                 return (
-                                    <div
+                                    <button
                                         key={item.waypointId}
                                         onClick={() => controls.navigate(item.waypointId)}
                                         title={item.title}
@@ -36,7 +33,7 @@ const MobileNavbar = () => {
                                     >
                                         <Icon />
                                         {item.title}
-                                    </div>
+                                    </button>
                                 )
                             }
                         )

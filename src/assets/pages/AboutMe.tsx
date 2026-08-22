@@ -44,13 +44,6 @@ const AboutMe = ({ waypoint, onBack }: WaypointComponentProps) => {
                 </div>
             </Reveal>
 
-            <Stagger className="skills" width="100%">
-                <h2 className="skills__header">Skills</h2>
-                <Stagger className="skills__content">
-                    <p>I've worked with many programming languages over the years, and am willing to learn new ones any time.</p>
-                </Stagger>
-            </Stagger>
-
             <Stagger className="story">
                 <h2 className="story__header">Why fractals?</h2>
                 <Stagger className="story__content">

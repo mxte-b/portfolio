@@ -27,7 +27,7 @@ const WaypointRevealOverlay = ({ label, duration }: { label: string, duration: n
     }, [revealed]);
 
     return (
-        <div style={{ visibility: prefersReducedMotion ? "hidden" : "visible" }} className="waypoint-overlay">
+        <div style={{ visibility: prefersReducedMotion ? "hidden" : !revealed ? "visible" : "hidden" }} className="waypoint-overlay">
             <div ref={overlayRef} className="waypoint-overlay__container">{label}</div>
         </div>
     );

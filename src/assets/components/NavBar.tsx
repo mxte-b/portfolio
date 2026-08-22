@@ -1,16 +1,11 @@
 import Icons from "./Icons";
 import navbarItems from "../data/navbarItems";
-
 import useWaypointRouter from "../hooks/useWaypointRouter";
-import useLoader from "../hooks/useLoader";
 
 const Navbar = () => {
-
-    const { animationFinished } = useLoader();
     const { controls } = useWaypointRouter();
 
     return (
-        animationFinished && 
         <div className="navbar-wrapper">
             <div className="navbar">
                 <div className="navbar__body">
@@ -20,7 +15,7 @@ const Navbar = () => {
             
                     <div className="navbar__items">
                         {navbarItems.map(item => (
-                            <div
+                            <button
                                 key={item.waypointId}
                                 onClick={() => controls.navigate(item.waypointId)}
                                 title={item.title}
@@ -28,7 +23,7 @@ const Navbar = () => {
                                 className={`navbar__item cursor-pointer${item.prominent ? " prominent" : ""}`}
                             >
                                 {item.title}
-                            </div>
+                            </button>
                         ))}
                     </div>
                 </div>

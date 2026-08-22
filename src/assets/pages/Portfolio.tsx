@@ -47,9 +47,8 @@ const Portfolio = () => {
                 : <MobileNavbar />
             }
             <RecenterButton />
+            <Loader />
             <div className="main">
-                <Loader />
-
                 <Canvas ref={canvasRef} className="viewer" frameloop="demand" dpr={1}>
                     <WaypointUpdater 
                         waypoints={waypoints} 

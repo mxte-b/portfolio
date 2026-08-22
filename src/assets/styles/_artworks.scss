@@ -80,6 +80,10 @@
             margin-bottom: 0;
         }
     }
+
+    @media (prefers-reduced-motion: reduce) {
+        transform: translateY(0) !important;
+    }
 }
 
 footer {

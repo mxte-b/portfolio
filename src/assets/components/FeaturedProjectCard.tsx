@@ -3,8 +3,10 @@ import type { FeaturedProject } from "../types/general";
 import { motion } from "motion/react";
 import Icons from "./Icons";
 import ResponsiveImage from "./ResponsiveImage";
+import useDevicePreferences from "../hooks/useDevicePreferences";
 
 const FeaturedProjectCard = ({ project, imagePlacement = "left" }: { project: FeaturedProject, imagePlacement?: "left" | "right" }) => {
+    const { prefersReducedMotion } = useDevicePreferences();
     const [expanded, setExpanded] = useState(false);
     const detailsId = `details-${project.title.replace(/\s+/g, "-").toLowerCase()}`;
 
@@ -31,7 +33,7 @@ const FeaturedProjectCard = ({ project, imagePlacement = "left" }: { project: Fe
                         layout
                         initial={false}
                         animate={{ height: expanded ? "auto" : 0 }}
-                        transition={{ duration: 0.3, ease: [0.4, 0, 0.2, 1] }}
+                        transition={{ duration: prefersReducedMotion ? 0 : 0.3, ease: [0.4, 0, 0.2, 1] }}
                         className="project__details-wrapper"
                     >
                         <div className="project__details">
