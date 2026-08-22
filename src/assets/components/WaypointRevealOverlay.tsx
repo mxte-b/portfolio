@@ -1,5 +1,5 @@
 import { useRevealState } from "../hooks/useRevealAnimation";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { gsap } from "gsap";
 import { SplitText } from "gsap/SplitText";
 import useDevicePreferences from "../hooks/useDevicePreferences";
@@ -7,6 +7,9 @@ import useDevicePreferences from "../hooks/useDevicePreferences";
 const WaypointRevealOverlay = ({ label, duration }: { label: string, duration: number }) => {
     const revealed = useRevealState();
     const { prefersReducedMotion } = useDevicePreferences();
+
+    const [animationFinished, setAnimationFinished] = useState<boolean>(false);
+
     const overlayRef = useRef<HTMLDivElement | null>(null);
 
     useEffect(() => {
@@ -23,11 +26,17 @@ const WaypointRevealOverlay = ({ label, duration }: { label: string, duration: n
             },
             ease: "power2.inOut",
             duration: duration / 1000,
+            onComplete: () => setAnimationFinished(true)
         });
     }, [revealed]);
 
     return (
-        <div style={{ visibility: prefersReducedMotion ? "hidden" : !revealed ? "visible" : "hidden" }} className="waypoint-overlay">
+        <div className="waypoint-overlay" style={{ 
+            visibility: 
+                prefersReducedMotion || (!revealed && animationFinished)
+                ? "hidden" 
+                : "visible" 
+        }}>
             <div ref={overlayRef} className="waypoint-overlay__container">{label}</div>
         </div>
     );
