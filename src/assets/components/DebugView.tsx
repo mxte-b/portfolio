@@ -44,7 +44,7 @@ const DebugView = ({ children }: { children: ReactNode }) => {
         if (!debugDomRef.current) return;
 
         const parent = debugDomRef.current.parentElement ?? document;
-        elementsRef.current = [...parent.querySelectorAll<HTMLElement>(".debug-view + :not(.debug-view) *")];
+        elementsRef.current = [...parent.querySelectorAll<HTMLElement>(".debug-view ~ :not(.debug-view), .debug-view ~ :not(.debug-view) *")];
 
         window.addEventListener("keydown", handleKeyPressed);
 

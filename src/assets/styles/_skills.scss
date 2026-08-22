@@ -1,0 +1,70 @@
+@use "mixins" as *;
+
+.skills {
+    @include flex(column, $align: flex-start);
+
+    gap: 4rem;
+
+    &__category {
+        @include flex(column, $align: flex-start);
+
+        gap: 1rem;
+        width: 100%;
+    }
+}
+
+.skill-category {
+    &__header {
+        @include flex(row, flex-start, flex-end);
+
+        gap: 0.5rem;
+    }
+
+    &__index {
+        opacity: 0.2;
+        font-family: "JetBrains Mono", monospace;
+        font-size: clamp(40px, 12cqw, 50px);
+        line-height: clamp(40px, 12cqw, 50px);
+    }
+
+    &__label {
+        line-height: 1.2em;
+        font-weight: 500;
+    }
+
+    &__items {
+        @include flex(row, flex-start);
+
+        gap: 1rem;
+        width: 100%;
+        flex-wrap: wrap;
+    }
+}
+
+.skill {
+    position: relative;
+    min-width: max-content;
+    height: 50px;
+    border: 1px solid var(--color-border);
+    background: linear-gradient(-90deg, color-mix(in srgb, var(--skill-accent) 20%, var(--color-background-01) 80%), var(--color-background-01) 80%);
+    color: color-mix(in srgb, white 60%, var(--skill-accent) 40%);
+    padding-left: calc(38px + 1rem);
+    padding-right: 1.5rem;
+    overflow: hidden;
+
+    @include flex;
+
+    &__icon {
+        position: absolute;
+        left: 0;
+        width: 50px;
+        height: 50px;
+        fill: var(--skill-accent);
+        transform: translateX(calc(-50% + 10px));
+        flex-shrink: 0;
+    }
+
+    &__label {
+        white-space: nowrap;
+    }
+}
