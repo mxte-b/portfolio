@@ -33,7 +33,7 @@ const WaypointRevealOverlay = ({ label, duration }: { label: string, duration: n
     return (
         <div className="waypoint-overlay" style={{ 
             visibility: 
-                prefersReducedMotion || (!revealed && animationFinished)
+                prefersReducedMotion || (revealed && animationFinished)
                 ? "hidden" 
                 : "visible" 
         }}>
