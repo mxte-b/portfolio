@@ -19,17 +19,17 @@
     position: absolute;
     width: $marker-size;
     height: $marker-size;
+    will-change: transfrom;
+    contain: layout;
     pointer-events: none;
     touch-action: none;
 
     &.hidden {
-        // display: none;
-        visibility: hidden;
+        display: none;
     }
 
     &.component-hidden > .waypoint-component {
-        // display: none;
-        visibility: hidden;
+        display: none;
     }
     
     &__circle {
@@ -166,6 +166,8 @@
     height: calc(100svh + 1px);
     background: radial-gradient(circle at right bottom, #200802f5, #0c0c0cf5 50%);
     opacity: var(--proximity-opacity);
+    will-change: transform, opacity;
+    overflow: hidden;
     backdrop-filter: blur(5px);
     pointer-events: none;
     transform: translate(-50%, -50%) scale(var(--proximity-scale));
