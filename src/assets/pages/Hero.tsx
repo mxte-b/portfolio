@@ -7,18 +7,20 @@ const Hero = () => {
     return (
         <>
             <section className="hero" aria-labelledby="hero-title">
-                <div className="hero__wrapper">
-                    <h1 className="hero__title" id="hero-title">mate blank.</h1>
-                    <div className="hero__accent-line"/>
-                </div>
-                <div className="hero__details">
-                    <div className="hero__detail--main">
-                        <p>developer</p>
-                        <p>digital artist</p>
+                <div className="hero__content">
+                    <div className="hero__wrapper">
+                        <h1 className="hero__title" id="hero-title">mate blank.</h1>
+                        <div className="hero__accent-line"/>
                     </div>
-                    <div className="hero__detail">
-                        <p>Based in <span className="highlight">Hungary</span></p>
-                        <p><span className="highlight">5+ years</span> experience</p>
+                    <div className="hero__details">
+                        <div className="hero__detail--main">
+                            <p>developer</p>
+                            <p>digital artist</p>
+                        </div>
+                        <div className="hero__detail">
+                            <p>Based in <span className="highlight">Hungary</span></p>
+                            <p><span className="highlight">5+ years</span> experience</p>
+                        </div>
                     </div>
                 </div>
                 <div className="hero__cta">

@@ -164,11 +164,8 @@
     z-index: -1;
     width: 100vw;
     height: calc(100svh + 1px);
-    padding: calc($navbar-height) 2rem;
     background: radial-gradient(circle at right bottom, #200802f5, #0c0c0cf5 50%);
     opacity: var(--proximity-opacity);
-    overflow-y: auto;
-    scrollbar-width: none;
     backdrop-filter: blur(5px);
     pointer-events: none;
     transform: translate(-50%, -50%) scale(var(--proximity-scale));
@@ -178,16 +175,21 @@
 
     @media screen and (width <= 768px) {
         height: calc(calc(100svh + 1px) - 74px);
-        padding: 2rem;
     }
 
     main  {
         width: 1000px;
-        max-width: 100%;
+        max-width: calc(100% - 2rem);
         font-size: 20px;
         line-height: 1.5;
+        overflow-y: auto;
+        padding-top: $navbar-height;
+        padding-bottom: 2rem;
+        scrollbar-width: none;
 
         @media screen and (width <= 768px) {
+            max-width: 100%;
+            padding: 1rem;
             font-size: 18px;
         }
     }
@@ -244,10 +246,6 @@
             width: 20px;
             height: 20px;
         }
-    }
-
-    &__content {
-        padding-bottom: 2rem;
     }
 
     .divider {
