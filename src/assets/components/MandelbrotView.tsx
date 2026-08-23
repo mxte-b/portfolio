@@ -129,6 +129,7 @@ const MandelbrotView = ({ rectRef }: { rectRef: RefObject<DOMRect | null> }) => 
             invalidate();
         },
         onWheel: ({ delta, event }) => {
+            console.log("wheel")
             if (!movementEnabled) return;
             event.preventDefault(); event.stopPropagation();
 
@@ -138,6 +139,7 @@ const MandelbrotView = ({ rectRef }: { rectRef: RefObject<DOMRect | null> }) => 
         },
         onPinch: ({ origin, movement: [relativeScale], first, memo }) => {
             if (!movementEnabled) return;
+            console.log("pinch")
 
             const s = useMandelbrotStore.getState();
             if (first) memo = s.viewState.zoom;
@@ -152,6 +154,7 @@ const MandelbrotView = ({ rectRef }: { rectRef: RefObject<DOMRect | null> }) => 
         target: gl.domElement, 
         eventOptions: { passive: false }, 
         drag: { filterTaps: true },
+        pinch: { pinchOnWheel: false }
     });
 
     // Per-frame logic
