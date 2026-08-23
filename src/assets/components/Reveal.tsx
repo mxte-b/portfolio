@@ -24,7 +24,7 @@ const Reveal = ({ as = "div", width, height, className, id, children }: RevealPa
             opacity: 1,
             filter: "none",
             y: 0,
-            willChange: "none"
+            willChange: "auto"
         },
     } ;
 

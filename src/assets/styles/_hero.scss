@@ -3,11 +3,9 @@
 .hero {
     position: relative;
     gap: 1rem;
-    width: 100%;
-    max-width: 1300px;
+    width: 100% !important;
+    max-width: 1300px !important;
     height: 100%;
-    padding: 1rem;
-    overflow-y: auto;
     scrollbar-width: 0;
     container-type: inline-size;
 
@@ -15,7 +13,6 @@
 
     @media screen and (width <= 768px) {
         justify-content: flex-start;
-        padding-top: 4rem;
     }
 
     &__content {
@@ -54,7 +51,6 @@
         position: relative;
         gap: 0.5rem;
         padding: 2rem;
-        margin-block: 1rem;
     }
 
     &__detail {
@@ -66,9 +62,11 @@
 
     &__detail--main {
         @include flex($justify: space-between);
-        
+
+        gap: 0.5rem;
         font-family: Orbitron, sans-serif;
         font-size: clamp(40px, 4cqw, 52px);
+        line-height: clamp(40px, 4cqw, 52px);
     }
 
     &__cta {

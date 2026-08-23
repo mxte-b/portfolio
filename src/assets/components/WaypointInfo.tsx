@@ -78,32 +78,6 @@ const WaypointInfo = ({ location }: { location: [number, number] }) => {
             ctx.stroke();
         }
 
-
-        // Big ticks
-
-        // for (let i = 0; i < 2; i++) {
-        //     let lx = halfW;
-        //     let ly = halfH;
-        //     let lxi = 0;
-        //     let lyi = 0;
-    
-        //     while (lx < dim.width - CANVAS_PADDING && lx > CANVAS_PADDING) {
-        //         ctx.moveTo(lx + 0.5, halfH - (lxi % 4 == 0 ? tickSizeBigHalf : tickSizeSmallHalf));
-        //         ctx.lineTo(lx + 0.5, halfH + (lxi % 4 == 0 ? tickSizeBigHalf : tickSizeSmallHalf));
-    
-        //         lx += GRID_SPACING * 0.5 * Math.pow(-1, i);
-        //         lxi++;
-        //     }
-
-        //     while (ly < dim.height - CANVAS_PADDING && ly > CANVAS_PADDING) {
-        //         ctx.moveTo(halfW - (lyi % 4 == 0 ? tickSizeBigHalf : tickSizeSmallHalf) + 0.5, ly);
-        //         ctx.lineTo(halfW + (lyi % 4 == 0 ? tickSizeBigHalf : tickSizeSmallHalf) + 0.5, ly);
-    
-        //         ly += GRID_SPACING * 0.5 * Math.pow(-1, i);
-        //         lyi++;
-        //     }
-        // }
-
         ctx.closePath();
         ctx.stroke();
     }
@@ -237,7 +211,7 @@ const WaypointInfo = ({ location }: { location: [number, number] }) => {
         drawTicks(ctx, dim);
         drawAxes(ctx, dim);
         drawCircle(ctx, dim);
-    }, [fontsReady]);
+    }, [fontsReady, window.devicePixelRatio]);
 
     useEffect(() => {
         const fonts = [

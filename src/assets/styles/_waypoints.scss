@@ -19,10 +19,10 @@
     $button-border: var(--color-border);
     $button-border-prominent: var(--color-border-accent);
 
-    position: absolute;
+    position: fixed;
     width: var(--marker-size);
     height: var(--marker-size);
-    will-change: transfrom;
+    will-change: transform;
     contain: layout;
     pointer-events: none;
     touch-action: none;
