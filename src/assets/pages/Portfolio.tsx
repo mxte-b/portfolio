@@ -12,6 +12,7 @@ import MobileNavbar from '../components/MobileNavbar';
 import type { WaypointId } from '../types/general';
 import useLoader from '../hooks/useLoader';
 import RecenterButton from '../components/RecenterButton';
+import WaypointMarkerBody from '../components/WaypointMarkerBody';
 
 const Portfolio = () => {
     const breakpoint         = useScreenBreakpoint();
@@ -46,7 +47,23 @@ const Portfolio = () => {
                 ? <Navbar />
                 : <MobileNavbar />
             }
-            <RecenterButton />
+
+            <div className="bottom-cta">
+                
+                <div className="clip-wrapper">
+                    <RecenterButton />
+                </div>
+                <div className="clip-wrapper fill">
+                    {
+                        breakpoint !== "large" &&
+                        <WaypointMarkerBody 
+                            waypointId={selectedMarkerId} 
+                            onGo={() => setSelectedMarkerId(null)}
+                            onCancel={() => setSelectedMarkerId(null)}
+                        />
+                    }
+                </div>
+            </div>
             <Loader />
             <div className="main">
                 <Canvas ref={canvasRef} className="viewer" frameloop="demand" dpr={1}>

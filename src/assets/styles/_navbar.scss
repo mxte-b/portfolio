@@ -225,11 +225,9 @@
 .button-recenter {
     @include flex(row);
 
-    position: fixed;
-    right: 0.5rem;
-    bottom: 0.5rem;
     z-index: 99;
     gap: 0.25rem;
+    margin: 0.5rem;
     padding: 0.5rem;
     border: 1px solid var(--color-border-accent);
     background: linear-gradient(to bottom, var(--color-accent));
@@ -255,5 +253,61 @@
 
     @media screen and (width <= 768px) {
         bottom: calc(75px + 0.5rem);
+    }
+}
+
+.bottom-cta {
+    @include flex(column, stretch, flex-end);
+
+    position: fixed;
+    right: 0;
+    bottom: 0;
+    z-index: 99;
+
+    .waypoint-marker__body.mobile {
+        width: calc(100% + 1px);
+        padding: 0;
+        border: none;
+        border-radius: 0;
+        transition: none;
+        transform: none;
+
+        & > * {
+            padding-inline: 1rem;
+        }
+    }
+
+    .waypoint-marker__label {
+        font-size: 20px;
+        padding-top: 1rem;
+    }
+
+    .waypoint-marker__description {
+        font-size: inherit;
+    }
+
+    .waypoint-marker__cta {
+        padding-bottom: 1rem;
+    }
+
+    .waypoint-marker__cta > button {
+        height: 40px;
+        border-radius: 0;
+        font-size: inherit;
+        font-weight: 500;
+    }
+
+    .clip-wrapper {
+        overflow: hidden;
+
+        &.fill {
+            width: 100%;
+        }
+    }
+
+    @media screen and (width <= 768px) {
+        right: 0;
+        bottom: 73px;
+        left: 0;
     }
 }

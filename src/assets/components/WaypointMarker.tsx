@@ -3,6 +3,7 @@ import type { Waypoint, WaypointId } from "../types/general";
 import { AnimatePresence, motion } from 'motion/react';
 import useDevicePreferences from "../hooks/useDevicePreferences";
 import useWaypointRouter from "../hooks/useWaypointRouter";
+import useScreenBreakpoint from "../hooks/useScreenBreakpoint";
 
 const WaypointMarker = (
     { ref, waypoint, selected, onClick, onCancel, onGo, onComponentExit }: 
@@ -16,6 +17,7 @@ const WaypointMarker = (
         onComponentExit: () => void
 }) => {
 
+    const breakpoint = useScreenBreakpoint();
     const { route, controls } = useWaypointRouter();
     const { prefersReducedMotion } = useDevicePreferences();
 
@@ -33,7 +35,7 @@ const WaypointMarker = (
             </div>
             <AnimatePresence>
                 {
-                    selected && !target && 
+                    breakpoint === "large" && selected && !target && 
                     <motion.div 
                         initial={{ opacity: 0, scale: prefersReducedMotion ? 1 : 0.9, x: "-50%"}}
                         animate={{ opacity: 1, scale: 1, x: "-50%" }}

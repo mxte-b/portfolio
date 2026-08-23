@@ -4,22 +4,26 @@ import useMandelbrotStore from "../hooks/useMandelbrotStore";
 import type { WaypointId } from "../types/general";
 import Icons from "./Icons";
 import { motion, type Variants } from "framer-motion";
+import useDevicePreferences from "../hooks/useDevicePreferences";
 
 const RecenterButton = () => {
+    const { route, controls, flags } = useWaypointRouter();
+    const { prefersReducedMotion } = useDevicePreferences();
+
     const variants: Variants = {
         hidden: {
             opacity: 0,
             y: "calc(100% + 0.5rem)",
             visibility: "hidden",
+            transition: { duration: prefersReducedMotion ? 0 : 0.2, ease: "easeInOut" }
         },
         visible: {
             opacity: 1,
             y: 0,
             visibility: "visible",
+            transition: { duration: prefersReducedMotion ? 0 : 0.2, ease: "easeInOut" }
         },
     };
-
-    const { route, controls, flags } = useWaypointRouter();
     
     const [isVisible, setIsVisible] = useState<boolean>(false);
 

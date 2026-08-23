@@ -1,24 +1,27 @@
 @use "mixins" as *;
 
 .waypoint-marker {
-    $marker-size: 15px;
+    --marker-size: 15px;
+
     $marker-active-scale: 1.2;
     $marker-pulse-time: 1.5s;
     $marker-border: white;
     $marker-bg: #f3f3f3;
-    $marker-active-bg: #13c0ff;
+    $marker-active-bg: var(--color-accent);
     $marker-body-bg: #0c0c0ce0;
     $marker-body-border: #272727;
-    $button-bg: #272727;
-    $button-bg-prominent: #107bc2;
+    $button-bg: var(--color-background-02);
+    $button-bg-hover: #1f1f1f;
+    $button-bg-prominent: var(--color-accent);
+    $button-bg-prominent-hover: var(--color-accent-01);
     $button-color: white;
     $button-color-prominent: white;
-    $button-border: #3f3f3f;
-    $button-border-prominent: #13c0ff;
+    $button-border: var(--color-border);
+    $button-border-prominent: var(--color-border-accent);
 
     position: absolute;
-    width: $marker-size;
-    height: $marker-size;
+    width: var(--marker-size);
+    height: var(--marker-size);
     will-change: transfrom;
     contain: layout;
     pointer-events: none;
@@ -34,8 +37,8 @@
     
     &__circle {
         position: relative;
-        width: $marker-size;
-        height: $marker-size;
+        width: var(--marker-size);
+        height: var(--marker-size);
         opacity: calc(1 - var(--proximity-opacity));
         transform: translate(-50%, -50%);
 
@@ -43,8 +46,8 @@
             display: block;
             position: absolute;
             z-index: -1;
-            width: $marker-size;
-            height: $marker-size;
+            width: var(--marker-size);
+            height: var(--marker-size);
             border-radius: 50%;
             background-color: white;
             content: '';
@@ -65,14 +68,18 @@
                     scale: 2;
                 }
             }
+
+            @media (prefers-reduced-motion: reduce) {
+                animation: none;
+            }
         }
 
         &::before {
             display: block;
             position: absolute;
             z-index: 10;
-            width: $marker-size - 4px;
-            height: $marker-size - 4px;
+            width: calc(var(--marker-size) - 4px);
+            height: calc(var(--marker-size) - 4px);
             border: 2px solid $marker-border;
             border-radius: 50%;
             background-color: $marker-bg;
@@ -97,7 +104,6 @@
     &__body {
         gap: 0.4rem;
         width: 300px;
-        height: 130px;
         padding: 0.8rem;
         border: 1px solid $marker-body-border;
         border-radius: 1rem;
@@ -118,7 +124,7 @@
     }
 
     &__description {
-        color: rgb(194 194 194);
+        color: var(--color-secondary);
         font-size: 80%;
     }
 
@@ -127,6 +133,7 @@
 
         gap: 0.8rem;
         flex-grow: 1;
+        margin-top: 1rem;
     }
 
     &__cta > button {
@@ -138,7 +145,7 @@
         box-shadow: 0 2px 5px #00000073;
         font-family: "Instrument Sans", sans-serif;
         font-size: 14px;
-        transition: scale 0.2s ease;
+        transition: scale 0.2s ease, background-color 0.2s ease;
         flex-grow: 1;
         flex-basis: 0;
         cursor: pointer;
@@ -146,12 +153,24 @@
         &:active {
             scale: 0.98;
         }
+
+        &:hover {
+            background-color: $button-bg-hover;
+        }
     }
 
     &__cta > button.prominent {
         background-color: $button-bg-prominent;
         color: $button-color-prominent;
         border-color: $button-border-prominent;
+
+        &:hover {
+            background-color: $button-bg-prominent-hover;
+        }
+    }
+
+    @media screen and (width <= 768px) {
+        --marker-size: 20px;
     }
 }
 
