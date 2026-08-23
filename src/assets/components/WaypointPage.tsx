@@ -4,6 +4,7 @@ import type { Waypoint } from "../types/general";
 import WaypointHeader from "./WaypointHeader";
 import WaypointRevealOverlay from "./WaypointRevealOverlay";
 import type ComponentEvent from "../utils/componentEvent";
+import useDevicePreferences from "../hooks/useDevicePreferences";
 
 const REVEAL_DURATION = 800;
 
@@ -19,6 +20,8 @@ const WaypointPage = (
         children: ReactNode, 
     }
 ) => {
+    const { prefersReducedMotion } = useDevicePreferences();
+
     const [revealed, setRevealed] = useState<boolean>(false);
 
     useEffect(() => {
@@ -32,6 +35,10 @@ const WaypointPage = (
 
         return () => window.removeEventListener("component-enter", handleEnter);
     }, []);
+
+    useEffect(() => {
+        if (prefersReducedMotion) setRevealed(true);
+    }, [prefersReducedMotion]);
 
     return (
         <RevealAnimationProvider revealed={revealed} stagger={50} delay={REVEAL_DURATION}>
