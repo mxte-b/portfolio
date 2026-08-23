@@ -8,7 +8,7 @@ const AboutMe = ({ waypoint, onBack }: WaypointComponentProps) => {
         <WaypointPage waypoint={waypoint} onBack={onBack}>
             <div className="intro">
                 <Reveal className="intro__header">
-                    Hi, my name is <span className="intro__name">Norman</span>, aka mxte_b.
+                    Hi, my name is <span className="intro__name">Mate</span>, aka mxte_b.
                 </Reveal>
 
                 <Stagger className="intro__content">
