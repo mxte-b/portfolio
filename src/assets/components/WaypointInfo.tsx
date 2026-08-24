@@ -2,7 +2,6 @@ import { useEffect, useRef, useState } from "react";
 import type { DrawHelper } from "../types/general";
 import { clamp } from "../utils/math";
 
-const DPR = window.devicePixelRatio;
 const SCALE = 36;
 
 const CANVAS_PADDING = 10;
@@ -27,6 +26,7 @@ const CIRCLE_RADIUS = 4;
 const WaypointInfo = ({ location }: { location: [number, number] }) => {
 
     const [fontsReady, setFontsReady] = useState<boolean>(false);
+    const [dpr, setDpr] = useState<number>(1);
 
     const canvasRef = useRef<HTMLCanvasElement | null>(null);
 
@@ -51,7 +51,6 @@ const WaypointInfo = ({ location }: { location: [number, number] }) => {
 
         ctx.save();
 
-        // Small ticks
         for (let i = 2; i > 0; i--) {
             const currentSize = (i == 2 ? tickSizeSmallHalf : tickSizeBigHalf);
             
@@ -195,32 +194,53 @@ const WaypointInfo = ({ location }: { location: [number, number] }) => {
         ctx.restore();
     }
 
+    // Load all fonts before drawing on canvas
+    useEffect(() => {
+        const fonts = [
+            document.fonts.load("20px 'Computer Modern Italic'"),
+            document.fonts.load("14px 'Instrument Sans'")
+        ];
+        
+        Promise.all(fonts).then(() => setFontsReady(true));
+    }, []);
+
+    // Update DPR
+    useEffect(() => {
+        let query: MediaQueryList | null = null;
+
+        const updateDevicePixelRatio = () => {
+            query?.removeEventListener("change", updateDevicePixelRatio);
+
+            query = matchMedia(`(resolution: ${window.devicePixelRatio}dppx)`);
+
+            query.addEventListener("change", updateDevicePixelRatio);
+
+            setDpr(window.devicePixelRatio);
+        }
+
+        updateDevicePixelRatio();
+
+        return () => query?.removeEventListener("change", updateDevicePixelRatio);
+    }, []);
+
+    // Draws the waypoint info on the canvas
     useEffect(() => {
         const c = canvasRef.current;
         const ctx = c?.getContext("2d");
 
         if (!c || !ctx) return;
 
-        ctx.setTransform(DPR, 0, 0, DPR, 0, 0);        
-        ctx.clearRect(0, 0, c.width / DPR, c.height / DPR);
+        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);        
+        ctx.clearRect(0, 0, c.width / dpr, c.height / dpr);
 
-        const dim = { width: c.width / DPR, height: c.height / DPR };
+        const dim = { width: c.width / dpr, height: c.height / dpr };
         
         drawBackground(ctx, dim);
         drawGrid(ctx, dim);
         drawTicks(ctx, dim);
         drawAxes(ctx, dim);
         drawCircle(ctx, dim);
-    }, [fontsReady, window.devicePixelRatio]);
-
-    useEffect(() => {
-        const fonts = [
-            document.fonts.load("20px 'Computer Modern Italic'"),
-            document.fonts.load("14px 'Instrument Sans'")
-        ]
-        
-            Promise.all(fonts).then(() => setFontsReady(true));
-    }, []);
+    }, [fontsReady, dpr]);
 
     return (
         <canvas aria-label="Current location" ref={canvasRef} className="waypoint-info" width={200 * window.devicePixelRatio} height={125 * window.devicePixelRatio} />

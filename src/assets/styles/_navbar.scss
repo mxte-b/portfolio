@@ -237,6 +237,7 @@
     font-size: 14px;
     transition: scale 0.2s ease;
     will-change: transform;
+    pointer-events: all;
     font-weight: 500;
     cursor: pointer;
     scale: 1;
@@ -263,6 +264,7 @@
     right: 0;
     bottom: 0;
     z-index: 99;
+    pointer-events: none;
 
     .waypoint-marker__body.mobile {
         width: calc(100% + 1px);
@@ -270,6 +272,7 @@
         border: none;
         border-radius: 0;
         transition: none;
+        pointer-events: all;
         transform: none;
 
         & > * {
