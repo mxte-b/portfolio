@@ -10,6 +10,7 @@ import type { MandelbrotViewState } from '../types/mandelbrot';
 import useDevicePreferences from '../hooks/useDevicePreferences';
 import useMandelbrotStore from '../hooks/useMandelbrotStore';
 import { convertColors, type ShaderUniforms } from '../utils/graphics';
+import { clamp } from '../utils/math';
 
 const gradient = convertColors(["#0c0c0c", "#E46C16", "#ffbc81", "#fff2e6"]);
 const EPSILON = 1e-2;
@@ -142,11 +143,13 @@ const MandelbrotView = ({ rectRef }: { rectRef: RefObject<DOMRect | null> }) => 
             const s = useMandelbrotStore.getState();
             if (first) memo = s.viewState.zoom;
 
-            zoomToAnchored(origin, s.viewState.center, s.viewState.zoom, memo * relativeScale);
+            lastMousePositionRef.current = origin;
+            const zoomLimit = s.limits.zoom;
+
+            zoomToAnchored(origin, s.viewState.center, s.viewState.zoom, clamp(memo * relativeScale, zoomLimit.low, zoomLimit.high));
             invalidate();
             return memo;
         },
-
     }, 
     { 
         target: gl.domElement, 
@@ -159,8 +162,12 @@ const MandelbrotView = ({ rectRef }: { rectRef: RefObject<DOMRect | null> }) => 
     useFrame((_, delta) => {
         const s = useMandelbrotStore.getState();
         const rect = getRendererRectData();
+
         let shouldRenderNextFrame = animationsEnabledRef.current || timeInfluenceRef.current != 0;
         
+        const panLimit = s.limits.pan;
+        const zoomLimit = s.limits.zoom;
+
         const vPan = panVelocityRef.current;
         const vAbsX = Math.abs(vPan[0]);
         const vAbsY = Math.abs(vPan[1]);
@@ -186,15 +193,29 @@ const MandelbrotView = ({ rectRef }: { rectRef: RefObject<DOMRect | null> }) => 
             if (vAbsZ < EPSILON) zoomVelocityRef.current = 0;
             
             if (prefersReducedMotion) {
+                let newZoom = currentZoom + zoomVelocityRef.current * 0.02 * currentZoom;
+
                 // Zoom needs to be applied before the friction, because here the friction is 0.
-                zoomToAnchored(lastMousePositionRef.current, s.viewState.center, currentZoom, currentZoom + zoomVelocityRef.current * 0.02 * currentZoom)    
+                zoomToAnchored(
+                    lastMousePositionRef.current, 
+                    s.viewState.center, 
+                    currentZoom, 
+                    clamp(newZoom, zoomLimit.low, zoomLimit.high)
+                );    
             }
 
             zoomVelocityRef.current *= friction;
 
             if (!prefersReducedMotion) {
                 // Apply zoom with smooth movement.
-                zoomToAnchored(lastMousePositionRef.current, s.viewState.center, currentZoom, currentZoom + zoomVelocityRef.current * 0.001 * currentZoom)
+                let newZoom = currentZoom + zoomVelocityRef.current * 0.001 * currentZoom;
+
+                zoomToAnchored(
+                    lastMousePositionRef.current, 
+                    s.viewState.center, 
+                    currentZoom, 
+                    clamp(newZoom, zoomLimit.low, zoomLimit.high)
+                );
             }
         }
 

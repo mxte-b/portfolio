@@ -19,6 +19,16 @@ const useMandelbrotStore = create<MandelbrotState>()(subscribeWithSelector(set =
         animationsEnabled: false,
         movementEnabled: false,
     },
+    limits: {
+        zoom: {
+            low: 0.1,
+            high: 1000
+        },
+        pan: {
+            topLeft: [-3, 2],
+            bottomRight: [3, -2]
+        }
+    },
     controls: {
         moveTo: (target, targetZoom) => set(s => ({ 
             viewState: { ...s.viewState, center: target, zoom: targetZoom }
@@ -36,9 +46,13 @@ const useMandelbrotStore = create<MandelbrotState>()(subscribeWithSelector(set =
             viewState: { ...s.viewState, zoom: zoom }
         })),
 
-        setAnimationsEnabled: enabled => set(s => ({ flags: {...s.flags, animationsEnabled: enabled} })),
+        setZoomLimitHigh: high => set(s => ({
+            limits: { ...s.limits, zoom: { ...s.limits.zoom, high: high } }
+        })),
 
-        setMovementEnabled: enabled => set(s => ({ flags: {...s.flags, movementEnabled: enabled} })),
+        setAnimationsEnabled: enabled => set(s => ({ flags: {...s.flags, animationsEnabled: enabled } })),
+
+        setMovementEnabled: enabled => set(s => ({ flags: {...s.flags, movementEnabled: enabled } })),
     }
 })));
 

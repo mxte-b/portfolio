@@ -5,6 +5,7 @@ import useMandelbrotStore from "../hooks/useMandelbrotStore";
 import { clamp } from "../utils/math";
 
 const MARKER_SIZE_HALF = 7.5;
+const DEFAULT_ZOOM_LIMIT_HIGH = 1000;
 
 /**
  * Updates waypoint position synchronized to the THREE.js canvas.
@@ -17,6 +18,8 @@ const WaypointUpdater = (
         rectRef: RefObject<DOMRect | null>
     }
 ) => {
+
+    const setZoomLimitHigh = useMandelbrotStore(s => s.controls.setZoomLimitHigh);
 
     /**
      * Calculates the screen-space position of a waypoint marker.
@@ -52,6 +55,8 @@ const WaypointUpdater = (
         const viewportWidth = window.innerWidth;
         const viewportHeight = window.innerHeight;
 
+        let zoomLimitHigh = DEFAULT_ZOOM_LIMIT_HIGH;
+
         for (const w of waypoints) {
             const [x, y] = getWaypointPosition(w.location, s.viewState.zoom, s.viewState.center, rect);
             const el = markerRefs.current.get(w.id);
@@ -86,12 +91,18 @@ const WaypointUpdater = (
                     // Component AABB testing
                     el.classList[componentOutside ? "add" : "remove"]("hidden", "component-hidden");
                     if (componentOutside) continue;
+                    else zoomLimitHigh = w.zoom;
                 }
 
                 el.style.transform = `translate3d(${x}px, ${y}px, 0)`;
                 el.style.setProperty("--proximity-scale", `${zoomRatio}`);
                 el.style.setProperty("--proximity-opacity", `${clamp(Math.pow(zoomRatio, 0.5), 0, 1)}`);
             }
+        }
+
+        if (s.limits.zoom.high !== zoomLimitHigh) {
+            console.log("New high zoom limit:", zoomLimitHigh);
+            setZoomLimitHigh(zoomLimitHigh);
         }
     });
 
