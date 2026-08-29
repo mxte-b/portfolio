@@ -1,8 +1,10 @@
 import useWaypointRouter from "../hooks/useWaypointRouter";
 import Icons from "../components/Icons";
+import useHelpOverlay from "../hooks/useHelpOverlay";
 
 const Hero = () => {
     const { controls } = useWaypointRouter();
+    const { setVisible } = useHelpOverlay();
 
     return (
         <main className="hero" aria-labelledby="hero-title">
@@ -33,7 +35,12 @@ const Hero = () => {
                 </div>
                 <div className="cta__main">
                     <a href="mailto:hello@mxteb.dev" className="hero__mail"><span>Contact me</span><Icons.ArrowUpRight /></a>
-                    <button className="hero__start" onClick={() => controls.navigate("overview")}>Start Experience</button>
+                    <button 
+                        className="hero__start" 
+                        onClick={() => controls.navigate("overview", undefined, () => setVisible(true))}
+                    >
+                        Start Experience
+                    </button>
                 </div>
             </div>
         </main>

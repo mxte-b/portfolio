@@ -212,3 +212,15 @@ export type WaypointRouterContextValue = {
         back: (id: WaypointId) => void,
     },
 }
+
+/** Rerpresents the type of the useHelpOverlay hook. */
+export type HelpOverlayContextValue = {
+    /** Indicates whether the help overlay is open. */
+    visible: boolean,
+
+    /**
+     * Sets the visibility of the help overlay.
+     * @param visible The desired visibility value.
+     */
+    setVisible: (visible: boolean) => void,
+}

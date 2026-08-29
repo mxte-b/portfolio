@@ -5,9 +5,11 @@ import ArrowUpRight from "../icons/arrow-up-right.svg?react";
 import AwardFill from "../icons/award-fill.svg?react";
 import BracesAsterisk from "../icons/braces-asterisk.svg?react";
 import ChevronDown from "../icons/chevron-down.svg?react";
+import CursorFill from "../icons/cursor-fill.svg?react";
 import EnvelopeFill from "../icons/envelope-fill.svg?react";
 import GeoAltFill from "../icons/geo-alt-fill.svg?react";
 import GitHub from "../icons/github.svg?react";
+import HandIndexThumb from "../icons/hand-index-thumb.svg?react";
 import HouseFill from "../icons/house-fill.svg?react";
 import ImageFill from "../icons/image-fill.svg?react";
 import LightningChargeFill from "../icons/lightning-charge-fill.svg?react";
@@ -34,9 +36,11 @@ const Icons = {
     AwardFill,
     BracesAsterisk,
     ChevronDown,
+    CursorFill,
     EnvelopeFill,
     GeoAltFill,
     GitHub,
+    HandIndexThumb,
     HouseFill,
     ImageFill,
     LightningChargeFill,

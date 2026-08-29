@@ -13,6 +13,7 @@ import type { WaypointId } from '../types/general';
 import useLoader from '../hooks/useLoader';
 import RecenterButton from '../components/RecenterButton';
 import WaypointMarkerBody from '../components/WaypointMarkerBody';
+import HelpOverlay from '../components/HelpOverlay';
 
 const Portfolio = () => {
     const breakpoint         = useScreenBreakpoint();
@@ -64,7 +65,10 @@ const Portfolio = () => {
                     }
                 </div>
             </div>
+
             <Loader />
+            <HelpOverlay />
+
             <div className="main">
                 <Canvas ref={canvasRef} className="viewer" frameloop="demand" dpr={1}>
                     <WaypointUpdater 
