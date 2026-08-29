@@ -36,8 +36,8 @@ const HelpOverlay = () => {
                         }
                     </div>
                     <div className="help-overlay__text">
-                        <p>Drag to move the camera or {isTouch ? "pinch" : "scroll"} to change zoom level.</p>
-                        <p>Click the waypoint circles to navigate between pages.</p>
+                        <p><span className="prominent">Drag</span> to move the camera or <span className="prominent">{isTouch ? "pinch" : "scroll"}</span> to change zoom level.</p>
+                        <p><span className="prominent">Click</span> the waypoint circles to navigate between pages.</p>
                     </div>
                 </motion.div>
             }

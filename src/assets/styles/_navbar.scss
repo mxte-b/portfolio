@@ -372,5 +372,10 @@
         @include flex(column);
 
         gap: 0.5rem;
+        color: var(--color-secondary);
+    }
+
+    .prominent {
+        color: var(--color-primary);
     }
 }
