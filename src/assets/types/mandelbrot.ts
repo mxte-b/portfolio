@@ -34,6 +34,12 @@ export interface MandelbrotControls {
     setZoom: (zoom: number) => void,
 
     /**
+     * Sets the current high zoom limit.
+     * @param limit The desired limit value. 
+     */
+    setZoomLimitHigh: (limit: number) => void,
+
+    /**
      * Changes whether animations are enabled or disabled.
      * @param enabled True if enabled, false if not.
      */
@@ -55,6 +61,27 @@ export type MandelbrotFlags = {
     movementEnabled: boolean,
 }
 
+/** Represents the limits of the renderer. */
+export type MandelbrotLimits = {
+    /** Limits the extent of zooming. */
+    zoom: {
+        /** The lower zoom limit. */
+        low: number,
+
+        /** The upper zoom limit. */
+        high: number,
+    }
+
+    /** Limits the extent of panning. */
+    pan: {
+        /** The top left corner of the panning box in global coordinates. */
+        topLeft: [number, number],
+
+        /** The bottom right corner of the panning box in global coordinates. */
+        bottomRight: [number, number]
+    }
+}
+
 /**
  * The type of the useMandelbrotStore hook.
  */
@@ -62,7 +89,11 @@ export type MandelbrotState = {
     /** The current view state. */
     viewState: MandelbrotViewState,
 
+    /** The set of flags that modify the behaviour of the renderer. */
     flags: MandelbrotFlags,
+
+    /** The set of limits that control the movement of the camera. */
+    limits: MandelbrotLimits,
 
     /** The set of methods that transform the view state. */
     controls: MandelbrotControls
