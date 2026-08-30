@@ -10,7 +10,6 @@ import type { MandelbrotViewState } from '../types/mandelbrot';
 import useDevicePreferences from '../hooks/useDevicePreferences';
 import useMandelbrotStore from '../hooks/useMandelbrotStore';
 import { convertColors, type ShaderUniforms } from '../utils/graphics';
-import { clamp } from '../utils/math';
 
 const gradient = convertColors(["#0c0c0c", "#E46C16", "#ffbc81", "#fff2e6"]);
 const EPSILON = 1e-2;
@@ -56,10 +55,33 @@ const MandelbrotView = ({ rectRef }: { rectRef: RefObject<DOMRect | null> }) => 
     const materialRef               = useRef<ShaderMaterial>(null!);
 
     /**
+     * Calculates the overshoot value for a given zoom level.
+     * @param zoom The current zoom level.
+     * @returns The calculated overshoot factor.
+     */
+    const calculateZoomOvershoot = (
+        zoom: number, 
+        limits: { low: number, high: number }
+    ) => {
+        let overshoot = 0;
+
+        if (zoom < limits.low) {
+            overshoot = Math.log(limits.low) - Math.log(zoom) + 1;
+        }
+        else if (zoom > limits.high) {
+            overshoot = Math.log(zoom) - Math.log(limits.high) + 1;
+        }
+
+        const value = overshoot;
+
+        return { value: overshoot, factor: value > 0 ? 1 / Math.pow(value, 5) : 1 };
+    }
+
+    /**
      * Extracts DOMRect data from the current rectRef element, and returns it.
      * @returns The DOMRect data.
      */
-    const getRendererRectData = (): { left: number, top: number, width: number, height: number, aspect: number } | null => {
+    const getRendererRectData = () => {
         const rect = rectRef.current;
         if (!rect) return null;
 
@@ -139,14 +161,16 @@ const MandelbrotView = ({ rectRef }: { rectRef: RefObject<DOMRect | null> }) => 
         },
         onPinch: ({ origin, movement: [relativeScale], first, memo }) => {
             if (!movementEnabled) return;
-
+            lastMousePositionRef.current = origin;
+            
             const s = useMandelbrotStore.getState();
             if (first) memo = s.viewState.zoom;
 
-            lastMousePositionRef.current = origin;
-            const zoomLimit = s.limits.zoom;
+            const currentZoom = s.viewState.zoom;
+            const overshoot = calculateZoomOvershoot(currentZoom, s.limits.zoom);
+            const newZoom = memo * relativeScale;
 
-            zoomToAnchored(origin, s.viewState.center, s.viewState.zoom, clamp(memo * relativeScale, zoomLimit.low, zoomLimit.high));
+            zoomToAnchored(origin, s.viewState.center, s.viewState.zoom, currentZoom + (newZoom - currentZoom) * overshoot.factor);
             invalidate();
             return memo;
         },
@@ -164,9 +188,6 @@ const MandelbrotView = ({ rectRef }: { rectRef: RefObject<DOMRect | null> }) => 
         const rect = getRendererRectData();
 
         let shouldRenderNextFrame = animationsEnabledRef.current || timeInfluenceRef.current != 0;
-        
-        const panLimit = s.limits.pan;
-        const zoomLimit = s.limits.zoom;
 
         const vPan = panVelocityRef.current;
         const vAbsX = Math.abs(vPan[0]);
@@ -192,6 +213,7 @@ const MandelbrotView = ({ rectRef }: { rectRef: RefObject<DOMRect | null> }) => 
             shouldRenderNextFrame = true;
             if (vAbsZ < EPSILON) zoomVelocityRef.current = 0;
             
+            const overshoot = calculateZoomOvershoot(currentZoom, s.limits.zoom);
             if (prefersReducedMotion) {
                 let newZoom = currentZoom + zoomVelocityRef.current * 0.02 * currentZoom;
 
@@ -200,7 +222,7 @@ const MandelbrotView = ({ rectRef }: { rectRef: RefObject<DOMRect | null> }) => 
                     lastMousePositionRef.current, 
                     s.viewState.center, 
                     currentZoom, 
-                    clamp(newZoom, zoomLimit.low, zoomLimit.high)
+                    currentZoom + (newZoom - currentZoom) * overshoot.factor
                 );    
             }
 
@@ -214,7 +236,7 @@ const MandelbrotView = ({ rectRef }: { rectRef: RefObject<DOMRect | null> }) => 
                     lastMousePositionRef.current, 
                     s.viewState.center, 
                     currentZoom, 
-                    clamp(newZoom, zoomLimit.low, zoomLimit.high)
+                    currentZoom + (newZoom - currentZoom) * overshoot.factor
                 );
             }
         }
