@@ -64,17 +64,25 @@ const MandelbrotView = ({ rectRef }: { rectRef: RefObject<DOMRect | null> }) => 
         limits: { low: number, high: number }
     ) => {
         let overshoot = 0;
+        let violatedLimit = null;
 
         if (zoom < limits.low) {
             overshoot = Math.log(limits.low) - Math.log(zoom) + 1;
+            violatedLimit = 0;
         }
         else if (zoom > limits.high) {
             overshoot = Math.log(zoom) - Math.log(limits.high) + 1;
+            violatedLimit = 1;
         }
 
-        const value = overshoot;
-
-        return { value: overshoot, factor: value > 0 ? 1 / Math.pow(value, 5) : 1 };
+        return { 
+            factor: violatedLimit !== null 
+                ? 1 / Math.pow(overshoot, 5) 
+                : 1, 
+            correctionForce: violatedLimit !== null
+                ? (violatedLimit == 1 ? -1 : 1) * (5 * overshoot - 5)
+                : 0
+        };
     }
 
     /**
@@ -167,8 +175,8 @@ const MandelbrotView = ({ rectRef }: { rectRef: RefObject<DOMRect | null> }) => 
             if (first) memo = s.viewState.zoom;
 
             const currentZoom = s.viewState.zoom;
-            const overshoot = calculateZoomOvershoot(currentZoom, s.limits.zoom);
             const newZoom = memo * relativeScale;
+            const overshoot = calculateZoomOvershoot(currentZoom, s.limits.zoom);
 
             zoomToAnchored(origin, s.viewState.center, s.viewState.zoom, currentZoom + (newZoom - currentZoom) * overshoot.factor);
             invalidate();
@@ -227,6 +235,7 @@ const MandelbrotView = ({ rectRef }: { rectRef: RefObject<DOMRect | null> }) => 
             }
 
             zoomVelocityRef.current *= friction;
+            zoomVelocityRef.current += overshoot.correctionForce;
 
             if (!prefersReducedMotion) {
                 // Apply zoom with smooth movement.
@@ -282,7 +291,23 @@ const MandelbrotView = ({ rectRef }: { rectRef: RefObject<DOMRect | null> }) => 
         return () => cancelAnimationFrame(id);
     }, [animationsEnabled]);
 
+    // Start frame loop on viewport and flag changes
     useEffect(invalidate, [animationsEnabled, viewport.aspect]);
+
+    // Trigger zoom limit correction on limit changes when necessary
+    useEffect(() => {
+        const unsub = useMandelbrotStore.subscribe(s => s.limits.zoom, () => {
+            const state = useMandelbrotStore.getState();
+            const zoom = state.viewState.zoom;
+            const limits = state.limits.zoom;
+
+            if (zoom < limits.low || zoom > limits.high ) {
+                zoomVelocityRef.current += EPSILON;
+            }
+        });
+
+        return unsub;
+    }, []);
 
     return (
         <mesh>
