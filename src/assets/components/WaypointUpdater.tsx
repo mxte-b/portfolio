@@ -5,7 +5,7 @@ import useMandelbrotStore from "../hooks/useMandelbrotStore";
 import { clamp } from "../utils/math";
 
 const MARKER_SIZE_HALF = 7.5;
-const DEFAULT_ZOOM_LIMIT_HIGH = 1000;
+const DEFAULT_ZOOM_LIMIT_HIGH = 1e4;
 
 /**
  * Updates waypoint position synchronized to the THREE.js canvas.
@@ -101,7 +101,6 @@ const WaypointUpdater = (
         }
 
         if (s.limits.zoom.high !== zoomLimitHigh) {
-            console.log("New high zoom limit:", zoomLimitHigh);
             setZoomLimitHigh(zoomLimitHigh);
         }
     });

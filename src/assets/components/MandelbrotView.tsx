@@ -4,12 +4,13 @@ import fragment from '../shaders/fragment.glsl';
 import { useGesture } from '@use-gesture/react';
 import { ShaderMaterial } from 'three';
 import { useFrame, useThree } from '@react-three/fiber';
-import { useEffect, useMemo, useRef, type RefObject } from 'react';
+import { useCallback, useEffect, useMemo, useRef, type RefObject } from 'react';
 import type { MandelbrotViewState } from '../types/mandelbrot';
 
 import useDevicePreferences from '../hooks/useDevicePreferences';
 import useMandelbrotStore from '../hooks/useMandelbrotStore';
 import { convertColors, type ShaderUniforms } from '../utils/graphics';
+import { clamp } from '../utils/math';
 
 const gradient = convertColors(["#0c0c0c", "#E46C16", "#ffbc81", "#fff2e6"]);
 const EPSILON = 1e-2;
@@ -47,6 +48,7 @@ const MandelbrotView = ({ rectRef }: { rectRef: RefObject<DOMRect | null> }) => 
     
     const timeInfluenceRef          = useRef<number>(0);
     const uTimeRef                  = useRef<number>(6);
+    const deltaRef                  = useRef<number>(0);
     const zoomVelocityRef           = useRef<number>(0);
     const frictionCoefficientRef    = useRef<number>(0.95);
     const animationsEnabledRef      = useRef<boolean>(true);
@@ -59,7 +61,7 @@ const MandelbrotView = ({ rectRef }: { rectRef: RefObject<DOMRect | null> }) => 
      * @param zoom The current zoom level.
      * @returns The calculated overshoot factor.
      */
-    const calculateZoomOvershoot = (
+    const calculateZoomOvershoot = useCallback((
         zoom: number, 
         limits: { low: number, high: number }
     ) => {
@@ -77,13 +79,13 @@ const MandelbrotView = ({ rectRef }: { rectRef: RefObject<DOMRect | null> }) => 
 
         return { 
             factor: violatedLimit !== null 
-                ? 1 / Math.pow(overshoot, 5) 
+                ? 1 / Math.pow(overshoot, 10) 
                 : 1, 
             correctionForce: violatedLimit !== null
-                ? (violatedLimit == 1 ? -1 : 1) * (5 * overshoot - 5)
+                ? (violatedLimit == 1 ? -1 : 1) * Math.min(5 * overshoot - 5, isTouch ? 1 : 100)
                 : 0
         };
-    }
+    }, [isTouch]);
 
     /**
      * Extracts DOMRect data from the current rectRef element, and returns it.
@@ -167,18 +169,28 @@ const MandelbrotView = ({ rectRef }: { rectRef: RefObject<DOMRect | null> }) => 
             lastMousePositionRef.current = [event.clientX, event.clientY];
             invalidate();
         },
-        onPinch: ({ origin, movement: [relativeScale], first, memo }) => {
+        onPinch: ({ origin, movement: [relativeScale], first, last, memo }) => {
             if (!movementEnabled) return;
             lastMousePositionRef.current = origin;
             
             const s = useMandelbrotStore.getState();
-            if (first) memo = s.viewState.zoom;
+            if (first) {
+                zoomVelocityRef.current = 0;
+                memo = s.viewState.zoom;
+            }
 
             const currentZoom = s.viewState.zoom;
             const newZoom = memo * relativeScale;
-            const overshoot = calculateZoomOvershoot(currentZoom, s.limits.zoom);
+            const limits = s.limits.zoom;
+
+            const overshoot = calculateZoomOvershoot(newZoom, limits);
 
             zoomToAnchored(origin, s.viewState.center, s.viewState.zoom, currentZoom + (newZoom - currentZoom) * overshoot.factor);
+
+            if (last && (newZoom < limits.low || newZoom > limits.high)) {
+                zoomVelocityRef.current += EPSILON;
+            }
+
             invalidate();
             return memo;
         },
@@ -192,6 +204,8 @@ const MandelbrotView = ({ rectRef }: { rectRef: RefObject<DOMRect | null> }) => 
 
     // Per-frame logic
     useFrame((_, delta) => {
+        deltaRef.current = delta;
+
         const s = useMandelbrotStore.getState();
         const rect = getRendererRectData();
 
@@ -223,29 +237,33 @@ const MandelbrotView = ({ rectRef }: { rectRef: RefObject<DOMRect | null> }) => 
             
             const overshoot = calculateZoomOvershoot(currentZoom, s.limits.zoom);
             if (prefersReducedMotion) {
-                let newZoom = currentZoom + zoomVelocityRef.current * 0.02 * currentZoom;
+                let newZoom = clamp(
+                    currentZoom + zoomVelocityRef.current * 0.02 * currentZoom, 
+                    s.limits.zoom.low, 
+                    s.limits.zoom.high
+                );
 
                 // Zoom needs to be applied before the friction, because here the friction is 0.
                 zoomToAnchored(
                     lastMousePositionRef.current, 
                     s.viewState.center, 
                     currentZoom, 
-                    currentZoom + (newZoom - currentZoom) * overshoot.factor
+                    newZoom
                 );    
             }
 
+            zoomVelocityRef.current += overshoot.correctionForce * delta * 200;
             zoomVelocityRef.current *= friction;
-            zoomVelocityRef.current += overshoot.correctionForce;
 
             if (!prefersReducedMotion) {
                 // Apply zoom with smooth movement.
-                let newZoom = currentZoom + zoomVelocityRef.current * 0.001 * currentZoom;
+                let newZoom = currentZoom + zoomVelocityRef.current * delta * 0.12 * currentZoom;
 
                 zoomToAnchored(
                     lastMousePositionRef.current, 
                     s.viewState.center, 
                     currentZoom, 
-                    currentZoom + (newZoom - currentZoom) * overshoot.factor
+                    newZoom
                 );
             }
         }

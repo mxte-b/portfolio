@@ -21,8 +21,8 @@ const useMandelbrotStore = create<MandelbrotState>()(subscribeWithSelector(set =
     },
     limits: {
         zoom: {
-            low: 0.2,
-            high: 1000
+            low: Math.min(window.innerWidth / (window.innerHeight * 2.9), 1 / 2.6, 0.2),
+            high: 1e4
         },
         pan: {
             topLeft: [-3, 2],
