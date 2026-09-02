@@ -25,8 +25,8 @@ const useMandelbrotStore = create<MandelbrotState>()(subscribeWithSelector(set =
             high: 1e4
         },
         pan: {
-            topLeft: [-3, 2],
-            bottomRight: [3, -2]
+            topLeft: [-2, 1],
+            bottomRight: [0.5, -1]
         }
     },
     controls: {

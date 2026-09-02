@@ -59,7 +59,7 @@ const MandelbrotView = ({ rectRef }: { rectRef: RefObject<DOMRect | null> }) => 
     /**
      * Calculates the overshoot value for a given zoom level.
      * @param zoom The current zoom level.
-     * @returns The calculated overshoot factor.
+     * @returns The calculated overshoot factor and correction force.
      */
     const calculateZoomOvershoot = useCallback((
         zoom: number, 

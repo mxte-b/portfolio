@@ -33,14 +33,27 @@ const RecenterButton = () => {
     useEffect(() => { currentWaypointRef.current = route.active }, [route.active]);
     useEffect(() => { isInFlightRef.current = flags.isInFlight }, [flags])
 
+    // Show the recenter button when the current viewport is not intersecting the pan limit box,
+    // or when the zoom level is above a threshold.
     useEffect(() => {
         let lastCall = 0;
-
-        const unsub = useMandelbrotStore.subscribe(s => s.viewState.zoom, zoom => {
+        
+        const unsub = useMandelbrotStore.subscribe(s => s.viewState, viewState => {
             const now = performance.now();
             if (now - lastCall > 300) {
-                const zoomDistance = Math.log(zoom + 1);
-                const visible = zoomDistance > 2 && currentWaypointRef.current !== "home" && !isInFlightRef.current;
+                const panLimit = useMandelbrotStore.getState().limits.pan;
+                const aspect = window.innerWidth / window.innerHeight;
+                const screenWidthHalf = aspect / (2 * viewState.zoom);
+                const screenHeightHalf = 1 / (2 * viewState.zoom);
+
+                const viewportOutside = 
+                    viewState.center[0] + screenWidthHalf < panLimit.topLeft[0] ||
+                    viewState.center[0] - screenWidthHalf > panLimit.bottomRight[0] ||
+                    viewState.center[1] - screenHeightHalf > panLimit.topLeft[1] ||
+                    viewState.center[1] + screenHeightHalf < panLimit.bottomRight[1];
+
+                const zoomDistance = Math.log(viewState.zoom + 1);
+                const visible = viewportOutside || (zoomDistance > 2 && currentWaypointRef.current !== "home" && !isInFlightRef.current);
 
                 setIsVisible(visible);
                 lastCall = now;
